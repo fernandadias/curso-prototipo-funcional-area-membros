@@ -1,0 +1,81 @@
+import { NextResponse, type NextRequest } from "next/server";
+import { createAdminClient } from "@/lib/supabase/server";
+
+export const dynamic = "force-dynamic";
+
+// Eventos que CONCEDEM acesso e que REVOGAM acesso.
+const CONCEDE = new Set(["PURCHASE_APPROVED", "PURCHASE_COMPLETE"]);
+const REVOGA = new Set([
+  "PURCHASE_REFUNDED",
+  "PURCHASE_CHARGEBACK",
+  "PURCHASE_CANCELED",
+  "PURCHASE_EXPIRED",
+  "SUBSCRIPTION_CANCELLATION",
+]);
+
+export async function POST(request: NextRequest) {
+  const token = process.env.HOTMART_WEBHOOK_TOKEN;
+  const hottok =
+    request.headers.get("x-hotmart-hottok") ||
+    request.headers.get("X-HOTMART-HOTTOK");
+
+  let body: Record<string, unknown> = {};
+  try {
+    body = await request.json();
+  } catch {
+    // alguns formatos antigos vêm como form-urlencoded
+    try {
+      const form = await request.formData();
+      body = Object.fromEntries(form.entries());
+    } catch {
+      body = {};
+    }
+  }
+
+  // Validação do token (header ou campo no corpo, conforme versão).
+  const bodyHottok = (body.hottok as string) || "";
+  if (!token || (hottok !== token && bodyHottok !== token)) {
+    return NextResponse.json({ error: "unauthorized" }, { status: 401 });
+  }
+
+  // Extrai evento e e-mail do comprador (formato 2.0 e fallbacks).
+  const event = (body.event as string) || (body.status as string) || "";
+  const data = (body.data as Record<string, unknown>) || {};
+  const buyer = (data.buyer as Record<string, unknown>) || {};
+  const email = (
+    (buyer.email as string) ||
+    (body.email as string) ||
+    ""
+  )
+    .toString()
+    .trim()
+    .toLowerCase();
+
+  if (!email) {
+    return NextResponse.json({ error: "no email" }, { status: 400 });
+  }
+
+  const concede = CONCEDE.has(event);
+  const revoga = REVOGA.has(event);
+  if (!concede && !revoga) {
+    // evento irrelevante — responde 200 para a Hotmart não reenviar
+    return NextResponse.json({ ignored: event });
+  }
+
+  const supabase = createAdminClient();
+  const { error } = await supabase.from("course_access").upsert(
+    {
+      email,
+      status: concede ? "active" : "inactive",
+      last_event: event,
+      updated_at: new Date().toISOString(),
+    },
+    { onConflict: "email" },
+  );
+
+  if (error) {
+    return NextResponse.json({ error: error.message }, { status: 500 });
+  }
+
+  return NextResponse.json({ ok: true, email, status: concede ? "active" : "inactive" });
+}

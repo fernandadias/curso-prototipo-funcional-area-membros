@@ -1,0 +1,36 @@
+@import "tailwindcss";
+
+/* Tokens da marca — disponíveis globalmente para a LP, o header
+   compartilhado e a área de aulas. A landing.css redeclara os mesmos
+   valores e é carregada depois na rota da LP (sem conflito). */
+:root {
+  --bg: #1c1c1c;
+  --bg-soft: #1d1d1d;
+  --bg-card: #242424;
+  --bg-elev: #2e2e2e;
+  --border: #2e2e2e;
+  --border-light: #383838;
+  --text: #f0e7da;
+  --text-cream: #e9e0d1;
+  --text-dim: #ccbd9f;
+  --text-mute: #9c9180;
+  --accent: #d4f542;
+  --accent-bright: #dffa5c;
+  --accent-dim: #b8d930;
+  --success: #159153;
+  --radius: 12px;
+  --radius-sm: 6px;
+  --max: 1240px;
+}
+
+@theme inline {
+  --color-background: var(--bg);
+  --color-foreground: var(--text);
+}
+
+body {
+  background: var(--bg);
+  color: var(--text);
+  font-family: "Geist", system-ui, -apple-system, sans-serif;
+  -webkit-font-smoothing: antialiased;
+}
