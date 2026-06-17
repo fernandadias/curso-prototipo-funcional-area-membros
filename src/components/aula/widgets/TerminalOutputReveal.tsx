@@ -1,6 +1,7 @@
 "use client";
 
 import { useState } from "react";
+import { playClick } from "@/lib/sfx";
 
 // Caixa de saída de terminal que expande ao clicar. Usada pra mostrar o que o
 // agente "imprime" sem assustar (a pessoa não precisa decorar nada).
@@ -29,7 +30,10 @@ export function TerminalOutputReveal({
       <button
         type="button"
         className={`term-btn ${aberto ? "on" : ""}`}
-        onClick={() => setAberto((v) => !v)}
+        onClick={() => {
+          playClick();
+          setAberto((v) => !v);
+        }}
       >
         {aberto ? `▾ Ocultar a saída` : `▸ ${String(rotulo)}`}
       </button>

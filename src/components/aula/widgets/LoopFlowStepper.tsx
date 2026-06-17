@@ -1,6 +1,7 @@
 "use client";
 
 import { useState } from "react";
+import { playClick } from "@/lib/sfx";
 
 // Loop de um dia de trabalho com o agente: toque em cada etapa e veja a
 // descrição mudar. Conceito da Aula 05 (cockpit e motor).
@@ -43,7 +44,10 @@ export function LoopFlowStepper() {
             <button
               type="button"
               className={`lfs-node ${ativo === i ? "active" : ""}`}
-              onClick={() => setAtivo(i)}
+              onClick={() => {
+                playClick();
+                setAtivo(i);
+              }}
             >
               {p.rotulo}
             </button>

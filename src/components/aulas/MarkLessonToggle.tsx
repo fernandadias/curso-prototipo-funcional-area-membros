@@ -1,6 +1,7 @@
 "use client";
 
 import { lessonKey, useProgress } from "./useProgress";
+import { playClick, playSuccess } from "@/lib/sfx";
 
 // Botão para o aluno marcar a aula como concluída ou voltar pra pendente.
 export function MarkLessonToggle({
@@ -18,7 +19,11 @@ export function MarkLessonToggle({
     <button
       type="button"
       className={`mark-done ${concluida ? "on" : ""}`}
-      onClick={() => toggleViewed(key)}
+      onClick={() => {
+        if (concluida) playClick();
+        else playSuccess();
+        toggleViewed(key);
+      }}
       aria-pressed={concluida}
     >
       <span className="mark-done-ico" aria-hidden="true">

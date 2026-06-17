@@ -13,10 +13,9 @@ const LINKS_AULAS: NavLink[] = [
 ];
 
 const CTA_LP = { label: "Começar a prototipar", href: "#investimento" };
-const CTA_AULAS = { label: "Comprar curso", href: "/#investimento" };
-
 export function SiteHeader({ variant }: { variant: HeaderVariant }) {
   const navLinks = variant === "lp" ? LINKS_LP : LINKS_AULAS;
-  const cta = variant === "lp" ? CTA_LP : CTA_AULAS;
+  // Na área de aulas (logada) nunca mostramos "Comprar curso" — só na LP.
+  const cta = variant === "lp" ? CTA_LP : null;
   return <HeaderNav variant={variant} navLinks={navLinks} cta={cta} />;
 }

@@ -1,6 +1,7 @@
 "use client";
 
 import { useState } from "react";
+import { playClick } from "@/lib/sfx";
 
 // Dissecação do botão "Curtir": liga/desliga as três camadas e vê o impacto.
 // Inclui contador de curtidas (comportamento) e nota explicativa por estado.
@@ -12,6 +13,7 @@ export function DissecaBotao() {
   const [contagem, setContagem] = useState(0);
 
   function curtir() {
+    playClick();
     if (!comportamento) return; // sem a camada de comportamento, nada acontece
     setCurtido((v) => {
       const novo = !v;

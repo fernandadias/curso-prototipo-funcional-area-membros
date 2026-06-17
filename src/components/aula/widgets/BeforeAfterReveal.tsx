@@ -1,6 +1,7 @@
 "use client";
 
 import { useState } from "react";
+import { playClick } from "@/lib/sfx";
 
 // Comparação "antes × depois" de prompts: mostra a versão fraca e revela a
 // versão forte ao clicar. Conceito da Aula 07 (dirigir o agente).
@@ -38,7 +39,10 @@ export function BeforeAfterReveal({
         <button
           type="button"
           className="mk-btn"
-          onClick={() => setAberto(true)}
+          onClick={() => {
+            playClick();
+            setAberto(true);
+          }}
         >
           {String(botao)}
         </button>

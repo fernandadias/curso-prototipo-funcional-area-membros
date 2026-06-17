@@ -1,6 +1,7 @@
 "use client";
 
 import { useState } from "react";
+import { playClick } from "@/lib/sfx";
 
 // Explorador de camadas: acende uma das três camadas no código gerado e
 // esmaece as outras. Conceito da Aula 03 (ler o código do Figma Make).
@@ -65,7 +66,10 @@ export function CodeLayerExplorer() {
             key={b.l}
             type="button"
             className={`cle-btn cle-btn-${b.l} ${ativo === b.l ? "active" : ""}`}
-            onClick={() => setAtivo(b.l)}
+            onClick={() => {
+              playClick();
+              setAtivo(b.l);
+            }}
           >
             {b.rotulo}
           </button>

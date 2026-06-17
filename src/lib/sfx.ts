@@ -60,9 +60,10 @@ function tone(
   osc.stop(t0 + dur + 0.03);
 }
 
-// Clique nítido e audível ao tocar numa opção.
+// Clique nítido e audível ao tocar num botão/opção.
 export function playClick() {
-  tone(540, 0, 0.09, "triangle", 0.13);
+  tone(900, 0, 0.035, "square", 0.16);
+  tone(440, 0.012, 0.08, "triangle", 0.22);
 }
 
 // Acerto: arpejo ascendente (alegre) — começa depois do clique.
