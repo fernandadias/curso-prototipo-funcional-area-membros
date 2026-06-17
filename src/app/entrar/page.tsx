@@ -69,7 +69,8 @@ export default function EntrarPage() {
     }
   }
 
-  // Passo 2: verifica o código de 6 dígitos (imune a scanner de e-mail)
+  // Passo 2: verifica o código numérico (imune a scanner de e-mail).
+  // O tamanho segue o "Email OTP Length" do Supabase (hoje 8 dígitos).
   async function verificar(e: React.FormEvent) {
     e.preventDefault();
     setVerifying(true);
@@ -128,16 +129,16 @@ export default function EntrarPage() {
               <h1>Digite o código</h1>
               <p className="entrar-sub">
                 Caso <strong>{email}</strong> já tenha comprado o curso,
-                enviamos um e-mail com um código de 6 dígitos. Digite-o abaixo.
+                enviamos um e-mail com o seu código de acesso. Digite-o abaixo.
               </p>
               <form onSubmit={verificar} className="entrar-form">
                 <input
                   type="text"
                   inputMode="numeric"
                   pattern="[0-9]*"
-                  maxLength={6}
+                  maxLength={8}
                   required
-                  placeholder="000000"
+                  placeholder="00000000"
                   value={code}
                   onChange={(ev) => setCode(ev.target.value.replace(/\D/g, ""))}
                   autoComplete="one-time-code"
