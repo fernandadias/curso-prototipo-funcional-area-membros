@@ -1,7 +1,8 @@
 // Efeito de celebração (confetti) sintetizado em canvas, sem dependências.
 // Usado ao concluir um checklist.
 
-const CORES = ["#d4f542", "#ffffff", "#7bbedb", "#e0a16a", "#b39ddb"];
+// Apenas a cor de marca (lime), com leves variações de tom.
+const CORES = ["#d4f542", "#dffa5c", "#b8d930", "#eaff7a"];
 
 export function celebrate() {
   if (typeof window === "undefined") return;
