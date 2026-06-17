@@ -1,6 +1,6 @@
 "use client";
 
-import { useState } from "react";
+import { useEffect, useState } from "react";
 import Link from "next/link";
 import { useRouter } from "next/navigation";
 import { createClient } from "@/lib/supabase/client";
@@ -16,22 +16,54 @@ export default function EntrarPage() {
   const [sending, setSending] = useState(false);
   const [verifying, setVerifying] = useState(false);
   const [erro, setErro] = useState("");
+  // Contador de reenvio: o Supabase exige no mínimo 60s entre envios para o
+  // mesmo e-mail; e cada novo código invalida o anterior. O cooldown evita
+  // que o aluno peça vários códigos seguidos (causa de "código inválido").
+  const [cooldown, setCooldown] = useState(0);
 
-  // Passo 1: dispara o envio (só sai e-mail para quem comprou — gate no servidor)
+  useEffect(() => {
+    if (cooldown <= 0) return;
+    const id = setTimeout(() => setCooldown((c) => c - 1), 1000);
+    return () => clearTimeout(id);
+  }, [cooldown]);
+
+  // Dispara o envio do código (só sai e-mail para quem comprou — gate no servidor).
+  async function dispararEnvio() {
+    const res = await fetch("/api/auth/magic-link", {
+      method: "POST",
+      headers: { "Content-Type": "application/json" },
+      body: JSON.stringify({ email: email.trim().toLowerCase() }),
+    });
+    if (!res.ok) throw new Error();
+  }
+
+  // Passo 1: pedir o código pela primeira vez.
   async function enviar(e: React.FormEvent) {
     e.preventDefault();
     setSending(true);
     setErro("");
     try {
-      const res = await fetch("/api/auth/magic-link", {
-        method: "POST",
-        headers: { "Content-Type": "application/json" },
-        body: JSON.stringify({ email: email.trim().toLowerCase() }),
-      });
-      if (!res.ok) throw new Error();
+      await dispararEnvio();
       setStep("code");
+      setCooldown(60);
     } catch {
       setErro("Algo deu errado. Tente novamente em instantes.");
+    } finally {
+      setSending(false);
+    }
+  }
+
+  // Reenvio do código (respeita o cooldown e limpa o campo do código antigo).
+  async function reenviar() {
+    if (cooldown > 0 || sending) return;
+    setSending(true);
+    setErro("");
+    setCode("");
+    try {
+      await dispararEnvio();
+      setCooldown(60);
+    } catch {
+      setErro("Não consegui reenviar agora. Aguarde alguns segundos e tente de novo.");
     } finally {
       setSending(false);
     }
@@ -117,6 +149,22 @@ export default function EntrarPage() {
                 </button>
                 {erro && <p className="entrar-erro">{erro}</p>}
               </form>
+              <p className="entrar-hint">
+                Use sempre o código do <strong>e-mail mais recente</strong> — um
+                novo código cancela o anterior.
+              </p>
+              <button
+                type="button"
+                className="entrar-voltar"
+                onClick={reenviar}
+                disabled={cooldown > 0 || sending}
+              >
+                {cooldown > 0
+                  ? `Reenviar código em ${cooldown}s`
+                  : sending
+                    ? "Reenviando..."
+                    : "Reenviar código"}
+              </button>
               <button
                 type="button"
                 className="entrar-voltar"
@@ -124,6 +172,7 @@ export default function EntrarPage() {
                   setStep("email");
                   setCode("");
                   setErro("");
+                  setCooldown(0);
                 }}
               >
                 ← Usar outro e-mail

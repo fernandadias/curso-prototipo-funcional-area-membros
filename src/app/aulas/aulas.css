@@ -959,6 +959,13 @@
 .entrar-voltar:hover {
   color: var(--accent);
 }
+.entrar-voltar:disabled {
+  opacity: 0.5;
+  cursor: default;
+}
+.entrar-voltar:disabled:hover {
+  color: var(--text-mute);
+}
 
 /* ---------- página de pós-compra (/obrigado) ---------- */
 .ob-wrap {
