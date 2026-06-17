@@ -48,14 +48,14 @@ export default async function AulasPage() {
           <h2>{m.titulo}</h2>
           <p className="modulo-desc">{m.descricao}</p>
 
-          {m.status === "em-breve" ? (
-            m.uau && (
-              <p className="modulo-uau">
-                <span className="modulo-uau-tag">🤩 UAU</span>
-                {m.uau}
-              </p>
-            )
-          ) : (
+          {m.uau && (
+            <p className="modulo-uau">
+              <span className="modulo-uau-tag">Objetivo final</span>
+              {m.uau}
+            </p>
+          )}
+
+          {m.status !== "em-breve" && (
             <ul className="aula-list">
               {m.aulas.map((a) =>
                 a.status === "disponivel" ? (
@@ -67,18 +67,17 @@ export default async function AulasPage() {
                       <span className="aula-titulo">{a.titulo}</span>
                       <span className="aula-meta">
                         {a.duracao && <span>{a.duracao}</span>}
-                        {a.free ? (
-                          <span className="tag-free">Grátis</span>
-                        ) : (
-                          !temAcesso && (
+                        {!temAcesso &&
+                          (a.free ? (
+                            <span className="tag-free">Grátis</span>
+                          ) : (
                             <span
                               className="tag-lock"
                               aria-label="Conteúdo para alunos"
                             >
                               🔒
                             </span>
-                          )
-                        )}
+                          ))}
                       </span>
                     </Link>
                   </li>

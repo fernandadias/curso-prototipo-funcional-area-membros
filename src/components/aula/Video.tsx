@@ -1,13 +1,21 @@
-// Embed de vídeo conforme o contrato: <Video src="..." titulo="..." />
+// Embed de vídeo conforme o contrato: <Video src="..." legenda="..." />
 // Suporta URL de embed (Tella, YouTube, etc.). Quando src="PLACEHOLDER",
-// mostra um espaço reservado até o vídeo real ser gravado/inserido.
-
-export function Video({ src, titulo }: { src: string; titulo?: string }) {
-  const placeholder = !src || src === "PLACEHOLDER";
+// mostra um espaço reservado. A legenda aparece abaixo, com a tag ▶ VÍDEO.
+export function Video({
+  src,
+  legenda,
+  titulo,
+}: {
+  src?: unknown;
+  legenda?: unknown;
+  titulo?: unknown;
+}) {
+  const url = typeof src === "string" ? src : "";
+  const placeholder = !url || url === "PLACEHOLDER";
+  const cap = (legenda as string) || (titulo as string) || "";
 
   return (
     <figure className="video">
-      {titulo && <figcaption className="video-cap">{titulo}</figcaption>}
       <div className="video-frame">
         {placeholder ? (
           <div className="video-placeholder">
@@ -15,14 +23,20 @@ export function Video({ src, titulo }: { src: string; titulo?: string }) {
           </div>
         ) : (
           <iframe
-            src={src}
-            title={titulo || "Vídeo da aula"}
+            src={url}
+            title={cap || "Vídeo da aula"}
             allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture; web-share"
             allowFullScreen
             loading="lazy"
           />
         )}
       </div>
+      {cap && (
+        <figcaption className="video-cap">
+          <span className="video-tag">▶ Vídeo</span>
+          <span className="video-legenda">{cap}</span>
+        </figcaption>
+      )}
     </figure>
   );
 }

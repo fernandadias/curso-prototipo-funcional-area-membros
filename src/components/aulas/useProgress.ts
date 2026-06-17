@@ -50,7 +50,15 @@ export function useProgress() {
     write(next);
   }, []);
 
+  // Liga/desliga a conclusão da aula (aluno controla concluída/pendente).
+  const toggleViewed = useCallback((key: string) => {
+    const atual = read();
+    if (atual[key]) delete atual[key];
+    else atual[key] = true;
+    write(atual);
+  }, []);
+
   const isViewed = useCallback((key: string) => Boolean(map[key]), [map]);
 
-  return { mounted, isViewed, markViewed, map };
+  return { mounted, isViewed, markViewed, toggleViewed, map };
 }

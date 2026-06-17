@@ -37,16 +37,20 @@ frente.
 Você não vai ler o código linha por linha. Vai **escanear procurando pistas**.
 Cada camada tem uma "cara":
 
-**🔶 Estrutura: procure por etiquetas com nome de coisa.** Os **substantivos**
-entre `< >`: `<button>`, `<input>`, `<img>`. Ou, no React, `<Card>`, `<Button>`.
-
-**🔷 Estilo: procure por palavras sobre aparência.** Cor, espaço, tamanho e
-forma. No Figma Make (que usa **Tailwind**), são apelidos dentro de
-`className="…"`: `bg-green-500`, `rounded-lg`, `gap-4`, `text-white`.
-
-**🔸 Comportamento: procure por "quando acontecer X, faça Y".** Os **verbos**:
-palavras começando com `on…` (`onClick`, `onChange`), a setinha `=>` e a palavra
-`function`.
+<div className="camadas">
+  <div className="camada camada-html">
+    <strong>🔶 Estrutura: procure por etiquetas com nome de coisa</strong><br />
+    Os **substantivos** entre `< >`: `<button>`, `<input>`, `<img>`. Ou, no React, `<Card>`, `<Button>`.
+  </div>
+  <div className="camada camada-css">
+    <strong>🔷 Estilo: procure por palavras sobre aparência</strong><br />
+    Cor, espaço, tamanho e forma. No Figma Make (que usa **Tailwind**), são apelidos dentro de `className="…"`: `bg-green-500`, `rounded-lg`, `gap-4`, `text-white`.
+  </div>
+  <div className="camada camada-js">
+    <strong>🔸 Comportamento: procure por "quando acontecer X, faça Y"</strong><br />
+    Os **verbos**: palavras começando com `on…` (`onClick`, `onChange`), a setinha `=>` e a palavra `function`.
+  </div>
+</div>
 
 ## Como é na vida real: tudo entrelaçado
 
@@ -57,7 +61,7 @@ juntos.
 
 ## Bora juntos: abrindo o código do Figma Make
 
-<Video src="PLACEHOLDER" titulo="Explorando o código no Figma Make e identificando as 3 camadas" />
+<Video src="PLACEHOLDER" legenda="Explorando o código no Figma Make e identificando as 3 camadas." />
 
 <Callout tipo="dica">
   **Material de apoio:** vai existir aqui na plataforma a referência

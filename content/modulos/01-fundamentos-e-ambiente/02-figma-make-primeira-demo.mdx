@@ -30,9 +30,7 @@ sintaxe da frente.
 
 ## Como navegar pelo Make e seus custos
 
-<Video src="PLACEHOLDER" titulo="Figma Make na prática" />
-
-Dá o play antes de pôr a mão na massa. Logo abaixo é a sua vez.
+<Video src="PLACEHOLDER" legenda="Dá o play antes de pôr a mão na massa. Logo abaixo é a sua vez." />
 
 ## Escolha o que construir
 
@@ -40,35 +38,36 @@ Pra você não travar diante de uma tela em branco, pegue **uma** destas três
 ideias. Todas têm um "loop de ação" claro, que é o que mais ensina. Pode copiar
 o prompt sugerido direto no chat do Make.
 
-**📝 Lista de tarefas** — adicionar, marcar como concluída e remover tarefas.
-*Prompt: "uma lista de tarefas onde dá pra adicionar tarefas, marcar como
-concluídas e remover".*
-
-**📋 Formulário de feedback** — preencher e enviar uma avaliação simples.
-*Prompt: "um formulário de feedback com nome, uma nota de 1 a 5 e um
-comentário, que mostra uma confirmação ao enviar".*
-
-**🗂️ Galeria de cards** — uma grade de itens com busca e favoritar.
-*Prompt: "uma galeria de cards de produtos com nome, preço e botão de
-favoritar, com um campo de busca que filtra a lista".*
+<div className="cards">
+  <div className="card">
+    <p className="card-tit">📝 Lista de tarefas</p>
+    <p className="card-desc">Adicionar, marcar como concluída e remover tarefas.</p>
+    <p className="card-prompt">Prompt: "uma lista de tarefas onde dá pra adicionar tarefas, marcar como concluídas e remover"</p>
+  </div>
+  <div className="card">
+    <p className="card-tit">📋 Formulário de feedback</p>
+    <p className="card-desc">Preencher e enviar uma avaliação simples.</p>
+    <p className="card-prompt">Prompt: "um formulário de feedback com nome, uma nota de 1 a 5 e um comentário, que mostra uma confirmação ao enviar"</p>
+  </div>
+  <div className="card">
+    <p className="card-tit">🗂️ Galeria de cards</p>
+    <p className="card-desc">Uma grade de itens com busca e favoritar.</p>
+    <p className="card-prompt">Prompt: "uma galeria de cards de produtos com nome, preço e botão de favoritar, com um campo de busca que filtra a lista"</p>
+  </div>
+</div>
 
 ## O caminho: mão na massa
 
 Com a ideia escolhida, abra o Figma, vá nos seus **drafts** e clique em
 **Make** (canto superior direito). Então:
 
-1. **Comece de um prompt ou de um design.** Você pode começar direto com um dos
-   exemplos acima sem contexto de UI *ou* anexar/colar um frame do Figma que
-   você já desenhou pra guiar o resultado e inserir o prompt.
-2. **Deixe a IA gerar.** Ela monta o código e mostra uma lista de tarefas em
-   tempo real. Pode levar alguns minutos.
-3. **Itere conversando.** Mande prompts de ajuste ("deixa o botão de adicionar
-   mais destacado", "quando a lista estiver vazia, mostra uma mensagem"). O
-   preview atualiza sozinho a cada mudança.
-4. **Ajuste fino com o "point and edit".** Clique direto num elemento pra mudar
-   cor, espaçamento, texto, sem prompt, igual editar no Figma.
-5. **Publique.** Ao publicar, o Figma gera uma **URL pública** própria. É esse
-   link que você abre no celular e manda pra alguém testar.
+<ol className="steps">
+  <li>**Comece de um prompt ou de um design.** Você pode começar direto com um dos exemplos acima sem contexto de UI *ou* anexar/colar um frame do Figma que você já desenhou pra guiar o resultado e inserir o prompt.</li>
+  <li>**Deixe a IA gerar.** Ela monta o código e mostra uma lista de tarefas em tempo real. Pode levar alguns minutos.</li>
+  <li>**Itere conversando.** Mande prompts de ajuste ("deixa o botão de adicionar mais destacado", "quando a lista estiver vazia, mostra uma mensagem"). O preview atualiza sozinho a cada mudança.</li>
+  <li>**Ajuste fino com o "point and edit".** Clique direto num elemento pra mudar cor, espaçamento, texto, sem prompt, igual editar no Figma.</li>
+  <li>**Publique.** Ao publicar, o Figma gera uma **URL pública** própria. É esse link que você abre no celular e manda pra alguém testar.</li>
+</ol>
 
 <Callout tipo="dica">
   **Espie por baixo do capô.** Além do "point and edit", o Figma Make te deixa
@@ -92,9 +91,7 @@ Com a ideia escolhida, abra o Figma, vá nos seus **drafts** e clique em
 
 ## Bora juntos: Lista de tarefas
 
-<Video src="PLACEHOLDER" titulo="Passo a passo do primeiro exemplo" />
-
-Se ficar na dúvida, vamos juntos fazendo passo a passo do primeiro exemplo.
+<Video src="PLACEHOLDER" legenda="Se ficar na dúvida, vamos juntos fazendo passo a passo do primeiro exemplo." />
 
 ## Xablau: o que só aparece quando funciona 💣
 
@@ -102,24 +99,32 @@ Aqui a gente começa a falar sério. Enquanto você "vê na sua mão" o loop int
 da sua ideia, consegue pensar em coisas que **uma tela parada do Figma nunca te
 obrigaria a decidir**. Algumas perguntas que surgem para cada um dos exemplos:
 
-**📝 Lista de tarefas**
-
-- Depois de adicionar, o campo limpa sozinho? Pra onde vai o foco do mouse?
-- Como fica a tela quando a lista está *vazia*? E com 50 tarefas?
-- Dá pra desmarcar se você marcou a tarefa errada como concluída?
-
-**📋 Formulário de feedback**
-
-- O que acontece se a pessoa clicar em enviar *sem* dar a nota?
-- Aparece uma confirmação clara depois de enviar? Ou parece que nada rolou?
-- Dá pra mandar outro feedback em seguida, ou a tela fica travada?
-
-**🗂️ Galeria de cards**
-
-- E quando a busca não encontra nada, o que aparece no lugar?
-- Como o card se comporta com um nome bem longo ou um preço enorme?
-- O "favoritar" é só pra minha gestão ou mostra o quanto foi favoritado por
-  outras pessoas?
+<div className="cards">
+  <div className="card">
+    <p className="card-tit">📝 Lista de tarefas</p>
+    <ul>
+      <li>Depois de adicionar, o campo limpa sozinho? Pra onde vai o foco do mouse?</li>
+      <li>Como fica a tela quando a lista está *vazia*? E com 50 tarefas?</li>
+      <li>Dá pra desmarcar se você marcou a tarefa errada como concluída?</li>
+    </ul>
+  </div>
+  <div className="card">
+    <p className="card-tit">📋 Formulário de feedback</p>
+    <ul>
+      <li>O que acontece se a pessoa clicar em enviar *sem* dar a nota?</li>
+      <li>Aparece uma confirmação clara depois de enviar? Ou parece que nada rolou?</li>
+      <li>Dá pra mandar outro feedback em seguida, ou a tela fica travada?</li>
+    </ul>
+  </div>
+  <div className="card">
+    <p className="card-tit">🗂️ Galeria de cards</p>
+    <ul>
+      <li>E quando a busca não encontra nada, o que aparece no lugar?</li>
+      <li>Como o card se comporta com um nome bem longo ou um preço enorme?</li>
+      <li>O "favoritar" é só pra minha gestão ou mostra o quanto foi favoritado por outras pessoas?</li>
+    </ul>
+  </div>
+</div>
 
 Essas perguntas são o motivo de prototipar funcional. No Figma estático, você
 desenha o "caminho feliz" e segue. No funcional, o loop inteiro te cobra uma

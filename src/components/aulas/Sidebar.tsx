@@ -92,9 +92,13 @@ export function Sidebar({
                 <span className="sb-mod-tag">Em breve</span>
               )}
             </p>
-            {m.status === "em-breve" ? (
-              m.uau && <p className="sb-mod-uau">🤩 {m.uau}</p>
-            ) : (
+            {m.uau && (
+              <p className="sb-mod-uau">
+                <span className="sb-mod-uau-tag">Objetivo final</span>{" "}
+                {m.uau}
+              </p>
+            )}
+            {m.status !== "em-breve" && (
               <ul>
                 {m.aulas.map((a) => {
                   const viewed = mounted && isViewed(lessonKey(m.slug, a.slug));

@@ -4,7 +4,7 @@ import { compileMDX } from "next-mdx-remote/rsc";
 import { getAllLessonParams, getLessonSource } from "@/lib/content";
 import { mdxComponents } from "@/components/aula/mdx-components";
 import { PaywallCard } from "@/components/aulas/PaywallCard";
-import { MarkViewed } from "@/components/aulas/MarkViewed";
+import { MarkLessonToggle } from "@/components/aulas/MarkLessonToggle";
 import { Comments } from "@/components/aulas/Comments";
 import { userHasAccess } from "@/lib/access";
 
@@ -78,8 +78,6 @@ export default async function AulaPage({
 
   return (
     <div className="aulas-container">
-      <MarkViewed moduloSlug={mod.slug} slug={meta.slug} />
-
       {/* breadcrumb */}
       <div className="bc">
         <Link href="/aulas" className="bc-back">
@@ -131,20 +129,31 @@ export default async function AulaPage({
       {content && <article className="prosa">{content}</article>}
       {mostrarPaywall && <PaywallCard />}
 
+      {/* marcar conclusão */}
+      <div className="aula-done">
+        <MarkLessonToggle moduloSlug={mod.slug} slug={meta.slug} />
+      </div>
+
       {/* footer prev/next */}
       <nav className="aula-nav">
         {prev ? (
           <Link href={hrefDe(prev)} className="aula-nav-link">
-            <span className="aula-nav-dir">← Anterior</span>
-            <span className="aula-nav-tit">{prev.titulo}</span>
+            <span className="arrow" aria-hidden="true">←</span>
+            <span className="aula-nav-txt">
+              <span className="aula-nav-dir">Anterior</span>
+              <span className="aula-nav-tit">{prev.titulo}</span>
+            </span>
           </Link>
         ) : (
           <span />
         )}
         {next && (
           <Link href={hrefDe(next)} className="aula-nav-link nav-dir">
-            <span className="aula-nav-dir">Próxima →</span>
-            <span className="aula-nav-tit">{next.titulo}</span>
+            <span className="aula-nav-txt">
+              <span className="aula-nav-dir">Próxima</span>
+              <span className="aula-nav-tit">{next.titulo}</span>
+            </span>
+            <span className="arrow" aria-hidden="true">→</span>
           </Link>
         )}
       </nav>
