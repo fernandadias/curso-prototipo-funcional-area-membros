@@ -1,5 +1,6 @@
 import { NextResponse, type NextRequest } from "next/server";
 import { createAdminClient } from "@/lib/supabase/server";
+import { sendWelcomeEmail } from "@/lib/email";
 
 export const dynamic = "force-dynamic";
 
@@ -63,6 +64,16 @@ export async function POST(request: NextRequest) {
   }
 
   const supabase = createAdminClient();
+
+  // Estado anterior — para saber se esta é uma concessão NOVA de acesso
+  // (e só então mandar boas-vindas, evitando reenvio em recompra/renovação).
+  const { data: anterior } = await supabase
+    .from("course_access")
+    .select("status")
+    .eq("email", email)
+    .maybeSingle();
+  const eraAtivo = anterior?.status === "active";
+
   const { error } = await supabase.from("course_access").upsert(
     {
       email,
@@ -88,6 +99,11 @@ export async function POST(request: NextRequest) {
     // "already registered" é esperado em recompras/renovações — ignora.
     if (createError && !/already.*registered|already.*exists/i.test(createError.message)) {
       console.error("[hotmart] createUser error:", createError.message);
+    }
+
+    // Boas-vindas apenas quando o acesso passa a ativo pela primeira vez.
+    if (!eraAtivo) {
+      await sendWelcomeEmail(email);
     }
   }
 

@@ -29,12 +29,26 @@ export async function POST(request: NextRequest) {
 
   // Só dispara o e-mail se for comprador ativo.
   if (acesso) {
+    // Garante o usuário no Auth já confirmado ANTES de pedir o código. Assim
+    // o Supabase trata como usuário existente e envia o template "Magic Link"
+    // (código), nunca o "Confirm signup" — mesmo para compradores cujo usuário
+    // ainda não tenha sido criado pelo webhook.
+    const { error: createErr } = await admin.auth.admin.createUser({
+      email,
+      email_confirm: true,
+    });
+    if (createErr && !/already.*registered|already.*exists/i.test(createErr.message)) {
+      console.error("[magic-link] createUser error:", createErr.message);
+    }
+
     const { origin } = new URL(request.url);
     const supabase = await createClient();
     const { error } = await supabase.auth.signInWithOtp({
       email,
       options: {
         emailRedirectTo: `${origin}/auth/callback?next=/aulas`,
+        // O usuário já foi garantido (confirmado) acima; mantemos true só
+        // como fallback caso a criação prévia falhe por motivo transitório.
         shouldCreateUser: true,
       },
     });
