@@ -75,39 +75,32 @@ Imagine esta lista de tarefas na tela — *Revisar protótipo*, *Mandar pro
 time*, *Testar no celular*. Você pede à IA: "aumente em 8px o espaço entre os
 itens e troque a cor do título para azul".
 
-<Quiz pergunta="Que camada você está mexendo?">
-  <Opcao>Estrutura (HTML)</Opcao>
-  <Opcao correta>Estilo (CSS)</Opcao>
-  <Opcao>Comportamento (JS)</Opcao>
-  <Feedback>
-    Espaçamento e cor são aparência — e aparência é CSS.
-  </Feedback>
-</Quiz>
+<Quiz
+  pergunta={`Que camada você está mexendo?`}
+  opcoes={[`Estrutura (HTML)`, `Estilo (CSS)`, `Comportamento (JS)`]}
+  correta={1}
+  feedback={`Espaçamento e cor são aparência — e aparência é CSS.`}
+/>
 
 Agora um formulário com um campo de texto e um botão "Enviar". Você pede:
 "quando clicar em enviar, guarde o texto e mostre na tela".
 
-<Quiz pergunta="Que camada faz isso acontecer?">
-  <Opcao>Estrutura (HTML)</Opcao>
-  <Opcao>Estilo (CSS)</Opcao>
-  <Opcao correta>Comportamento (JS)</Opcao>
-  <Feedback>
-    Reagir a um clique, guardar e mostrar é comportamento: JavaScript
-    respondendo a um evento.
-  </Feedback>
-</Quiz>
+<Quiz
+  pergunta={`Que camada faz isso acontecer?`}
+  opcoes={[`Estrutura (HTML)`, `Estilo (CSS)`, `Comportamento (JS)`]}
+  correta={2}
+  feedback={`Reagir a um clique, guardar e mostrar é comportamento: JavaScript respondendo a um evento.`}
+/>
 
 Por fim, uma tela ainda sem estilo nenhum, só os elementos crus. Você pede:
 "preciso de um campo de texto e um botão".
 
-<Quiz pergunta="Que camada define isso?">
-  <Opcao correta>Estrutura (HTML)</Opcao>
-  <Opcao>Estilo (CSS)</Opcao>
-  <Opcao>Comportamento (JS)</Opcao>
-  <Feedback>
-    Dizer QUE elementos existem — um campo, um botão — é estrutura: HTML.
-  </Feedback>
-</Quiz>
+<Quiz
+  pergunta={`Que camada define isso?`}
+  opcoes={[`Estrutura (HTML)`, `Estilo (CSS)`, `Comportamento (JS)`]}
+  correta={0}
+  feedback={`Dizer QUE elementos existem — um campo, um botão — é estrutura: HTML.`}
+/>
 
 <Callout tipo="fonte">
   **Pra quem quiser se aprofundar:** leia (15 min)

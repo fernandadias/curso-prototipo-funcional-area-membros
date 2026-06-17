@@ -78,43 +78,33 @@ isso e roda sua primeira tela.
 
 ## Checagem rápida
 
-<Quiz pergunta='Qual a diferença entre o "cockpit" e o "motor"?'>
-  <Opcao>São a mesma coisa com nomes diferentes</Opcao>
-  <Opcao correta>O cockpit (editor) é onde você vê; o motor (agente) é o que faz o trabalho</Opcao>
-  <Opcao>O cockpit escreve o código e o motor só mostra</Opcao>
-  <Feedback>
-    Cockpit = onde você vê (editor). Motor = o que faz (agente).
-  </Feedback>
-</Quiz>
+<Quiz
+  pergunta={`Qual a diferença entre o "cockpit" e o "motor"?`}
+  opcoes={[`São a mesma coisa com nomes diferentes`, `O cockpit (editor) é onde você vê; o motor (agente) é o que faz o trabalho`, `O cockpit escreve o código e o motor só mostra`]}
+  correta={1}
+  feedback={`Cockpit = onde você vê (editor). Motor = o que faz (agente).`}
+/>
 
-<Quiz pergunta="Por que ler o diff é tão importante pra você?">
-  <Opcao>Porque você precisa decorar o código que o agente escreveu</Opcao>
-  <Opcao>Porque sem isso o app não roda no navegador</Opcao>
-  <Opcao correta>Porque é como você fiscaliza o que a IA mudou: fim da caixa-preta</Opcao>
-  <Feedback>
-    O diff é a sua fiscalização: você confirma que o agente mudou só o que pediu.
-  </Feedback>
-</Quiz>
+<Quiz
+  pergunta={`Por que ler o diff é tão importante pra você?`}
+  opcoes={[`Porque você precisa decorar o código que o agente escreveu`, `Porque sem isso o app não roda no navegador`, `Porque é como você fiscaliza o que a IA mudou: fim da caixa-preta`]}
+  correta={2}
+  feedback={`O diff é a sua fiscalização: você confirma que o agente mudou só o que pediu.`}
+/>
 
-<Quiz pergunta='A "casa do projeto", hoje, serve pra quê?'>
-  <Opcao correta>Rodar seu app (por enquanto, na sua máquina) e mostrar ao vivo no navegador</Opcao>
-  <Opcao>Guardar seus arquivos na nuvem com segurança</Opcao>
-  <Opcao>Escrever o código no lugar do agente</Opcao>
-  <Feedback>
-    Hoje a casa do projeto é a sua máquina rodando o app local, com preview ao
-    vivo. Mais pra frente ela cresce pra nuvem.
-  </Feedback>
-</Quiz>
+<Quiz
+  pergunta={`A "casa do projeto", hoje, serve pra quê?`}
+  opcoes={[`Rodar seu app (por enquanto, na sua máquina) e mostrar ao vivo no navegador`, `Guardar seus arquivos na nuvem com segurança`, `Escrever o código no lugar do agente`]}
+  correta={0}
+  feedback={`Hoje a casa do projeto é a sua máquina rodando o app local, com preview ao vivo. Mais pra frente ela cresce pra nuvem.`}
+/>
 
-<Quiz pergunta='Por que um agente te deixa ser mais "cirúrgica" que o Figma Make num ajuste fino?'>
-  <Opcao>Porque ele tem mais guardrails, então erra menos</Opcao>
-  <Opcao correta>Porque o harness é aberto: muda exatamente o que você pede, sem trilhos que espalhem mudanças</Opcao>
-  <Opcao>Porque ele dispensa prompts e adivinha o que você quer</Opcao>
-  <Feedback>
-    Harness aberto = sem trilhos que "consertam" coisas não relacionadas. Você
-    muda só o que pediu.
-  </Feedback>
-</Quiz>
+<Quiz
+  pergunta={`Por que um agente te deixa ser mais "cirúrgica" que o Figma Make num ajuste fino?`}
+  opcoes={[`Porque ele tem mais guardrails, então erra menos`, `Porque o harness é aberto: muda exatamente o que você pede, sem trilhos que espalhem mudanças`, `Porque ele dispensa prompts e adivinha o que você quer`]}
+  correta={1}
+  feedback={`Harness aberto = sem trilhos que "consertam" coisas não relacionadas. Você muda só o que pediu.`}
+/>
 
 <Callout tipo="fonte">
   **Pra quem quiser se aprofundar:** dê uma olhada (sem instalar nada ainda)

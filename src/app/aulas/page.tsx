@@ -1,10 +1,12 @@
 import Link from "next/link";
 import { getModules } from "@/lib/content";
+import { userHasAccess } from "@/lib/access";
 
 export const metadata = { title: "Aulas" };
 
-export default function AulasPage() {
+export default async function AulasPage() {
   const modules = getModules();
+  const temAcesso = await userHasAccess();
 
   return (
     <div className="aulas-container aulas-wide">
@@ -68,12 +70,14 @@ export default function AulasPage() {
                         {a.free ? (
                           <span className="tag-free">Grátis</span>
                         ) : (
-                          <span
-                            className="tag-lock"
-                            aria-label="Conteúdo para alunos"
-                          >
-                            🔒
-                          </span>
+                          !temAcesso && (
+                            <span
+                              className="tag-lock"
+                              aria-label="Conteúdo para alunos"
+                            >
+                              🔒
+                            </span>
+                          )
                         )}
                       </span>
                     </Link>

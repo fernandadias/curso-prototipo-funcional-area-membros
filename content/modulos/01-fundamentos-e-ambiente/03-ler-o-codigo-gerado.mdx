@@ -74,33 +74,26 @@ entender cada símbolo, só localizar as três camadas.
 
 ## Checagem rápida
 
-<Quiz pergunta="Num código, a linha #add { background: #6b4; ... } pertence a qual camada?">
-  <Opcao correta>Estilo (CSS)</Opcao>
-  <Opcao>Estrutura (HTML)</Opcao>
-  <Opcao>Comportamento (JS)</Opcao>
-  <Feedback>
-    Cor é aparência — e aparência é estilo (CSS).
-  </Feedback>
-</Quiz>
+<Quiz
+  pergunta={`Num código, a linha #add { background: #6b4; ... } pertence a qual camada?`}
+  opcoes={[`Estilo (CSS)`, `Estrutura (HTML)`, `Comportamento (JS)`]}
+  correta={0}
+  feedback={`Cor é aparência — e aparência é estilo (CSS).`}
+/>
 
-<Quiz pergunta='E o trecho add.addEventListener("click", …): pertence a qual camada?'>
-  <Opcao>Estrutura (HTML)</Opcao>
-  <Opcao>Estilo (CSS)</Opcao>
-  <Opcao correta>Comportamento (JS)</Opcao>
-  <Feedback>
-    "Quando clicar, faça…" é comportamento: JavaScript reagindo a um evento.
-  </Feedback>
-</Quiz>
+<Quiz
+  pergunta={`E o trecho add.addEventListener("click", …): pertence a qual camada?`}
+  opcoes={[`Estrutura (HTML)`, `Estilo (CSS)`, `Comportamento (JS)`]}
+  correta={2}
+  feedback={`"Quando clicar, faça…" é comportamento: JavaScript reagindo a um evento.`}
+/>
 
-<Quiz pergunta='Você quer pedir à IA pra mudar o texto do botão de "Adicionar" pra "Criar tarefa". Que camada ela vai tocar?'>
-  <Opcao>Comportamento (JS)</Opcao>
-  <Opcao correta>Estrutura (HTML)</Opcao>
-  <Opcao>Estilo (CSS)</Opcao>
-  <Feedback>
-    O texto que aparece dentro do botão faz parte da estrutura (HTML) — é o
-    conteúdo do elemento.
-  </Feedback>
-</Quiz>
+<Quiz
+  pergunta={`Você quer pedir à IA pra mudar o texto do botão de "Adicionar" pra "Criar tarefa". Que camada ela vai tocar?`}
+  opcoes={[`Comportamento (JS)`, `Estrutura (HTML)`, `Estilo (CSS)`]}
+  correta={1}
+  feedback={`O texto que aparece dentro do botão faz parte da estrutura (HTML) — é o conteúdo do elemento.`}
+/>
 
 <Callout tipo="fonte">
   **Pra quem quiser se aprofundar:** leitura (10 min)

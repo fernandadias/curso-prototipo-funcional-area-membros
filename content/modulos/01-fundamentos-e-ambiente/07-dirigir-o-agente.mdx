@@ -160,35 +160,26 @@ agente faz *demais*. É aqui que a leitura do diff salva você.
 
 ## Checagem rápida
 
-<Quiz pergunta="Qual a melhor analogia pra como tratar o agente?">
-  <Opcao>Uma máquina mágica: descreva tudo uma vez e confie</Opcao>
-  <Opcao>Uma calculadora: dá sempre a mesma resposta exata</Opcao>
-  <Opcao correta>Um dev júnior brilhante: capaz, mas precisa de contexto e revisão</Opcao>
-  <Feedback>
-    Júnior brilhante: entrega muito bem com contexto claro, passos e revisão.
-    Largado com pedido vago, chuta.
-  </Feedback>
-</Quiz>
+<Quiz
+  pergunta={`Qual a melhor analogia pra como tratar o agente?`}
+  opcoes={[`Uma máquina mágica: descreva tudo uma vez e confie`, `Uma calculadora: dá sempre a mesma resposta exata`, `Um dev júnior brilhante: capaz, mas precisa de contexto e revisão`]}
+  correta={2}
+  feedback={`Júnior brilhante: entrega muito bem com contexto claro, passos e revisão. Largado com pedido vago, chuta.`}
+/>
 
-<Quiz pergunta="O clique em Adicionar deu erro. Qual o melhor jeito de pedir o conserto?">
-  <Opcao correta>Colar a mensagem de erro inteira e dizer o comportamento esperado</Opcao>
-  <Opcao>Dizer só "tá quebrado, conserta"</Opcao>
-  <Opcao>Pedir pra refazer o app do zero</Opcao>
-  <Feedback>
-    A mensagem de erro inteira é ouro pro agente. Cole sem resumir e diga o que
-    era esperado.
-  </Feedback>
-</Quiz>
+<Quiz
+  pergunta={`O clique em Adicionar deu erro. Qual o melhor jeito de pedir o conserto?`}
+  opcoes={[`Colar a mensagem de erro inteira e dizer o comportamento esperado`, `Dizer só "tá quebrado, conserta"`, `Pedir pra refazer o app do zero`]}
+  correta={0}
+  feedback={`A mensagem de erro inteira é ouro pro agente. Cole sem resumir e diga o que era esperado.`}
+/>
 
-<Quiz pergunta="O agente mudou o botão (como você pediu) mas também mexeu na lista. O que fazer?">
-  <Opcao>Aceitar tudo: se ele fez, deve estar certo</Opcao>
-  <Opcao correta>Corrigir numa frase: "desfaça a mudança na lista, mantenha o botão"</Opcao>
-  <Opcao>Recomeçar o projeto do zero</Opcao>
-  <Feedback>
-    Você leu o diff e viu que passou do alvo. Corrige o rumo numa frase, sem
-    recomeçar.
-  </Feedback>
-</Quiz>
+<Quiz
+  pergunta={`O agente mudou o botão (como você pediu) mas também mexeu na lista. O que fazer?`}
+  opcoes={[`Aceitar tudo: se ele fez, deve estar certo`, `Corrigir numa frase: "desfaça a mudança na lista, mantenha o botão"`, `Recomeçar o projeto do zero`]}
+  correta={1}
+  feedback={`Você leu o diff e viu que passou do alvo. Corrige o rumo numa frase, sem recomeçar.`}
+/>
 
 <Callout tipo="fonte">
   **Pra quem quiser se aprofundar:**

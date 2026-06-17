@@ -6,7 +6,13 @@ import { useMemo, useState } from "react";
 import type { ModuleMeta } from "@/lib/content";
 import { lessonKey, useProgress } from "./useProgress";
 
-export function Sidebar({ tree }: { tree: ModuleMeta[] }) {
+export function Sidebar({
+  tree,
+  temAcesso = false,
+}: {
+  tree: ModuleMeta[];
+  temAcesso?: boolean;
+}) {
   const pathname = usePathname();
   const [query, setQuery] = useState("");
   const { mounted, isViewed } = useProgress();
@@ -119,7 +125,7 @@ export function Sidebar({ tree }: { tree: ModuleMeta[] }) {
                           {a.duracao && (
                             <span className="sb-aula-dur">{a.duracao}</span>
                           )}
-                          {!a.free && (
+                          {!a.free && !temAcesso && (
                             <svg className="sb-lock" width="13" height="13" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round" aria-label="Aula para alunos">
                               <rect x="4" y="11" width="16" height="10" rx="2" />
                               <path d="M8 11V7a4 4 0 018 0v4" />

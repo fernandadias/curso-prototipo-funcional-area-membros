@@ -50,7 +50,7 @@
 
 /* ---------- sidebar ---------- */
 .sb {
-  width: 300px;
+  width: 332px;
   flex-shrink: 0;
   position: sticky;
   top: 68px;
@@ -61,6 +61,24 @@
   display: flex;
   flex-direction: column;
   gap: 18px;
+  scrollbar-width: thin;
+  scrollbar-color: var(--border-light) transparent;
+}
+.sb::-webkit-scrollbar {
+  width: 8px;
+}
+.sb::-webkit-scrollbar-track {
+  background: transparent;
+}
+.sb::-webkit-scrollbar-thumb {
+  background: var(--border-light);
+  border-radius: 999px;
+  border: 2px solid transparent;
+  background-clip: padding-box;
+}
+.sb::-webkit-scrollbar-thumb:hover {
+  background: var(--text-mute);
+  background-clip: padding-box;
 }
 .sb-search {
   display: flex;
@@ -135,10 +153,12 @@
   color: var(--text);
   margin: 0 0 6px;
   display: flex;
-  align-items: center;
+  align-items: flex-start;
   gap: 8px;
 }
 .sb-mod-tag {
+  flex-shrink: 0;
+  white-space: nowrap;
   font-family: "Kode Mono", monospace;
   font-size: 9px;
   letter-spacing: 0.06em;
@@ -148,6 +168,7 @@
   border: 1px solid var(--border);
   border-radius: 999px;
   padding: 1px 7px;
+  margin-top: 1px;
 }
 .sb-mod-uau {
   margin: 0 0 6px;
@@ -163,7 +184,7 @@
 }
 .sb-aula {
   display: flex;
-  align-items: center;
+  align-items: flex-start;
   gap: 8px;
   padding: 7px 10px;
   border-radius: 8px;
@@ -185,9 +206,10 @@
 }
 .sb-aula-titulo {
   flex: 1;
-  overflow: hidden;
-  text-overflow: ellipsis;
-  white-space: nowrap;
+  min-width: 0;
+  white-space: normal;
+  overflow-wrap: anywhere;
+  line-height: 1.35;
 }
 .sb-aula-meta {
   display: flex;
@@ -196,12 +218,13 @@
   color: var(--text-mute);
   font-size: 12px;
   flex-shrink: 0;
+  margin-top: 1px;
 }
 .sb-lock {
   opacity: 0.7;
 }
 .sb-aula-soon {
-  cursor: default;
+  cursor: not-allowed;
   color: var(--text-mute);
 }
 .sb-aula-soon:hover {
@@ -209,6 +232,7 @@
   color: var(--text-mute);
 }
 .sb-aula-soon-tag {
+  flex-shrink: 0;
   font-family: "Kode Mono", monospace;
   font-size: 9px;
   letter-spacing: 0.06em;
@@ -374,7 +398,7 @@
   padding: 12px 14px;
   border-radius: 8px;
   color: var(--text-mute);
-  cursor: default;
+  cursor: not-allowed;
 }
 .aula-item-soon .aula-titulo {
   font-weight: 500;
@@ -550,12 +574,14 @@
   border: 1px solid var(--border-light);
   border-radius: var(--radius);
   background: var(--surface);
-  padding: 22px;
-  margin: 2em 0;
+  padding: 16px 18px;
+  margin: 1.6em 0;
 }
 .quiz-stem {
+  font-size: 15.5px;
   font-weight: 600;
-  margin: 0 0 16px;
+  line-height: 1.45;
+  margin: 0 0 12px;
 }
 .quiz-opcoes {
   display: flex;

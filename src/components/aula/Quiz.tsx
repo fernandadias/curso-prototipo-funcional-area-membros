@@ -1,49 +1,30 @@
 "use client";
 
-import {
-  Children,
-  isValidElement,
-  useState,
-  type ReactNode,
-  type ReactElement,
-} from "react";
+import { useState, type ReactNode } from "react";
 
-// Componentes-marcadores. Não renderizam nada sozinhos — o <Quiz> lê os
-// filhos e monta a interação. Conforme o CONTRATO-CONTEUDO.md:
-//   <Quiz pergunta="...">
-//     <Opcao>...</Opcao>
-//     <Opcao correta>...</Opcao>
-//     <Feedback>...</Feedback>
-//   </Quiz>
-
-type OpcaoProps = { children: ReactNode; correta?: boolean };
-export function Opcao(_props: OpcaoProps) {
-  return null;
-}
-
-type FeedbackProps = { children: ReactNode };
-export function Feedback(_props: FeedbackProps) {
-  return null;
-}
-
+// Quiz de múltipla escolha com feedback imediato. Conforme o
+// CONTRATO-CONTEUDO.md, as opções vêm por PROP (dados), não por filhos —
+// isso é o que funciona de forma confiável através do limite RSC do MDX:
+//   <Quiz
+//     pergunta="..."
+//     opcoes={["Estrutura (HTML)", "Estilo (CSS)", "Comportamento (JS)"]}
+//     correta={1}
+//     feedback="Por que essa é a certa…"
+//   />
 export function Quiz({
   pergunta,
-  children,
+  opcoes,
+  correta,
+  feedback,
 }: {
   pergunta: string;
-  children: ReactNode;
+  opcoes?: unknown;
+  correta?: unknown;
+  feedback?: ReactNode;
 }) {
+  const lista = Array.isArray(opcoes) ? (opcoes as ReactNode[]) : [];
+  const indiceCorreto = Number(correta);
   const [escolhida, setEscolhida] = useState<number | null>(null);
-
-  const filhos = Children.toArray(children).filter(isValidElement);
-  const opcoes = filhos.filter(
-    (c) => (c as ReactElement).type === Opcao,
-  ) as ReactElement<OpcaoProps>[];
-  const feedbackEl = filhos.find(
-    (c) => (c as ReactElement).type === Feedback,
-  ) as ReactElement<FeedbackProps> | undefined;
-
-  const indiceCorreto = opcoes.findIndex((o) => o.props.correta);
   const respondida = escolhida !== null;
   const acertou = escolhida === indiceCorreto;
 
@@ -51,7 +32,7 @@ export function Quiz({
     <div className="quiz" data-respondida={respondida}>
       <p className="quiz-stem">{pergunta}</p>
       <div className="quiz-opcoes">
-        {opcoes.map((o, i) => {
+        {lista.map((texto, i) => {
           let estado = "";
           if (respondida) {
             if (i === indiceCorreto) estado = "correta";
@@ -65,15 +46,14 @@ export function Quiz({
               disabled={respondida}
               onClick={() => setEscolhida(i)}
             >
-              {o.props.children}
+              {texto}
             </button>
           );
         })}
       </div>
       {respondida && (
         <div className={`quiz-fb ${acertou ? "ok" : "no"}`}>
-          <strong>{acertou ? "Isso!" : "Quase."}</strong>{" "}
-          {feedbackEl?.props.children}
+          <strong>{acertou ? "Isso!" : "Quase."}</strong> {feedback}
         </div>
       )}
     </div>

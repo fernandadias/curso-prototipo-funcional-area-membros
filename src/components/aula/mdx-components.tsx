@@ -1,5 +1,5 @@
 import type { MDXComponents } from "mdx/types";
-import { Quiz, Opcao, Feedback } from "./Quiz";
+import { Quiz } from "./Quiz";
 import { Video } from "./Video";
 import { Callout } from "./Callout";
 import { Widget } from "./Widget";
@@ -7,8 +7,6 @@ import { Widget } from "./Widget";
 // Mapa que conecta as tags do CONTRATO-CONTEUDO.md aos componentes React.
 export const mdxComponents: MDXComponents = {
   Quiz,
-  Opcao,
-  Feedback,
   Video,
   Callout,
   Widget,

@@ -30,7 +30,10 @@ async function compile(source: string) {
   const { content } = await compileMDX({
     source,
     components: mdxComponents,
-    options: { parseFrontmatter: true },
+    // blockJS: false mantém as expressões `{...}` dos atributos (ex.:
+    // opcoes={[...]}, itens={[...]}). O conteúdo MDX é nosso (confiável);
+    // blockDangerousJS continua ativo por padrão.
+    options: { parseFrontmatter: true, blockJS: false },
   });
   return content;
 }

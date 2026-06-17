@@ -89,35 +89,26 @@ Mirror do telefone, e agora você testa de graça, a cada mudança.
 
 ## Checagem rápida
 
-<Quiz pergunta="Por que o celular não abre o localhost:3000 do computador?">
-  <Opcao>Porque o celular não tem navegador compatível</Opcao>
-  <Opcao correta>Porque localhost significa "esta máquina": só o computador entende</Opcao>
-  <Opcao>Porque o app precisa ser publicado primeiro</Opcao>
-  <Feedback>
-    localhost = "esta máquina aqui". É privado do computador. O celular precisa
-    do endereço de rede.
-  </Feedback>
-</Quiz>
+<Quiz
+  pergunta={`Por que o celular não abre o localhost:3000 do computador?`}
+  opcoes={[`Porque o celular não tem navegador compatível`, `Porque localhost significa "esta máquina": só o computador entende`, `Porque o app precisa ser publicado primeiro`]}
+  correta={1}
+  feedback={`localhost = "esta máquina aqui". É privado do computador. O celular precisa do endereço de rede.`}
+/>
 
-<Quiz pergunta="Qual a condição essencial pra o celular enxergar o app?">
-  <Opcao correta>Estar na mesma rede Wi-Fi que o computador</Opcao>
-  <Opcao>Ter o mesmo modelo de celular do computador</Opcao>
-  <Opcao>Estar com o Figma aberto</Opcao>
-  <Feedback>
-    Mesma Wi-Fi é o que permite o celular enxergar a "casa do projeto". Celular no
-    4G não acha.
-  </Feedback>
-</Quiz>
+<Quiz
+  pergunta={`Qual a condição essencial pra o celular enxergar o app?`}
+  opcoes={[`Estar na mesma rede Wi-Fi que o computador`, `Ter o mesmo modelo de celular do computador`, `Estar com o Figma aberto`]}
+  correta={0}
+  feedback={`Mesma Wi-Fi é o que permite o celular enxergar a "casa do projeto". Celular no 4G não acha.`}
+/>
 
-<Quiz pergunta="O que esse teste no celular te revela que o monitor esconde?">
-  <Opcao>O nome dos arquivos do projeto</Opcao>
-  <Opcao>A velocidade da sua internet</Opcao>
-  <Opcao correta>Alcance do polegar, tamanho real do texto, teclado tampando o campo</Opcao>
-  <Feedback>
-    Toque, tamanho real e o teclado subindo são coisas que só o aparelho real
-    revela.
-  </Feedback>
-</Quiz>
+<Quiz
+  pergunta={`O que esse teste no celular te revela que o monitor esconde?`}
+  opcoes={[`O nome dos arquivos do projeto`, `A velocidade da sua internet`, `Alcance do polegar, tamanho real do texto, teclado tampando o campo`]}
+  correta={2}
+  feedback={`Toque, tamanho real e o teclado subindo são coisas que só o aparelho real revela.`}
+/>
 
 <Callout tipo="dica">
   **Spoiler lá do fim do curso (No mundo real):** digitar o IP no celular é
