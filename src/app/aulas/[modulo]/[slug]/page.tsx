@@ -4,7 +4,6 @@ import { compileMDX } from "next-mdx-remote/rsc";
 import { getAllLessonParams, getLessonSource } from "@/lib/content";
 import { mdxComponents } from "@/components/aula/mdx-components";
 import { PaywallCard } from "@/components/aulas/PaywallCard";
-import { AuthorBlock } from "@/components/aulas/AuthorBlock";
 import { MarkViewed } from "@/components/aulas/MarkViewed";
 import { Comments } from "@/components/aulas/Comments";
 import { userHasAccess } from "@/lib/access";
@@ -127,7 +126,6 @@ export default async function AulaPage({
           </div>
         </div>
         <p className="aula-sub">{meta.descricao}</p>
-        <AuthorBlock nome={meta.autor} foto={meta.autorFoto} />
       </header>
 
       {content && <article className="prosa">{content}</article>}
