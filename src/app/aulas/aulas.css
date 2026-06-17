@@ -475,16 +475,145 @@
 }
 .prosa blockquote {
   border-left: 3px solid var(--accent);
-  padding-left: 16px;
+  background: rgba(212, 245, 66, 0.04);
+  border-radius: 0 8px 8px 0;
+  padding: 12px 18px;
   color: var(--text-dim);
   font-style: italic;
+}
+.prosa blockquote em {
+  font-style: normal;
 }
 .prosa ul,
 .prosa ol {
   padding-left: 22px;
 }
+.prosa ul {
+  list-style: disc;
+}
+.prosa ol {
+  list-style: decimal;
+}
+.prosa li {
+  padding-left: 4px;
+}
+.prosa li::marker {
+  color: var(--text-mute);
+}
 .prosa li + li {
   margin-top: 0.4em;
+}
+
+/* cards de camada (três camadas) */
+.camadas {
+  display: flex;
+  flex-direction: column;
+  gap: 10px;
+  margin: 1.4em 0;
+}
+.camada {
+  border-left: 4px solid var(--border-light);
+  background: var(--surface);
+  border-radius: 0 8px 8px 0;
+  padding: 12px 16px;
+  font-size: 15.5px;
+  color: var(--text-dim);
+}
+.camada strong {
+  color: var(--text);
+}
+.camada-html {
+  border-left-color: #e0a16a;
+}
+.camada-css {
+  border-left-color: #7bbedb;
+}
+.camada-js {
+  border-left-color: #d8c06a;
+}
+
+/* contexto visual dentro do quiz */
+.quiz-visual {
+  border: 1px solid var(--border-light);
+  background: var(--surface-2);
+  border-radius: 10px;
+  padding: 14px 16px;
+  margin: 0 0 14px;
+}
+.quiz-visual > *:first-child {
+  margin-top: 0;
+}
+.quiz-visual > *:last-child {
+  margin-bottom: 0;
+}
+.qv-titulo {
+  font-weight: 700;
+  color: #e08585;
+  margin: 0 0 8px;
+}
+.qv-lista {
+  list-style: disc;
+  padding-left: 20px;
+  margin: 0;
+  color: var(--text-dim);
+}
+.qv-lista li + li {
+  margin-top: 4px;
+}
+.qv-form {
+  display: flex;
+  flex-direction: column;
+  gap: 8px;
+}
+.qv-input {
+  background: var(--surface);
+  border: 1px solid var(--border);
+  border-radius: 6px;
+  padding: 8px 10px;
+  color: var(--text-mute);
+  font: inherit;
+  font-size: 14px;
+}
+.qv-btn {
+  align-self: flex-start;
+  background: var(--accent);
+  color: #1c1c1c;
+  border: none;
+  border-radius: 6px;
+  padding: 7px 14px;
+  font: inherit;
+  font-size: 14px;
+  font-weight: 600;
+}
+.qv-out {
+  font-size: 13px;
+  color: var(--text-mute);
+}
+.qv-raw {
+  display: flex;
+  flex-direction: column;
+  gap: 8px;
+  align-items: flex-start;
+}
+.qv-raw input,
+.qv-raw button {
+  font-family: initial;
+  font-size: 13px;
+}
+
+/* fecho da aula (rodapé editorial) */
+.aula-fecho {
+  margin-top: 2.4em;
+  padding-top: 20px;
+  border-top: 1px solid var(--border);
+  font-size: 15px;
+  color: var(--text-mute);
+}
+.aula-fecho p {
+  margin: 0.5em 0;
+}
+.aula-fecho strong {
+  color: var(--text);
 }
 
 /* ---------- Video ---------- */
@@ -718,6 +847,23 @@
   color: var(--text-mute);
   font-size: 14px;
   margin: 0;
+}
+.dz-nota strong {
+  color: var(--accent);
+}
+.dz-intro {
+  font-size: 14px;
+  color: var(--text-mute);
+  margin: 0 0 14px;
+}
+.dz-count {
+  margin-left: 12px;
+  color: var(--text-mute);
+  font-size: 14px;
+}
+.dz-count.raw {
+  font-family: initial;
+  color: var(--text);
 }
 
 /* checklist-progress */

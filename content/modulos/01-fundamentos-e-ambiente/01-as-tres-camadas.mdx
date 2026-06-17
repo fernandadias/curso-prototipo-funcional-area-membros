@@ -30,13 +30,23 @@ Pensa numa pessoa.
 
 Um protótipo funcional é igualzinho:
 
-- **Estrutura: HTML** — define *o que existe* e o significado de cada parte:
-  um título, um botão, um campo, uma lista. É o esqueleto do conteúdo.
-- **Estilo: CSS** — define *como aparece*: cor, espaçamento, tipografia,
-  layout. É a camada que mais conversa com o nosso olhar de designer.
-- **Comportamento: JavaScript** — define *o que acontece* quando a pessoa
-  usuária age: clicar, digitar, enviar. É aqui que mora a interatividade, o
-  estado e os dados.
+<div className="camadas">
+  <div className="camada camada-html">
+    <strong>Estrutura: HTML</strong><br />
+    Define <em>o que existe</em> e o significado de cada parte: um título, um
+    botão, um campo, uma lista. É o esqueleto do conteúdo.
+  </div>
+  <div className="camada camada-css">
+    <strong>Estilo: CSS</strong><br />
+    Define <em>como aparece</em>: cor, espaçamento, tipografia, layout. É a
+    camada que mais conversa com o nosso olhar de designer.
+  </div>
+  <div className="camada camada-js">
+    <strong>Comportamento: JavaScript</strong><br />
+    Define <em>o que acontece</em> quando a pessoa usuária age: clicar, digitar,
+    enviar. É aqui que mora a interatividade, o estado e os dados.
+  </div>
+</div>
 
 A ideia-chave: as camadas se **empilham**. Você cria um botão com HTML, veste
 ele com CSS e dá comportamento com JavaScript. Cada uma resolve uma
@@ -69,38 +79,51 @@ empurrar o carro.
 
 ## Sua vez: recap rápido dessa aula
 
-Responda de memória. Puxar da cabeça é o que fixa de verdade.
-
-Imagine esta lista de tarefas na tela — *Revisar protótipo*, *Mandar pro
-time*, *Testar no celular*. Você pede à IA: "aumente em 8px o espaço entre os
-itens e troque a cor do título para azul".
+Olhe o exemplo visual de cada pergunta e responda de memória. Puxar da cabeça
+é o que fixa de verdade.
 
 <Quiz
-  pergunta={`Que camada você está mexendo?`}
+  pergunta={`Sobre esta lista, você pede à IA: "aumente em 8px o espaço entre os itens e troque a cor do título para azul". Que camada você está mexendo?`}
   opcoes={[`Estrutura (HTML)`, `Estilo (CSS)`, `Comportamento (JS)`]}
   correta={1}
   feedback={`Espaçamento e cor são aparência — e aparência é CSS.`}
-/>
-
-Agora um formulário com um campo de texto e um botão "Enviar". Você pede:
-"quando clicar em enviar, guarde o texto e mostre na tela".
+>
+  <div className="quiz-visual">
+    <p className="qv-titulo">Tarefas de hoje</p>
+    <ul className="qv-lista">
+      <li>Revisar protótipo</li>
+      <li>Mandar pro time</li>
+      <li>Testar no celular</li>
+    </ul>
+  </div>
+</Quiz>
 
 <Quiz
-  pergunta={`Que camada faz isso acontecer?`}
+  pergunta={`Nesse formulário, você pede: "quando clicar em enviar, guarde o texto e mostre na tela". Que camada faz isso acontecer?`}
   opcoes={[`Estrutura (HTML)`, `Estilo (CSS)`, `Comportamento (JS)`]}
   correta={2}
   feedback={`Reagir a um clique, guardar e mostrar é comportamento: JavaScript respondendo a um evento.`}
-/>
-
-Por fim, uma tela ainda sem estilo nenhum, só os elementos crus. Você pede:
-"preciso de um campo de texto e um botão".
+>
+  <div className="quiz-visual">
+    <div className="qv-form">
+      <input className="qv-input" type="text" placeholder="Escreva um comentário…" disabled />
+      <button className="qv-btn" type="button" disabled>Enviar</button>
+      <span className="qv-out">↳ aqui apareceria o que foi enviado</span>
+    </div>
+  </div>
+</Quiz>
 
 <Quiz
-  pergunta={`Que camada define isso?`}
+  pergunta={`Esta tela ainda não tem estilo, só os elementos crus. Você pede: "preciso de um campo de texto e um botão". Que camada define isso?`}
   opcoes={[`Estrutura (HTML)`, `Estilo (CSS)`, `Comportamento (JS)`]}
   correta={0}
   feedback={`Dizer QUE elementos existem — um campo, um botão — é estrutura: HTML.`}
-/>
+>
+  <div className="quiz-visual qv-raw">
+    <input type="text" placeholder="campo cru" disabled />
+    <button type="button" disabled>botão cru</button>
+  </div>
+</Quiz>
 
 <Callout tipo="fonte">
   **Pra quem quiser se aprofundar:** leia (15 min)
@@ -117,7 +140,12 @@ Por fim, uma tela ainda sem estilo nenhum, só os elementos crus. Você pede:
   pras próximas aulas e ajuda a comunidade a crescer junto!
 </Callout>
 
-## O que você ganhou aqui
+<div className="aula-fecho">
 
-O vocabulário das três camadas — **estrutura, estilo e comportamento** — que é
-o volante pra dirigir a IA com precisão.
+**O que você ganhou aqui:** o vocabulário das três camadas (estrutura, estilo e
+comportamento), que é o volante pra dirigir a IA com precisão.
+
+**Próxima aula:** Figma Make, do design à sua primeira demo funcional e
+compartilhável.
+
+</div>

@@ -16,11 +16,13 @@ export function Quiz({
   opcoes,
   correta,
   feedback,
+  children,
 }: {
   pergunta: string;
   opcoes?: unknown;
   correta?: unknown;
   feedback?: ReactNode;
+  children?: ReactNode;
 }) {
   const lista = Array.isArray(opcoes) ? (opcoes as ReactNode[]) : [];
   const indiceCorreto = Number(correta);
@@ -31,6 +33,7 @@ export function Quiz({
   return (
     <div className="quiz" data-respondida={respondida}>
       <p className="quiz-stem">{pergunta}</p>
+      {children}
       <div className="quiz-opcoes">
         {lista.map((texto, i) => {
           let estado = "";
