@@ -77,5 +77,19 @@ export async function POST(request: NextRequest) {
     return NextResponse.json({ error: error.message }, { status: 500 });
   }
 
+  // Ao conceder acesso, já cria o usuário no Auth com e-mail confirmado.
+  // Assim, no primeiro login ele já existe e confirmado → não dispara o
+  // e-mail de "Confirm signup"; sai apenas um único e-mail com o código.
+  if (concede) {
+    const { error: createError } = await supabase.auth.admin.createUser({
+      email,
+      email_confirm: true,
+    });
+    // "already registered" é esperado em recompras/renovações — ignora.
+    if (createError && !/already.*registered|already.*exists/i.test(createError.message)) {
+      console.error("[hotmart] createUser error:", createError.message);
+    }
+  }
+
   return NextResponse.json({ ok: true, email, status: concede ? "active" : "inactive" });
 }
