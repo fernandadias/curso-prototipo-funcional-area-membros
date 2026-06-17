@@ -824,8 +824,19 @@
   background: var(--surface-2);
   margin-bottom: 14px;
 }
+/* sem CSS: cai no visual cru padrão do navegador (botão HTML puro) */
 .dz-like.raw {
-  font: inherit;
+  appearance: auto;
+  -webkit-appearance: button;
+  font: initial;
+  font-size: 13px;
+  padding: 1px 6px;
+  background: #efefef;
+  color: #000;
+  border: 1px solid #767676;
+  border-radius: 0;
+  cursor: pointer;
+  transition: none;
 }
 .dz-like.styled {
   background: var(--accent);
