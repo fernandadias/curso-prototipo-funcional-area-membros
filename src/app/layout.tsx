@@ -1,6 +1,7 @@
 import type { Metadata, Viewport } from "next";
 import "./globals.css";
 import { ServiceWorkerCleanup } from "@/components/chrome/ServiceWorkerCleanup";
+import { CustomCursor } from "@/components/chrome/CustomCursor";
 
 export const viewport: Viewport = {
   themeColor: "#1c1c1c",
@@ -72,6 +73,7 @@ export default function RootLayout({
       </head>
       <body>
         <ServiceWorkerCleanup />
+        <CustomCursor />
         {children}
       </body>
     </html>
