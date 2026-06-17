@@ -14,12 +14,24 @@ function getCtx(): AudioContext | null {
       if (!AC) return null;
       ctx = new AC();
     }
-    // navegadores suspendem o contexto até um gesto do usuário
     if (ctx.state === "suspended") void ctx.resume();
     return ctx;
   } catch {
     return null;
   }
+}
+
+// "Destrava" o áudio no primeiro gesto do usuário (políticas de autoplay
+// deixam o AudioContext suspenso até uma interação). Assim o primeiro clique
+// num quiz já sai com som.
+if (typeof window !== "undefined") {
+  const unlock = () => {
+    getCtx();
+    window.removeEventListener("pointerdown", unlock);
+    window.removeEventListener("keydown", unlock);
+  };
+  window.addEventListener("pointerdown", unlock, { once: false });
+  window.addEventListener("keydown", unlock, { once: false });
 }
 
 // Toca uma nota com envelope curto (ataque rápido + decaimento exponencial).
@@ -32,7 +44,9 @@ function tone(
 ) {
   const c = getCtx();
   if (!c) return;
-  const t0 = c.currentTime + start;
+  // pequeno lead garante que o evento fique no futuro mesmo se o contexto
+  // acabou de sair do estado suspenso.
+  const t0 = c.currentTime + 0.02 + start;
   const osc = c.createOscillator();
   const g = c.createGain();
   osc.type = type;
@@ -46,20 +60,20 @@ function tone(
   osc.stop(t0 + dur + 0.03);
 }
 
-// Clique seco e curto ao tocar numa opção.
+// Clique nítido e audível ao tocar numa opção.
 export function playClick() {
-  tone(420, 0, 0.05, "triangle", 0.05);
+  tone(540, 0, 0.09, "triangle", 0.13);
 }
 
-// Acerto: arpejo ascendente (alegre).
+// Acerto: arpejo ascendente (alegre) — começa depois do clique.
 export function playSuccess() {
-  tone(660, 0.04, 0.12, "sine", 0.06);
-  tone(880, 0.14, 0.14, "sine", 0.06);
-  tone(1320, 0.26, 0.2, "sine", 0.05);
+  tone(660, 0.12, 0.12, "sine", 0.07);
+  tone(880, 0.22, 0.14, "sine", 0.07);
+  tone(1320, 0.34, 0.2, "sine", 0.06);
 }
 
-// Erro: duas notas graves descendentes (negativo, mas suave).
+// Erro: duas notas graves descendentes — começa depois do clique.
 export function playError() {
-  tone(220, 0.04, 0.18, "sawtooth", 0.045);
-  tone(160, 0.16, 0.24, "sawtooth", 0.045);
+  tone(220, 0.12, 0.18, "sawtooth", 0.05);
+  tone(160, 0.24, 0.24, "sawtooth", 0.05);
 }

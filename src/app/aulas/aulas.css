@@ -171,11 +171,13 @@
   margin-top: 1px;
 }
 .sb-mod-uau {
-  margin: 0 0 8px;
-  padding: 0 10px;
+  margin: 0 0 10px;
+  background: #00000061;
+  padding: 8px 12px;
+  border-radius: 8px;
   font-size: 12.5px;
-  color: var(--text-mute);
-  line-height: 1.4;
+  color: var(--text-dim);
+  line-height: 1.45;
 }
 .sb-mod-uau-tag {
   font-family: "Kode Mono", monospace;
@@ -643,7 +645,7 @@
 }
 
 /* passo a passo numerado */
-.steps {
+ol.steps {
   list-style: none;
   counter-reset: step;
   padding: 0;

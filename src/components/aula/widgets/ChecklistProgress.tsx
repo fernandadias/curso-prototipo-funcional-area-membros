@@ -1,6 +1,8 @@
 "use client";
 
 import { useEffect, useState } from "react";
+import { playSuccess } from "@/lib/sfx";
+import { celebrate } from "@/lib/celebrate";
 
 // Checklist com contador de progresso e persistência por aluno (localStorage).
 // Uso no MDX:
@@ -44,16 +46,20 @@ export function ChecklistProgress({
   }, []);
 
   function alternar(i: number) {
-    setMarcados((prev) => {
-      const novo = [...prev];
-      novo[i] = !novo[i];
-      try {
-        localStorage.setItem(chave(i), novo[i] ? "1" : "0");
-      } catch {
-        /* ignora */
-      }
-      return novo;
-    });
+    const novo = marcados.map((v, idx) => (idx === i ? !v : v));
+    setMarcados(novo);
+    try {
+      localStorage.setItem(chave(i), novo[i] ? "1" : "0");
+    } catch {
+      /* ignora */
+    }
+    // Acabou de completar (por ação do aluno)? Comemora.
+    const eraCompleto = marcados.length > 0 && marcados.every(Boolean);
+    const ficouCompleto = novo.length > 0 && novo.every(Boolean);
+    if (!eraCompleto && ficouCompleto) {
+      playSuccess();
+      celebrate();
+    }
   }
 
   const feitos = marcados.filter(Boolean).length;
