@@ -1066,6 +1066,9 @@
   font-size: 15px;
   color: #1c1c1c;
 }
+.cmt-av-foto {
+  object-fit: cover;
+}
 .cmt-corpo {
   flex: 1;
   min-width: 0;

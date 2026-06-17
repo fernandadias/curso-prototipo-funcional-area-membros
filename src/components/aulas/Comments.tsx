@@ -268,17 +268,24 @@ function CommentItem({
 
   return (
     <li className={`cmt${instrutora ? " cmt-instrutora" : ""}${aninhado ? " cmt-resp" : ""}`}>
-      <div
-        className="cmt-av"
-        style={{ background: instrutora ? "var(--accent)" : colorFor(comment.user_id) }}
-        aria-hidden="true"
-      >
-        {instrutora ? "🍄" : initial(comment.author?.name ?? null)}
-      </div>
+      {instrutora ? (
+        <img
+          className="cmt-av cmt-av-foto"
+          src="https://www.prototipofuncional.com.br/eu-nanda-dias-cor.png"
+          alt="Nanda"
+        />
+      ) : (
+        <div
+          className="cmt-av"
+          style={{ background: colorFor(comment.user_id) }}
+          aria-hidden="true"
+        >
+          {initial(comment.author?.name ?? null)}
+        </div>
+      )}
       <div className="cmt-corpo">
         <div className="cmt-head">
           <span className="cmt-nome">{nome}</span>
-          {instrutora && <span className="cmt-badge">Instrutora</span>}
           <span className="cmt-time">· {quando(comment.created_at)}</span>
         </div>
         <p className="cmt-body">{comment.body}</p>

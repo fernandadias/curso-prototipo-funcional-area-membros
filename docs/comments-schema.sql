@@ -1,9 +1,52 @@
 -- Rode este script no Supabase: SQL Editor > New query > Run.
 -- Comentários das aulas (Fase 1): comentar, responder, reagir (👍/👎),
 -- resposta da instrutora destacada, e nome de exibição vindo da Hotmart.
+--
+-- Ordem importa: as tabelas são criadas ANTES das funções, porque as funções
+-- (language sql) referenciam profiles/course_access e são validadas na criação.
 
 -- =========================================================
--- 0) Helpers de autorização (SECURITY DEFINER p/ ignorar RLS interna)
+-- 1) Nome do comprador (vem do buyer.name da Hotmart)
+-- =========================================================
+alter table public.course_access add column if not exists name text;
+
+-- =========================================================
+-- 2) Perfis: nome de exibição + flag de instrutora
+-- =========================================================
+create table if not exists public.profiles (
+  user_id       uuid primary key references auth.users(id) on delete cascade,
+  name          text,
+  is_instructor boolean not null default false,
+  created_at    timestamptz not null default now()
+);
+
+-- =========================================================
+-- 3) Comentários (com respostas via parent_id)
+-- =========================================================
+create table if not exists public.comments (
+  id         uuid primary key default gen_random_uuid(),
+  lesson_key text not null,                                  -- "<modulo>/<aula>"
+  user_id    uuid not null references public.profiles(user_id) on delete cascade,
+  parent_id  uuid references public.comments(id) on delete cascade,
+  body       text not null check (char_length(body) between 1 and 4000),
+  created_at timestamptz not null default now()
+);
+create index if not exists comments_lesson_idx on public.comments (lesson_key, created_at);
+create index if not exists comments_parent_idx on public.comments (parent_id);
+
+-- =========================================================
+-- 4) Reações (👍 = 1, 👎 = -1) — uma por aluno/comentário
+-- =========================================================
+create table if not exists public.comment_reactions (
+  comment_id uuid not null references public.comments(id) on delete cascade,
+  user_id    uuid not null references auth.users(id) on delete cascade,
+  value      smallint not null check (value in (-1, 1)),
+  created_at timestamptz not null default now(),
+  primary key (comment_id, user_id)
+);
+
+-- =========================================================
+-- 5) Helpers de autorização (SECURITY DEFINER p/ ignorar RLS interna)
 -- =========================================================
 
 -- O usuário logado é um aluno ATIVO? (mesma regra do gate de conteúdo)
@@ -34,20 +77,8 @@ as $$
 $$;
 
 -- =========================================================
--- 1) Nome do comprador (vem do buyer.name da Hotmart)
+-- 6) RLS dos perfis
 -- =========================================================
-alter table public.course_access add column if not exists name text;
-
--- =========================================================
--- 2) Perfis: nome de exibição + flag de instrutora
--- =========================================================
-create table if not exists public.profiles (
-  user_id       uuid primary key references auth.users(id) on delete cascade,
-  name          text,
-  is_instructor boolean not null default false,
-  created_at    timestamptz not null default now()
-);
-
 alter table public.profiles enable row level security;
 
 -- Alunos ativos leem perfis (para exibir os nomes nos comentários).
@@ -94,19 +125,8 @@ left join public.course_access ca on lower(ca.email) = lower(u.email)
 on conflict (user_id) do nothing;
 
 -- =========================================================
--- 3) Comentários (com respostas via parent_id)
+-- 7) RLS dos comentários
 -- =========================================================
-create table if not exists public.comments (
-  id         uuid primary key default gen_random_uuid(),
-  lesson_key text not null,                                  -- "<modulo>/<aula>"
-  user_id    uuid not null references public.profiles(user_id) on delete cascade,
-  parent_id  uuid references public.comments(id) on delete cascade,
-  body       text not null check (char_length(body) between 1 and 4000),
-  created_at timestamptz not null default now()
-);
-create index if not exists comments_lesson_idx on public.comments (lesson_key, created_at);
-create index if not exists comments_parent_idx on public.comments (parent_id);
-
 alter table public.comments enable row level security;
 
 drop policy if exists "alunos leem comentarios" on public.comments;
@@ -131,16 +151,8 @@ create policy "apagar comentario"
   using ( user_id = auth.uid() or public.is_instructor() );
 
 -- =========================================================
--- 4) Reações (👍 = 1, 👎 = -1) — uma por aluno/comentário
+-- 8) RLS das reações
 -- =========================================================
-create table if not exists public.comment_reactions (
-  comment_id uuid not null references public.comments(id) on delete cascade,
-  user_id    uuid not null references auth.users(id) on delete cascade,
-  value      smallint not null check (value in (-1, 1)),
-  created_at timestamptz not null default now(),
-  primary key (comment_id, user_id)
-);
-
 alter table public.comment_reactions enable row level security;
 
 drop policy if exists "alunos leem reacoes" on public.comment_reactions;
@@ -155,7 +167,7 @@ create policy "aluno gere propria reacao"
   with check ( user_id = auth.uid() and public.is_active_student() );
 
 -- =========================================================
--- 5) Marque-se como instrutora (troque pelo e-mail que VOCÊ usa para logar):
+-- 9) Marque-se como instrutora (troque pelo e-mail que VOCÊ usa para logar):
 --    update public.profiles set is_instructor = true
 --    where user_id = (select id from auth.users where lower(email) = lower('SEU_EMAIL'));
 -- =========================================================
