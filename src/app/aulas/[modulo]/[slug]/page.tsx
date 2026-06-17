@@ -44,6 +44,9 @@ export default async function AulaPage({
   const data = getLessonSource(modulo, slug);
   if (!data) notFound();
 
+  // Aula "chegando" (em revisão) ainda não tem página própria.
+  if (data.meta.status !== "disponivel") notFound();
+
   const { meta, modulo: mod, prev, next } = data;
 
   // Gate: aula gratuita é sempre liberada; aula paga exige aluno logado

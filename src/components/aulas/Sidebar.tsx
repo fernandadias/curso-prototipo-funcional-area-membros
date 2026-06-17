@@ -26,9 +26,14 @@ export function Sidebar({ tree }: { tree: ModuleMeta[] }) {
       .filter((m) => m.aulas.length > 0);
   }, [tree, q]);
 
-  // progresso: um segmento por aula
+  // progresso: um segmento por aula disponível (chegando/em-breve não contam)
   const allKeys = useMemo(
-    () => tree.flatMap((m) => m.aulas.map((a) => lessonKey(m.slug, a.slug))),
+    () =>
+      tree.flatMap((m) =>
+        m.aulas
+          .filter((a) => a.status === "disponivel")
+          .map((a) => lessonKey(m.slug, a.slug)),
+      ),
     [tree],
   );
   const viewedCount = mounted
@@ -77,35 +82,56 @@ export function Sidebar({ tree }: { tree: ModuleMeta[] }) {
           <div className="sb-mod" key={m.slug}>
             <p className="sb-mod-title">
               Módulo {String(m.numero).padStart(2, "0")}: {m.titulo}
+              {m.status === "em-breve" && (
+                <span className="sb-mod-tag">Em breve</span>
+              )}
             </p>
-            <ul>
-              {m.aulas.map((a) => {
-                const href = `/aulas/${m.slug}/${a.slug}`;
-                const active = pathname === href;
-                const viewed = mounted && isViewed(lessonKey(m.slug, a.slug));
-                return (
-                  <li key={a.slug}>
-                    <Link
-                      href={href}
-                      className={`sb-aula ${active ? "active" : ""} ${viewed ? "viewed" : ""}`}
-                    >
-                      <span className="sb-aula-titulo">{a.titulo}</span>
-                      <span className="sb-aula-meta">
-                        {a.duracao && (
-                          <span className="sb-aula-dur">{a.duracao}</span>
-                        )}
-                        {!a.free && (
-                          <svg className="sb-lock" width="13" height="13" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round" aria-label="Aula para alunos">
-                            <rect x="4" y="11" width="16" height="10" rx="2" />
-                            <path d="M8 11V7a4 4 0 018 0v4" />
-                          </svg>
-                        )}
-                      </span>
-                    </Link>
-                  </li>
-                );
-              })}
-            </ul>
+            {m.status === "em-breve" ? (
+              m.uau && <p className="sb-mod-uau">🤩 {m.uau}</p>
+            ) : (
+              <ul>
+                {m.aulas.map((a) => {
+                  const viewed = mounted && isViewed(lessonKey(m.slug, a.slug));
+                  if (a.status !== "disponivel") {
+                    return (
+                      <li key={a.slug}>
+                        <span className="sb-aula sb-aula-soon" aria-disabled="true">
+                          <span className="sb-aula-titulo">{a.titulo}</span>
+                          <span className="sb-aula-meta">
+                            <span className="sb-aula-soon-tag">
+                              Chegando{a.previsao ? ` · ${a.previsao}` : ""}
+                            </span>
+                          </span>
+                        </span>
+                      </li>
+                    );
+                  }
+                  const href = `/aulas/${m.slug}/${a.slug}`;
+                  const active = pathname === href;
+                  return (
+                    <li key={a.slug}>
+                      <Link
+                        href={href}
+                        className={`sb-aula ${active ? "active" : ""} ${viewed ? "viewed" : ""}`}
+                      >
+                        <span className="sb-aula-titulo">{a.titulo}</span>
+                        <span className="sb-aula-meta">
+                          {a.duracao && (
+                            <span className="sb-aula-dur">{a.duracao}</span>
+                          )}
+                          {!a.free && (
+                            <svg className="sb-lock" width="13" height="13" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round" aria-label="Aula para alunos">
+                              <rect x="4" y="11" width="16" height="10" rx="2" />
+                              <path d="M8 11V7a4 4 0 018 0v4" />
+                            </svg>
+                          )}
+                        </span>
+                      </Link>
+                    </li>
+                  );
+                })}
+              </ul>
+            )}
           </div>
         ))}
         {filtered.length === 0 && (

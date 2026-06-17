@@ -1,0 +1,151 @@
+---
+titulo: "Ver no seu celular"
+descricao: "Seu protótipo no ar, na sua mão, onde ele vai ser usado de verdade."
+numero: 8
+free: false
+status: disponivel
+---
+
+Até agora você viu a sua lista de tarefas só na tela do computador. Mas mesmo se
+a gente simular a responsividade pelo computador, é bem diferente de sentir
+realmente no **celular**. O toque, o tamanho real, o polegar alcançando (ou não)
+o botão. A boa notícia: o app *já está rodando*. Falta só o seu telefone chegar
+até ele. Aula curta, com prêmio massa no fim.
+
+## Por que o celular não abre o localhost
+
+Lembra da "casa do projeto" da Aula 05? Quando você abre `localhost:3000`, o
+`localhost` significa literalmente "esta máquina aqui". É um endereço privado:
+**só o seu computador** entende. Seu celular, se digitar isso, vai procurar um
+app *nele mesmo* e não acha nada.
+
+O que é muito chique de usar o Next.js: além do endereço local, sua máquina tem
+um **endereço na rede Wi-Fi**, algo como `192.168.0.42`. Por esse endereço,
+outros aparelhos na **mesma rede** conseguem enxergar a "casa do projeto".
+
+**🔒 Endereço local** — `localhost:3000`. Só o seu computador abre. É o que você
+usou até agora.
+
+**📶 Endereço de rede** — `192.168.0.42:3000`. Qualquer aparelho na mesma Wi-Fi
+abre, inclusive o seu celular.
+
+## Como chegar lá: bora fazer junto
+
+1. **Mesma Wi-Fi.** Garanta que o celular e o computador estão na *mesma rede*
+   (mesmo Wi-Fi). Esse é o erro nº 1: celular no 4G não acha.
+2. **Ache o endereço de rede.** Olhe o terminal onde o app está rodando. Além de
+   `Local`, costuma aparecer uma linha `Network` com o endereço de rede.
+3. **Não apareceu o Network?** Peça ao agente: *"exponha o servidor de
+   desenvolvimento na rede local pra eu acessar do celular"*. Ele ajusta o
+   comando pra você.
+4. **Abra no celular.** Digite o endereço de rede (ex.: `192.168.0.42:3000`) no
+   navegador do telefone.
+5. **🎉 Pronto.** Sua lista de tarefas na sua mão. Mude o código no computador e
+   recarregue no celular: o loop de feedback agora passa pelo aparelho real.
+
+<Widget
+  nome="terminal-output-reveal"
+  rotulo='Ver onde fica o "Network" no terminal'
+  conteudo={`▲ Next.js 15.x
+- Local:        http://localhost:3000
+- Network:      http://192.168.0.42:3000   ← este, no celular
+
+✓ Ready in 1.2s`}
+  destaque="http://192.168.0.42:3000"
+/>
+
+## Por que isso muda o seu design
+
+Esta é a versão "device real" da nossa mensagem de sempre: **o funcional revela o
+que o estático esconde**. E o celular esconde menos ainda. Com o protótipo na
+mão, você sente coisas que a tela grande mascarava:
+
+- O botão é **alcançável com o polegar**? O alvo de toque é grande o bastante?
+- O texto fica legível no **tamanho real**, não no monitor de 27"?
+- Quando o **teclado do celular** sobe, ele tampa o campo? A tela rola direito?
+
+Nenhuma dessas perguntas aparece no Figma nem no monitor. Elas aparecem na Black
+Mirror do telefone, e agora você testa de graça, a cada mudança.
+
+<Callout tipo="atencao">
+  **Não abriu?** 90% das vezes é a Wi-Fi (aparelhos em redes diferentes). Os
+  outros 10%: o firewall do computador pode bloquear. Aceite quando ele
+  perguntar, ou peça ajuda ao agente. E lembre: esse endereço de rede **muda**
+  quando você troca de Wi-Fi.
+</Callout>
+
+<Widget
+  nome="checklist-progress"
+  id="a8-celular"
+  itens={[
+    "Confirmei que celular e computador estão na mesma Wi-Fi",
+    "Achei o endereço de rede (no terminal ou pedindo ao agente)",
+    "Abri o endereço no navegador do celular",
+    "Vi minha lista de tarefas no telefone 🎉",
+    "Mudei algo no código e vi atualizar no celular",
+  ]}
+  remate="✓ Protótipo no celular, ao vivo!"
+/>
+
+## Checagem rápida
+
+<Quiz pergunta="Por que o celular não abre o localhost:3000 do computador?">
+  <Opcao>Porque o celular não tem navegador compatível</Opcao>
+  <Opcao correta>Porque localhost significa "esta máquina": só o computador entende</Opcao>
+  <Opcao>Porque o app precisa ser publicado primeiro</Opcao>
+  <Feedback>
+    localhost = "esta máquina aqui". É privado do computador. O celular precisa
+    do endereço de rede.
+  </Feedback>
+</Quiz>
+
+<Quiz pergunta="Qual a condição essencial pra o celular enxergar o app?">
+  <Opcao correta>Estar na mesma rede Wi-Fi que o computador</Opcao>
+  <Opcao>Ter o mesmo modelo de celular do computador</Opcao>
+  <Opcao>Estar com o Figma aberto</Opcao>
+  <Feedback>
+    Mesma Wi-Fi é o que permite o celular enxergar a "casa do projeto". Celular no
+    4G não acha.
+  </Feedback>
+</Quiz>
+
+<Quiz pergunta="O que esse teste no celular te revela que o monitor esconde?">
+  <Opcao>O nome dos arquivos do projeto</Opcao>
+  <Opcao>A velocidade da sua internet</Opcao>
+  <Opcao correta>Alcance do polegar, tamanho real do texto, teclado tampando o campo</Opcao>
+  <Feedback>
+    Toque, tamanho real e o teclado subindo são coisas que só o aparelho real
+    revela.
+  </Feedback>
+</Quiz>
+
+<Callout tipo="dica">
+  **Spoiler lá do fim do curso (No mundo real):** digitar o IP no celular é
+  chato, e por enquanto só *você* consegue ver (mesma Wi-Fi). Mais pra frente a
+  gente automatiza isso: **publica** o protótipo (qualquer pessoa acessa, de
+  qualquer lugar) e gera um **QR Code** pra qualquer um abrir num toque. Aí sim,
+  teste com pessoa usuária de verdade.
+</Callout>
+
+<Callout tipo="fonte">
+  **Pra quem quiser se aprofundar:**
+  [Next.js Docs: `next dev` CLI](https://nextjs.org/docs/app/api-reference/cli/next)
+  *(inglês)*. Referência oficial do servidor de desenvolvimento, incluindo como
+  expô-lo na rede. Consulte se o endereço Network não aparecer.
+</Callout>
+
+<Callout tipo="dica">
+  **Lembre-se: ninguém tá sozinho aqui.** Travou pra achar o endereço ou o
+  celular não abre? Me diga nos comentários o que apareceu no terminal e o que
+  acontece no telefone que a gente destrava. Esse é um daqueles passos onde a
+  Wi-Fi gosta de pregar peças.
+</Callout>
+
+## O que você ganhou aqui
+
+Seu protótipo rodando no celular real, com o loop de feedback passando pelo
+aparelho, e o olhar pras questões de toque, tamanho e teclado que só o device
+revela.
+
+**🏁 Base fechada!** Ambiente montado, você dirigindo o agente e o app rodando no
+seu celular. Equipada pra construir qualquer coisa.

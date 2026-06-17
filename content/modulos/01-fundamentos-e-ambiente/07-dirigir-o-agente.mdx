@@ -1,0 +1,212 @@
+---
+titulo: "Dirigir o agente"
+descricao: "Você vai transformar a tela da aula passada numa lista que funciona. E, fazendo isso, aprender a dirigir."
+numero: 7
+free: false
+status: disponivel
+---
+
+Na Aula 06 você colocou uma tela Next.js pra rodar. Mas ela é um "hello world":
+bonita e parada. Nesta aula você transforma ela numa **lista de tarefas que
+funciona de verdade**. E não é num passe de mágica. É exatamente *fazendo* essa
+transformação, pedido a pedido, que você aprende a dirigir o agente. Lá na Aula
+05 a gente foi honesto: o harness aberto exige um pouco mais da gente. Esta é a
+aula que coloca essa habilidade na sua mão.
+
+> **A virada de chave:** trate o agente como um **dev júnior brilhante** (rápido,
+> incansável, cheio de conhecimento), **não como uma máquina mágica**. Um júnior
+> brilhante entrega coisas incríveis *se* você der contexto claro, dividir o
+> trabalho em pedaços e revisar o que ele faz. Largado com um pedido vago, ele
+> chuta. É igualzinho com o agente.
+
+<Callout tipo="dica">
+  🛠️ **Faça junto:** abra o projeto da Aula 06 no editor e abra o Claude Code ao
+  lado. A partir de agora, cada caixinha de prompt é algo que você manda *de
+  verdade*. Um de cada vez, conferindo o resultado antes do próximo.
+</Callout>
+
+## Hábito 1 · Peça em passos, não tudo de uma vez
+
+O erro nº 1 de quem começa é o **"single-shot"**: um prompt gigante esperando o
+app inteiro perfeito. O agente chuta tudo que você não especificou e volta
+torto. E pior: você nem sabe onde olhar. Construa **em passos curtos**,
+conferindo cada um. Veja a diferença pra construir a sua lista de tarefas:
+
+<Widget
+  nome="before-after-reveal"
+  rotuloFraco="✗ Single-shot"
+  textoFraco={`"Transforme isso num app de tarefas completo, bonito, com tudo que precisa."`}
+  rotuloForte="✓ Iterativo: mande um por vez"
+  passosFortes={[
+    `1. "Na página inicial, substitua o conteúdo por um título 'Minhas tarefas' e um campo de texto com um botão Adicionar."`,
+    `2. "Agora, ao clicar em Adicionar, mostre o texto digitado numa lista abaixo do campo."`,
+    `3. "Quando eu adicionar uma tarefa, limpe o campo de texto."`,
+    `4. "Coloque um X em cada item da lista pra removê-lo."`,
+  ]}
+  porque={`a cada passo você abre o localhost e confere. Se o passo 2 saiu errado, você corrige antes de empilhar o 3. Erro pequeno, fácil de achar.`}
+  botao="Ver a versão em passos →"
+/>
+
+<Callout tipo="dica">
+  🛠️ **Sua vez:** mande esses quatro pedidos, um a um, no seu projeto. Depois de
+  cada um, recarregue o `localhost:3000` e veja a mudança. No fim, você tem uma
+  lista de tarefas funcional, e já vamos usar ela pra treinar os outros hábitos.
+</Callout>
+
+## Bora juntos: multi-shot prompting
+
+<Video src="PLACEHOLDER" titulo="Exercitando o hábito 1: pedidos em passos" />
+
+## Hábito 2 · Dê contexto: o agente só sabe o que você mostra
+
+O agente não lê sua mente nem enxerga sua tela. **Contexto é a matéria-prima
+dele.** Mas "dar contexto" é vago. Então aqui está, ponto a ponto, *como* fazer
+na prática:
+
+**📍 Diga ONDE mexer.** Apontar o lugar evita que o agente saia procurando (e
+mexendo) no que não devia. *Como fazer:* nomeie o arquivo ou o componente. No seu
+projeto Next.js, a tela inicial mora em `app/page.tsx`. Não sabe onde está algo?
+Pergunte ao próprio agente. Em vez de "muda o botão" → **"em `app/page.tsx`, o
+botão Adicionar…"**.
+
+**🎯 Descreva o ESTADO FINAL.** Dizer só o que está errado deixa o agente
+adivinhar o certo. Diga como deve ficar. *Como fazer:* descreva o resultado
+esperado, com detalhes visuais. Você é designer, abuse disso. Em vez de "a lista
+tá estranha" → **"quero cada tarefa numa linha, texto à esquerda e um X à
+direita, com uma linha fina separando os itens"**.
+
+**🐞 Cole a EVIDÊNCIA.** Quando quebra, aparece uma mensagem (geralmente
+vermelha) no navegador ou no terminal do editor. Ela parece grega pra gente, mas
+é ouro pro agente. *Como fazer:* copie a mensagem *inteira*, sem resumir, e cole
+no chat. **"Apareceu este erro quando cliquei em Adicionar: `texto is not
+defined`. O esperado é o item entrar na lista."**
+
+**🖼️ Mostre uma REFERÊNCIA do que você quer.** Uma imagem vale mil prompts, e
+essa é a nossa praia. *Como fazer:* arraste um print ou cole um link de algo
+parecido com o que você quer. O Claude Code aceita imagens no chat. **"Quero o
+card de tarefa parecido com este print [arrasta a imagem]."**
+
+<Callout tipo="dica">
+  🛠️ **Sua vez:** refine a sua lista praticando **ONDE + ESTADO FINAL** num
+  pedido só. Mande: *"Em `app/page.tsx`, deixe cada tarefa numa linha, com o
+  texto à esquerda e o X à direita, separadas por uma linha fina."* Compare
+  mentalmente com o que viria de um "deixa a lista bonita". Sente a diferença de
+  controle? (Se algum passo der erro, é a deixa pra praticar a **evidência**:
+  copie a mensagem vermelha inteira e cole no chat.)
+</Callout>
+
+Detalhe importante: a "memória" do agente (o contexto) **enche e satura**. Quando
+lota, a qualidade cai. Em projetos maiores dá pra fixar instruções num arquivo
+`CLAUDE.md` que ele lê sempre. Por ora, basta um hábito: comece uma conversa nova
+pra cada tarefa diferente, pra não entupir o contexto com assunto velho.
+
+## Bora juntos: contexto
+
+<Video src="PLACEHOLDER" titulo="Exercitando o hábito 2: dar contexto" />
+
+## Hábito 3 · Seja cirúrgico: diga o que NÃO mexer
+
+Lembra do que *você* notou sobre as ferramentas opinativas? Elas quebram coisas
+sem relação. O agente *pode* ser cirúrgico, mas só se você **delimitar o alvo**.
+Um pedido largo dá margem pra ele "melhorar" o que você não pediu. Digamos que,
+na sua lista de tarefas, você queira mexer só no botão:
+
+<Widget
+  nome="before-after-reveal"
+  rotuloFraco="✗ Largo demais"
+  textoFraco={`"Melhora o visual da tela de tarefas."`}
+  rotuloForte="✓ Cirúrgico"
+  passosFortes={[
+    `"Deixe o botão Adicionar verde e com cantos arredondados. Não altere a lista nem o campo de texto, só o botão."`,
+  ]}
+  porque={`delimitar o alvo (e dizer o que preservar) é o que devolve pra você o controle fino que as opinativas tiravam.`}
+  botao="Ver a versão cirúrgica →"
+/>
+
+<Callout tipo="dica">
+  🛠️ **Sua vez:** pratique a **delimitação** na sua lista. Mande: *"Deixe o botão
+  Adicionar verde e com cantos arredondados. Não altere a lista nem o campo de
+  texto, só o botão."* Mande e <u>não confira o resultado ainda</u>: guarde pro
+  próximo hábito.
+</Callout>
+
+## Bora juntos: delimitando o alvo
+
+<Video src="PLACEHOLDER" titulo="Exercitando o hábito 3: delimitar o alvo" />
+
+## Hábito 4 · Leia o diff e corrija o rumo
+
+Agora você tem uma lista de verdade. E vai acontecer: você pede uma coisa e o
+agente faz *demais*. É aqui que a leitura do diff salva você.
+
+<Video src="PLACEHOLDER" titulo="Exercitando o hábito 4: ler o diff na prática" />
+
+<Callout tipo="dica">
+  🛠️ **Sua vez:** você acabou de pedir o botão verde (Hábito 3). Agora **leia o
+  diff** dessa mudança no editor: o agente mexeu *só* no botão? Se passou do
+  alvo, corrija numa frase ("desfaça a mudança em X, mantenha o botão"). Se ficou
+  certo, pronto: você fechou o loop inteiro sozinha.
+</Callout>
+
+<Callout tipo="dica">
+  **🧭 Checklist do bom pedido**
+
+  - **Um passo por vez**, não o app inteiro de uma vez.
+  - **Onde** mexer (arquivo/componente) e **qual** o estado final.
+  - **Evidência**: cole o erro inteiro / mostre um print.
+  - **Delimite**: diga explicitamente o que *não* tocar.
+  - **Leia o diff** e corrija o rumo numa frase, sem recomeçar.
+</Callout>
+
+## Checagem rápida
+
+<Quiz pergunta="Qual a melhor analogia pra como tratar o agente?">
+  <Opcao>Uma máquina mágica: descreva tudo uma vez e confie</Opcao>
+  <Opcao>Uma calculadora: dá sempre a mesma resposta exata</Opcao>
+  <Opcao correta>Um dev júnior brilhante: capaz, mas precisa de contexto e revisão</Opcao>
+  <Feedback>
+    Júnior brilhante: entrega muito bem com contexto claro, passos e revisão.
+    Largado com pedido vago, chuta.
+  </Feedback>
+</Quiz>
+
+<Quiz pergunta="O clique em Adicionar deu erro. Qual o melhor jeito de pedir o conserto?">
+  <Opcao correta>Colar a mensagem de erro inteira e dizer o comportamento esperado</Opcao>
+  <Opcao>Dizer só "tá quebrado, conserta"</Opcao>
+  <Opcao>Pedir pra refazer o app do zero</Opcao>
+  <Feedback>
+    A mensagem de erro inteira é ouro pro agente. Cole sem resumir e diga o que
+    era esperado.
+  </Feedback>
+</Quiz>
+
+<Quiz pergunta="O agente mudou o botão (como você pediu) mas também mexeu na lista. O que fazer?">
+  <Opcao>Aceitar tudo: se ele fez, deve estar certo</Opcao>
+  <Opcao correta>Corrigir numa frase: "desfaça a mudança na lista, mantenha o botão"</Opcao>
+  <Opcao>Recomeçar o projeto do zero</Opcao>
+  <Feedback>
+    Você leu o diff e viu que passou do alvo. Corrige o rumo numa frase, sem
+    recomeçar.
+  </Feedback>
+</Quiz>
+
+<Callout tipo="fonte">
+  **Pra quem quiser se aprofundar:**
+  [Claude Code Docs · Best practices](https://code.claude.com/docs/en/best-practices)
+  *(inglês)*. Guia oficial da Anthropic sobre como dirigir o agente. É de lá que
+  vem a ideia de tratar ele como um "júnior com ferramentas, memória e iteração,
+  não um gerador mágico".
+</Callout>
+
+<Callout tipo="dica">
+  **Lembre-se: ninguém tá sozinho aqui.** Pediu algo e o agente fez besteira? Me
+  cole o seu prompt e o que aconteceu nos comentários, e a gente reescreve juntos
+  aplicando o checklist. Dirigir é prática: traga seus casos reais da sua lista
+  de tarefas.
+</Callout>
+
+## O que você ganhou aqui
+
+Uma lista de tarefas funcional construída por você *e* os quatro hábitos que
+tornam o agente um parceiro cirúrgico: passos curtos, contexto, delimitação e
+leitura do diff.

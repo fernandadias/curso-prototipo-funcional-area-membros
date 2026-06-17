@@ -1,0 +1,137 @@
+---
+titulo: "O ambiente de verdade: cockpit e motor"
+descricao: "O modelo mental do ambiente onde vamos trabalhar."
+numero: 5
+free: false
+status: disponivel
+---
+
+## Por que trocar as opinativas pelos agentes
+
+Ferramentas como Figma Make, v0 e Lovable são **opinativas**: rodam num harness
+fechado, cheio de **guardrails**. Foram feitas pra pegar um prompt solto e
+"fazer dar certo", e por isso entregam coisas muito boas, muito rápido. No
+caminho feliz, são imbatíveis.
+
+O atrito aparece quando o protótipo fica mais complexo e você precisa **sair dos
+trilhos**. Você pede um ajuste fino e a ferramenta, pra "fazer dar certo" do
+jeito dela, acaba **mexendo em coisas que não tinham relação**: quebra um pedaço
+pra consertar outro. Você perde o controle fino bem na hora em que mais precisa
+dele.
+
+Os **agentes de código** (Claude Code, Codex) trabalham num harness aberto. Sem
+os trilhos, eles te deixam ser **cirúrgica**: mudar exatamente o que você quer,
+sem espalhar o estrago. O preço dessa liberdade é honesto: eles exigem um pouco
+mais de você. Não é "um prompt e pronto". Você vai aprender a **gerir o
+contexto**, pedir de forma **iterativa** e **ler o diff** pra manter o agente na
+linha.
+
+## As três peças do ambiente real
+
+**🔷 O cockpit: o editor** (VS Code ou Cursor) — onde você *vê*: os arquivos do
+projeto, o código e, o mais importante pra você, o que o agente mudou. É o painel
+de instrumentos. Lembra o Figma: o canvas + o painel de camadas, mas pro código.
+
+**🔸 O motor: o agente** (Claude Code, Codex…) — onde mora a mágica que você já
+curtiu. Você descreve em português o que quer; ele escreve e edita os arquivos
+por você. O agente é o que *faz* o trabalho. Ele roda dentro do cockpit, no
+terminal ou na nuvem.
+
+**🔹 A casa do projeto: onde ele vive e roda** — hoje será a *sua máquina*: um
+servidor local roda o app e mostra ao vivo no navegador (mudou o código,
+recarrega sozinho, o "preview ao vivo" do Figma, só que do produto de verdade).
+É a mesma peça que cresce com o projeto: mais pra frente ela vira um servidor na
+nuvem, com banco de dados, publicado pra qualquer pessoa acessar.
+
+## Vou te mostrar o meu ambiente
+
+<Video src="PLACEHOLDER" titulo="O cockpit, o motor e a casa do projeto" />
+
+O agente é inegociável, é ele que constrói. O cockpit é o que te dá visibilidade
+(seu valor: código não pode virar caixa-preta). A casa do projeto (rodando
+local, por enquanto) fecha o loop de feedback.
+
+## O loop: toque em cada etapa
+
+É assim que um dia de trabalho com código no processo de design flui. Toque em
+cada passo:
+
+<Widget nome="loop-flow-stepper" />
+
+## O que isso exige da gente (com honestidade)
+
+Não vou te vender que é igual ao Figma Make, porque não é. O agente te dá
+controle cirúrgico e em troca pede um pouco mais. A boa notícia: o que ele pede é
+*aprendível*, e é o coração das próximas aulas:
+
+- **Pedir de forma iterativa**, em passos curtos, em vez de tentar resolver tudo
+  num único prompt gigante (o tal "single-shot").
+- **Gerir o contexto**: dar ao agente as informações certas e manter o foco no
+  que importa naquele momento.
+- **Ler o diff** pra confirmar que ele mudou só o que você pediu, e puxar a rédea
+  quando sair da linha.
+
+O que *não* muda: quem escreve o código continua sendo o agente. Você dirige em
+português, e o cockpit serve pra você ver, não pra digitar de cabeça. Você troca
+um pouco mais de esforço por muito mais controle. Na próxima aula a gente monta
+isso e roda sua primeira tela.
+
+## Checagem rápida
+
+<Quiz pergunta='Qual a diferença entre o "cockpit" e o "motor"?'>
+  <Opcao>São a mesma coisa com nomes diferentes</Opcao>
+  <Opcao correta>O cockpit (editor) é onde você vê; o motor (agente) é o que faz o trabalho</Opcao>
+  <Opcao>O cockpit escreve o código e o motor só mostra</Opcao>
+  <Feedback>
+    Cockpit = onde você vê (editor). Motor = o que faz (agente).
+  </Feedback>
+</Quiz>
+
+<Quiz pergunta="Por que ler o diff é tão importante pra você?">
+  <Opcao>Porque você precisa decorar o código que o agente escreveu</Opcao>
+  <Opcao>Porque sem isso o app não roda no navegador</Opcao>
+  <Opcao correta>Porque é como você fiscaliza o que a IA mudou: fim da caixa-preta</Opcao>
+  <Feedback>
+    O diff é a sua fiscalização: você confirma que o agente mudou só o que pediu.
+  </Feedback>
+</Quiz>
+
+<Quiz pergunta='A "casa do projeto", hoje, serve pra quê?'>
+  <Opcao correta>Rodar seu app (por enquanto, na sua máquina) e mostrar ao vivo no navegador</Opcao>
+  <Opcao>Guardar seus arquivos na nuvem com segurança</Opcao>
+  <Opcao>Escrever o código no lugar do agente</Opcao>
+  <Feedback>
+    Hoje a casa do projeto é a sua máquina rodando o app local, com preview ao
+    vivo. Mais pra frente ela cresce pra nuvem.
+  </Feedback>
+</Quiz>
+
+<Quiz pergunta='Por que um agente te deixa ser mais "cirúrgica" que o Figma Make num ajuste fino?'>
+  <Opcao>Porque ele tem mais guardrails, então erra menos</Opcao>
+  <Opcao correta>Porque o harness é aberto: muda exatamente o que você pede, sem trilhos que espalhem mudanças</Opcao>
+  <Opcao>Porque ele dispensa prompts e adivinha o que você quer</Opcao>
+  <Feedback>
+    Harness aberto = sem trilhos que "consertam" coisas não relacionadas. Você
+    muda só o que pediu.
+  </Feedback>
+</Quiz>
+
+<Callout tipo="fonte">
+  **Pra quem quiser se aprofundar:** dê uma olhada (sem instalar nada ainda)
+  [Claude Code Docs · Use Claude Code in VS Code](https://code.claude.com/docs/en/vs-code)
+  *(inglês)*. É a documentação oficial do agente rodando dentro do cockpit,
+  exatamente o setup que vamos montar na próxima aula.
+</Callout>
+
+<Callout tipo="dica">
+  **Lembre-se: ninguém tá sozinho aqui.** "Qual editor eu instalo?", "preciso
+  pagar?", "o que é terminal?" Qualquer dúvida sobre as peças, me chame nos
+  comentários antes da próxima aula. Melhor chegar com o mapa claro.
+</Callout>
+
+## O que você ganhou aqui
+
+O mapa do ambiente de verdade (cockpit que vê, motor que faz, casa do projeto
+onde vive e roda) e o loop que conecta os três. Mais o porquê dos agentes
+(harness aberto = controle cirúrgico, com um custo honesto) e a habilidade que
+te separa da caixa-preta: ler o diff.

@@ -1,0 +1,125 @@
+---
+titulo: "Ler o código que o Figma Make gerou"
+descricao: "Aquela 'mágica' da Aula 02 é irada, mas pode ser um perigo escondido."
+numero: 3
+free: true
+status: disponivel
+---
+
+Na Aula 02 você gerou uma demo que funciona sem escrever uma linha. Parece
+mágica. E mágica que você não entende vira **caixa-preta**: você fica refém da
+ferramenta. Esta aula desfaz a mágica. Bora abrir o código gerado por IA e
+reconhecer as três camadas da Aula 01.
+
+## Explorador: acenda cada camada
+
+<Widget nome="code-layer-explorer" />
+
+Repare na correspondência exata com a Aula 01: o `<input>` e o `<button>` são
+**estrutura**; as cores e cantos arredondados são **estilo**; o "quando clicar,
+cria um item e limpa o campo" é **comportamento**. E aquele `campo.value`
+guardando o texto é um pedacinho de *estado*, que a gente aprofunda mais pra
+frente.
+
+<Callout tipo="dica">
+  **A gente não precisa escrever esse código nem dominar 100%.** Precisamos
+  *reconhecê-lo*. É essa leitura que vai fazer a gente tirar o melhor da IA para
+  criação de código.
+</Callout>
+
+> "O código baseado em design deixa designers e devs se comunicarem com muito
+> mais precisão. Muita coisa se perde quando o time troca só imagens."
+>
+> — adaptado de UXPin, [Why Your Team Needs to Take a Code-Based Approach to Design](https://www.uxpin.com/studio/blog/code-based-approach-design/) *(inglês)*
+
+## As 3 pistas pra caçar cada camada
+
+Você não vai ler o código linha por linha. Vai **escanear procurando pistas**.
+Cada camada tem uma "cara":
+
+**🔶 Estrutura: procure por etiquetas com nome de coisa.** Os **substantivos**
+entre `< >`: `<button>`, `<input>`, `<img>`. Ou, no React, `<Card>`, `<Button>`.
+
+**🔷 Estilo: procure por palavras sobre aparência.** Cor, espaço, tamanho e
+forma. No Figma Make (que usa **Tailwind**), são apelidos dentro de
+`className="…"`: `bg-green-500`, `rounded-lg`, `gap-4`, `text-white`.
+
+**🔸 Comportamento: procure por "quando acontecer X, faça Y".** Os **verbos**:
+palavras começando com `on…` (`onClick`, `onChange`), a setinha `=>` e a palavra
+`function`.
+
+## Como é na vida real: tudo entrelaçado
+
+O exemplo lá de cima era arrumadinho (três blocos separados) pra você entender o
+conceito. Mas o código que o Figma Make gera em geral vem com **React +
+Tailwind**, e aí as camadas se misturam *no mesmo elemento*. Vamos explorar
+juntos.
+
+## Bora juntos: abrindo o código do Figma Make
+
+<Video src="PLACEHOLDER" titulo="Explorando o código no Figma Make e identificando as 3 camadas" />
+
+<Callout tipo="dica">
+  **Material de apoio:** vai existir aqui na plataforma a referência
+  **Caça-camadas** — um resumo de uma página com as pistas de cada camada.
+  Deixe aberta ao lado enquanto lê qualquer código.
+</Callout>
+
+## Sua vez: no seu próprio Figma Make
+
+Volte na demo que você gerou na Aula 02 e abra o código. Tente achar **um
+exemplo de cada camada**: um elemento de estrutura, uma regra de estilo e um
+trecho de comportamento (procure por `click` ou `addEventListener`). Não precisa
+entender cada símbolo, só localizar as três camadas.
+
+## Checagem rápida
+
+<Quiz pergunta="Num código, a linha #add { background: #6b4; ... } pertence a qual camada?">
+  <Opcao correta>Estilo (CSS)</Opcao>
+  <Opcao>Estrutura (HTML)</Opcao>
+  <Opcao>Comportamento (JS)</Opcao>
+  <Feedback>
+    Cor é aparência — e aparência é estilo (CSS).
+  </Feedback>
+</Quiz>
+
+<Quiz pergunta='E o trecho add.addEventListener("click", …): pertence a qual camada?'>
+  <Opcao>Estrutura (HTML)</Opcao>
+  <Opcao>Estilo (CSS)</Opcao>
+  <Opcao correta>Comportamento (JS)</Opcao>
+  <Feedback>
+    "Quando clicar, faça…" é comportamento: JavaScript reagindo a um evento.
+  </Feedback>
+</Quiz>
+
+<Quiz pergunta='Você quer pedir à IA pra mudar o texto do botão de "Adicionar" pra "Criar tarefa". Que camada ela vai tocar?'>
+  <Opcao>Comportamento (JS)</Opcao>
+  <Opcao correta>Estrutura (HTML)</Opcao>
+  <Opcao>Estilo (CSS)</Opcao>
+  <Feedback>
+    O texto que aparece dentro do botão faz parte da estrutura (HTML) — é o
+    conteúdo do elemento.
+  </Feedback>
+</Quiz>
+
+<Callout tipo="fonte">
+  **Pra quem quiser se aprofundar:** leitura (10 min)
+  [MDN, Basic HTML syntax](https://developer.mozilla.org/en-US/docs/Learn_web_development/Core/Structuring_content/Basic_HTML_syntax)
+  *(inglês)*. Não pra decorar, só pra ganhar familiaridade com o formato das
+  "tags" de estrutura que você viu acima.
+</Callout>
+
+<Callout tipo="dica">
+  **Lembre-se: ninguém tá sozinho aqui.** Abriu o código do seu Figma Make e
+  ficou perdida? Manda um print ou cola um trecho nos comentários: eu te ajudo a
+  achar as três camadas no *seu* código. (Mas é pra tentar um cadinho primeiro,
+  hein?)
+</Callout>
+
+## O que você ganhou aqui
+
+A capacidade de olhar código gerado por IA e reconhecer as três camadas. O fim
+da caixa-preta.
+
+**🏁 Primeiro trecho fechado!** Você entende do que um protótipo é feito, gerou
+sua primeira demo funcional e sabe ler o que está por baixo.

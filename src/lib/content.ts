@@ -11,11 +11,24 @@ const CONTENT_DIR = path.join(process.cwd(), "content", "modulos");
 
 const stripOrderPrefix = (name: string) => name.replace(/^\d+-/, "");
 
+// Estado de publicação de uma aula:
+//   "disponivel" → conteúdo no ar, página abre normalmente.
+//   "chegando"   → título já listado, mas em revisão; não abre ainda.
+export type LessonStatus = "disponivel" | "chegando";
+
+// Estado de um módulo:
+//   "disponivel" → módulo com aulas abertas.
+//   "chegando"   → títulos das aulas listados, em revisão (não clicáveis).
+//   "em-breve"   → só ementa + resultado UAU; ainda sem aulas.
+export type ModuleStatus = "disponivel" | "chegando" | "em-breve";
+
 export type LessonMeta = {
   titulo: string;
   descricao: string;
   numero: number;
   free: boolean;
+  status: LessonStatus;
+  previsao?: string; // ex.: "julho" — usado nos selos "Chegando"
   duracao?: string;
   slug: string;
   moduloSlug: string;
@@ -30,6 +43,9 @@ export type ModuleMeta = {
   titulo: string;
   descricao: string;
   numero: number;
+  status: ModuleStatus;
+  previsao?: string;
+  uau?: string; // resultado-promessa exibido nos módulos "em-breve"
   slug: string;
   dir: string;
   aulas: LessonMeta[];
@@ -65,6 +81,8 @@ export function getModules(): ModuleMeta[] {
           descricao: ld.descricao as string,
           numero: Number(ld.numero),
           free: Boolean(ld.free),
+          status: ((ld.status as LessonStatus) || "disponivel"),
+          previsao: ld.previsao as string | undefined,
           duracao: ld.duracao as string | undefined,
           slug: stripOrderPrefix(file.replace(/\.mdx$/, "")),
           moduloSlug: moduleSlug,
@@ -78,6 +96,9 @@ export function getModules(): ModuleMeta[] {
       titulo: data.titulo as string,
       descricao: data.descricao as string,
       numero: Number(data.numero),
+      status: ((data.status as ModuleStatus) || "disponivel"),
+      previsao: data.previsao as string | undefined,
+      uau: data.uau as string | undefined,
       slug: moduleSlug,
       dir,
       aulas,
@@ -117,8 +138,11 @@ export function getLessonSource(moduloSlug: string, aulaSlug: string) {
 }
 
 // Lista plana de todos os pares (modulo, aula) — usado no generateStaticParams.
+// Só aulas disponíveis geram página; "chegando" entram apenas como título.
 export function getAllLessonParams() {
   return getModules().flatMap((m) =>
-    m.aulas.map((a) => ({ modulo: m.slug, slug: a.slug })),
+    m.aulas
+      .filter((a) => a.status === "disponivel")
+      .map((a) => ({ modulo: m.slug, slug: a.slug })),
   );
 }

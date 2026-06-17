@@ -1,0 +1,130 @@
+---
+titulo: "Do que é feito um protótipo funcional"
+descricao: "As três camadas que você vai dirigir. Pra IA nunca virar caixa-preta na sua mão."
+numero: 1
+free: true
+status: disponivel
+---
+
+No Figma, a tela é uma imagem. Bonita, mas parada: o botão não clica, o
+campo não guarda nada, a lista não muda. Protótipo funcional é outra coisa:
+ele **responde**. E tudo que responde na web é feito de só três camadas.
+Sabendo o nome e a responsabilidade delas, o nosso caminho para a
+prototipação funcional vai ficar mais fácil e certeiro.
+
+Toda essa área dos alunos nasceu de um **Protótipo Funcional**. Então não é
+apenas texto e vídeo: terão widgets imersivos, perguntas e áreas de feedback
+para aumentar os estímulos e ajudar no aprendizado. Vamos usar juntos todo o
+valor de criar experiências direto no código — até na nossa jornada de
+aprendizado!
+
+<Video src="PLACEHOLDER" titulo="As três camadas, na prática" />
+
+## As três camadas
+
+Pensa numa pessoa.
+
+- A camada de **estrutura** é o esqueleto;
+- o **estilo** é a aparência (roupa, cor, postura);
+- o **comportamento** é o que ela faz quando algo acontece.
+
+Um protótipo funcional é igualzinho:
+
+- **Estrutura: HTML** — define *o que existe* e o significado de cada parte:
+  um título, um botão, um campo, uma lista. É o esqueleto do conteúdo.
+- **Estilo: CSS** — define *como aparece*: cor, espaçamento, tipografia,
+  layout. É a camada que mais conversa com o nosso olhar de designer.
+- **Comportamento: JavaScript** — define *o que acontece* quando a pessoa
+  usuária age: clicar, digitar, enviar. É aqui que mora a interatividade, o
+  estado e os dados.
+
+A ideia-chave: as camadas se **empilham**. Você cria um botão com HTML, veste
+ele com CSS e dá comportamento com JavaScript. Cada uma resolve uma
+preocupação separada.
+
+Explore o botão abaixo: ligue e desligue cada camada para ver, na prática, o
+papel de cada uma.
+
+<Widget nome="disseca-botao" />
+
+Repara no que cada chave revela: **sem estrutura** não existe nem botão;
+**sem estilo** ele funciona, mas fica com a cara crua do navegador; **sem
+comportamento** ele é bonito, mas clicar não faz nada. As três juntas é que
+viram experiência.
+
+> "Um protótipo funcional simula o comportamento real do produto: não só a
+> navegação, mas manipulação de dados, mudanças de estado e conteúdo
+> dinâmico."
+>
+> — adaptado de UXPin, [Functional Prototype: A Short Guide for Digital Product Designers](https://www.uxpin.com/studio/blog/functional-prototype/) *(inglês)*
+
+## Por que isso importa pra nossa missão
+
+Nosso objetivo é usar a IA para tirar o mato alto da codificação — então
+precisamos saber conversar com ela. Quando você pede "deixa o botão mais
+suave", está falando de **CSS**. "Quando clicar, salva e mostra na lista" é
+**comportamento** e **estado**. "Preciso de um campo de e-mail aqui" é
+**estrutura**. Esse vocabulário é o volante. Sem ele, você só consegue
+empurrar o carro.
+
+## Sua vez: recap rápido dessa aula
+
+Responda de memória. Puxar da cabeça é o que fixa de verdade.
+
+Imagine esta lista de tarefas na tela — *Revisar protótipo*, *Mandar pro
+time*, *Testar no celular*. Você pede à IA: "aumente em 8px o espaço entre os
+itens e troque a cor do título para azul".
+
+<Quiz pergunta="Que camada você está mexendo?">
+  <Opcao>Estrutura (HTML)</Opcao>
+  <Opcao correta>Estilo (CSS)</Opcao>
+  <Opcao>Comportamento (JS)</Opcao>
+  <Feedback>
+    Espaçamento e cor são aparência — e aparência é CSS.
+  </Feedback>
+</Quiz>
+
+Agora um formulário com um campo de texto e um botão "Enviar". Você pede:
+"quando clicar em enviar, guarde o texto e mostre na tela".
+
+<Quiz pergunta="Que camada faz isso acontecer?">
+  <Opcao>Estrutura (HTML)</Opcao>
+  <Opcao>Estilo (CSS)</Opcao>
+  <Opcao correta>Comportamento (JS)</Opcao>
+  <Feedback>
+    Reagir a um clique, guardar e mostrar é comportamento: JavaScript
+    respondendo a um evento.
+  </Feedback>
+</Quiz>
+
+Por fim, uma tela ainda sem estilo nenhum, só os elementos crus. Você pede:
+"preciso de um campo de texto e um botão".
+
+<Quiz pergunta="Que camada define isso?">
+  <Opcao correta>Estrutura (HTML)</Opcao>
+  <Opcao>Estilo (CSS)</Opcao>
+  <Opcao>Comportamento (JS)</Opcao>
+  <Feedback>
+    Dizer QUE elementos existem — um campo, um botão — é estrutura: HTML.
+  </Feedback>
+</Quiz>
+
+<Callout tipo="fonte">
+  **Pra quem quiser se aprofundar:** leia (15 min)
+  [MDN: What is JavaScript?](https://developer.mozilla.org/en-US/docs/Learn_web_development/Core/Scripting/What_is_JavaScript)
+  *(inglês)*. Foca na camada de comportamento, que é a que mais transforma uma
+  tela parada em experiência viva. É a fonte que mais recomendo pra entender
+  como as coisas na web "funcionam".
+</Callout>
+
+<Callout tipo="dica">
+  **Lembre-se: ninguém tá sozinho aqui.** Ficou qualquer coisa nebulosa? ("o
+  que é estado, afinal?", "como a IA sabe qual camada mexer?", "isso muda no
+  Cursor?") Me pergunta aqui nos comentários. Toda dúvida vira combustível
+  pras próximas aulas e ajuda a comunidade a crescer junto!
+</Callout>
+
+## O que você ganhou aqui
+
+O vocabulário das três camadas — **estrutura, estilo e comportamento** — que é
+o volante pra dirigir a IA com precisão.

@@ -1,0 +1,141 @@
+---
+titulo: "Mão na massa: sua primeira tela no ar"
+descricao: "Montar o cockpit, ligar o motor e ver o produto de verdade no navegador."
+numero: 6
+free: false
+status: disponivel
+---
+
+Na aula passada você desenhou o mapa: cockpit (editor), motor (agente) e a casa
+do projeto. Agora a gente monta isso pra valer. Calma: você **não** vai digitar
+comandos de cabeça. Quem faz o trabalho pesado é o agente. Seu papel é dirigir e
+conferir. No fim desta aula você terá um app **Next.js** rodando na sua máquina.
+
+<Callout tipo="dica">
+  **Por que Next.js?** É o framework padrão de mercado pra quem faz produto, é
+  nativo da Vercel (que veremos melhor mais pra frente, mas isso quer dizer que
+  vai ajudar a "mudar de casa" no futuro) e cresce com você: a mesma base aguenta
+  rotas, dados, banco e IA lá na frente. Você não precisa entender ele agora, só
+  saber que é a fundação da casa.
+</Callout>
+
+## Montando o ambiente: faça sozinha
+
+1. **Instale o cockpit (editor).** Baixe o
+   [VS Code](https://code.visualstudio.com/) (gratuito). Se preferir, o Cursor
+   serve igual: é um VS Code turbinado.
+2. **Instale o motor (agente).** No editor, abra os *Extensions*
+   (`Ctrl/Cmd + Shift + X`), busque por **"Claude Code"** e clique em *Install*.
+   Faça login quando ele pedir.
+3. **Crie a pasta do projeto.** Crie uma pasta vazia (ex.: `meu-prototipo`) e
+   abra ela no editor em *File → Open Folder*. É a "casa" onde os arquivos vão
+   morar.
+4. **Mande o agente montar o app.** Abra o Claude Code e peça, em português:
+   *"Crie um app Next.js nesta pasta e rode o servidor de desenvolvimento."* Ele
+   vai rodar os comandos por você (algo como `npx create-next-app@latest` e
+   depois `npm run dev`) e te mostrar o passo a passo.
+5. **Abra no navegador.** Quando o agente disser que está pronto, abra
+   `http://localhost:3000`. 🎉 É a sua primeira tela no ar: o app de verdade, na
+   sua máquina.
+
+## Montando o ambiente: bora juntos
+
+<Video src="PLACEHOLDER" titulo="Montando o cockpit e rodando a primeira tela" />
+
+O agente é inegociável, é ele que constrói. O cockpit é o que te dá visibilidade
+(seu valor: código não pode virar caixa-preta). A casa do projeto (rodando local,
+por enquanto) fecha o loop de feedback.
+
+## O que o agente vai te mostrar
+
+Não precisa decorar nada disso, mas vale reconhecer. Quando o servidor sobe,
+aparece algo assim. Toque pra ver:
+
+<Widget
+  nome="terminal-output-reveal"
+  conteudo={`$ npm run dev
+
+▲ Next.js 15.x
+- Local:        http://localhost:3000
+
+✓ Ready in 1.2s`}
+  destaque="http://localhost:3000"
+/>
+
+Aquele `localhost:3000` é o endereço da "casa" rodando *na sua máquina*. Só você
+acessa, por enquanto. O `:3000` é só a "porta". Mudou o código? O agente salva e
+a página recarrega sozinha. Esse é o loop de feedback que a gente quer.
+
+<Widget
+  nome="checklist-progress"
+  id="a6-setup"
+  itens={[
+    "Instalei o editor (VS Code ou Cursor)",
+    "Instalei a extensão do Claude Code e fiz login",
+    "Criei e abri a pasta do projeto no editor",
+    "Pedi pro agente criar o app Next.js e rodar",
+    "Abri localhost:3000 e vi a tela inicial 🎉",
+  ]}
+  remate="✓ Ambiente montado e primeira tela no ar!"
+/>
+
+## O que você acabou de fazer (sem perceber)
+
+Repare: você montou um ambiente de desenvolvimento profissional **sem escrever
+uma linha de código**. Você instalou o cockpit, ligou o motor e pediu, em
+português, pra ele construir e rodar. Foi exatamente o **loop** da Aula 05: você
+pede → o agente faz → você vê no navegador. A diferença pro Figma Make? Aqui é
+*seu* projeto, na *sua* casa, e você vê tudo que está acontecendo.
+
+## Checagem rápida
+
+<Quiz pergunta="Quem roda os comandos pra criar o app?">
+  <Opcao>Você, digitando tudo de cabeça no terminal</Opcao>
+  <Opcao correta>O agente: você pede em português e confere</Opcao>
+  <Opcao>O navegador, automaticamente</Opcao>
+  <Feedback>
+    Quem roda os comandos é o agente. Você pede em português e confere o
+    resultado.
+  </Feedback>
+</Quiz>
+
+<Quiz pergunta="O que é o localhost:3000?">
+  <Opcao>Um site publicado que qualquer um acessa</Opcao>
+  <Opcao>O nome do seu projeto no Next.js</Opcao>
+  <Opcao correta>O endereço da "casa" rodando na sua própria máquina</Opcao>
+  <Feedback>
+    É o endereço do app rodando localmente, na sua máquina. Por enquanto, só você
+    acessa.
+  </Feedback>
+</Quiz>
+
+<Quiz pergunta="Qual a função da extensão do Claude Code no editor?">
+  <Opcao correta>Ser o motor (agente) que constrói, dentro do cockpit</Opcao>
+  <Opcao>Deixar o editor mais bonito</Opcao>
+  <Opcao>Publicar o app na internet</Opcao>
+  <Feedback>
+    A extensão é o motor — o agente que constrói — rodando dentro do cockpit
+    (editor).
+  </Feedback>
+</Quiz>
+
+<Callout tipo="fonte">
+  **Pra quem quiser se aprofundar:**
+  [Next.js Docs: Installation](https://nextjs.org/docs/app/getting-started/installation)
+  e
+  [Claude Code: Use in VS Code](https://code.claude.com/docs/en/vs-code)
+  *(inglês)*. Documentação oficial das duas peças que você acabou de montar. Não
+  precisa ler tudo. Saiba que é onde achar a resposta certa quando travar.
+</Callout>
+
+<Callout tipo="dica">
+  **Lembre-se: ninguém tá sozinho aqui.** Empacou em algum passo (login do
+  agente, "comando não encontrado", tela branca no `localhost`)? Me mande o que
+  apareceu (de preferência um print) nos comentários que a gente desempaca
+  junto. Travar no setup é normal, faz parte.
+</Callout>
+
+## O que você ganhou aqui
+
+Um ambiente de dev profissional montado e sua primeira tela Next.js no ar,
+dirigindo o agente, sem decorar comandos.
