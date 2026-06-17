@@ -6,6 +6,7 @@ import { mdxComponents } from "@/components/aula/mdx-components";
 import { PaywallCard } from "@/components/aulas/PaywallCard";
 import { AuthorBlock } from "@/components/aulas/AuthorBlock";
 import { MarkViewed } from "@/components/aulas/MarkViewed";
+import { Comments } from "@/components/aulas/Comments";
 import { userHasAccess } from "@/lib/access";
 
 const PAYWALL_RE = /<Paywall\s*\/?>/;
@@ -143,6 +144,8 @@ export default async function AulaPage({
           </Link>
         )}
       </nav>
+
+      <Comments lessonKey={`${mod.slug}/${meta.slug}`} />
     </div>
   );
 }

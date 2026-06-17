@@ -967,6 +967,206 @@
   color: var(--text-mute);
 }
 
+/* ---------- comentários ---------- */
+.cmts {
+  margin-top: 56px;
+  padding-top: 36px;
+  border-top: 1px solid var(--border);
+  scroll-margin-top: 80px;
+}
+.cmts-titulo {
+  font-size: 20px;
+  font-weight: 800;
+  margin: 0 0 20px;
+}
+.cmts-titulo span {
+  color: var(--text-mute);
+  font-weight: 600;
+}
+.cmts-locked {
+  background: var(--surface);
+  border: 1px solid var(--border);
+  border-radius: var(--radius);
+  padding: 22px;
+  color: var(--text-mute);
+  font-size: 15px;
+}
+.cmts-locked a {
+  color: var(--accent);
+  text-decoration: none;
+}
+.cmts-vazio {
+  color: var(--text-mute);
+  font-size: 15px;
+  padding: 8px 0;
+}
+
+/* form */
+.cmt-form {
+  display: flex;
+  flex-direction: column;
+  gap: 10px;
+  margin-bottom: 28px;
+}
+.cmt-form textarea {
+  width: 100%;
+  resize: vertical;
+  min-height: 72px;
+  padding: 12px 14px;
+  border-radius: 10px;
+  border: 1px solid var(--border-light);
+  background: var(--surface);
+  color: var(--text);
+  font: inherit;
+  font-size: 15px;
+  line-height: 1.5;
+  outline: none;
+}
+.cmt-form textarea:focus {
+  border-color: var(--accent);
+}
+.cmt-form-foot {
+  display: flex;
+  justify-content: flex-end;
+  align-items: center;
+  gap: 12px;
+}
+.cmt-form-foot .btn {
+  height: 38px;
+  padding: 0 18px;
+  font-size: 14px;
+}
+.cmt-form-resp {
+  margin-top: 14px;
+  margin-bottom: 4px;
+}
+
+/* lista */
+.cmt-list {
+  list-style: none;
+  margin: 0;
+  padding: 0;
+  display: flex;
+  flex-direction: column;
+  gap: 22px;
+}
+.cmt {
+  display: flex;
+  gap: 12px;
+}
+.cmt-av {
+  flex-shrink: 0;
+  width: 38px;
+  height: 38px;
+  border-radius: 50%;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  font-weight: 700;
+  font-size: 15px;
+  color: #1c1c1c;
+}
+.cmt-corpo {
+  flex: 1;
+  min-width: 0;
+}
+.cmt-head {
+  display: flex;
+  align-items: center;
+  gap: 8px;
+  margin-bottom: 4px;
+  flex-wrap: wrap;
+}
+.cmt-nome {
+  font-weight: 600;
+  font-size: 14.5px;
+  color: var(--text);
+}
+.cmt-badge {
+  font-family: "Kode Mono", monospace;
+  text-transform: uppercase;
+  letter-spacing: 0.08em;
+  font-size: 10px;
+  color: var(--accent);
+  background: rgba(212, 245, 66, 0.14);
+  border-radius: 999px;
+  padding: 2px 8px;
+}
+.cmt-time {
+  color: var(--text-mute);
+  font-size: 13px;
+}
+.cmt-body {
+  color: var(--text-dim);
+  font-size: 15px;
+  line-height: 1.55;
+  margin: 0 0 8px;
+  white-space: pre-wrap;
+  word-break: break-word;
+}
+.cmt-actions {
+  display: flex;
+  align-items: center;
+  gap: 6px;
+}
+.cmt-react {
+  display: inline-flex;
+  align-items: center;
+  gap: 5px;
+  background: none;
+  border: 1px solid var(--border-light);
+  border-radius: 999px;
+  padding: 4px 11px;
+  color: var(--text-mute);
+  font: inherit;
+  font-size: 13px;
+  cursor: pointer;
+  transition: border-color 0.15s, color 0.15s, background 0.15s;
+}
+.cmt-react:hover {
+  border-color: var(--accent);
+  color: var(--text);
+}
+.cmt-react.on {
+  border-color: var(--accent);
+  background: rgba(212, 245, 66, 0.12);
+  color: var(--accent);
+}
+.cmt-link {
+  background: none;
+  border: none;
+  color: var(--text-mute);
+  font: inherit;
+  font-size: 13px;
+  cursor: pointer;
+  padding: 4px 8px;
+}
+.cmt-link:hover {
+  color: var(--accent);
+}
+.cmt-del:hover {
+  color: #e08585;
+}
+
+/* respostas aninhadas */
+.cmt-respostas {
+  margin-top: 18px;
+  padding-left: 18px;
+  border-left: 2px solid var(--border);
+  gap: 18px;
+}
+
+/* destaque da instrutora */
+.cmt-instrutora > .cmt-corpo {
+  background: rgba(212, 245, 66, 0.06);
+  border: 1px solid rgba(212, 245, 66, 0.22);
+  border-radius: var(--radius);
+  padding: 12px 14px;
+}
+.cmt-instrutora .cmt-body {
+  color: var(--text);
+}
+
 /* ---------- página de pós-compra (/obrigado) ---------- */
 .ob-wrap {
   min-height: 100vh;

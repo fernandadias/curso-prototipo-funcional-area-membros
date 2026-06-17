@@ -56,6 +56,12 @@ export async function POST(request: NextRequest) {
     return NextResponse.json({ error: "no email" }, { status: 400 });
   }
 
+  // Nome do comprador (para exibir nos comentários). Pode não vir em todos
+  // os eventos — só gravamos quando presente, para não apagar o existente.
+  const name =
+    ((buyer.name as string) || (body.name as string) || "").toString().trim() ||
+    null;
+
   const concede = CONCEDE.has(event);
   const revoga = REVOGA.has(event);
   if (!concede && !revoga) {
@@ -74,15 +80,17 @@ export async function POST(request: NextRequest) {
     .maybeSingle();
   const eraAtivo = anterior?.status === "active";
 
-  const { error } = await supabase.from("course_access").upsert(
-    {
-      email,
-      status: concede ? "active" : "inactive",
-      last_event: event,
-      updated_at: new Date().toISOString(),
-    },
-    { onConflict: "email" },
-  );
+  const row: Record<string, unknown> = {
+    email,
+    status: concede ? "active" : "inactive",
+    last_event: event,
+    updated_at: new Date().toISOString(),
+  };
+  if (name) row.name = name;
+
+  const { error } = await supabase
+    .from("course_access")
+    .upsert(row, { onConflict: "email" });
 
   if (error) {
     return NextResponse.json({ error: error.message }, { status: 500 });
