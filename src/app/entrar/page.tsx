@@ -27,6 +27,16 @@ export default function EntrarPage() {
     return () => clearTimeout(id);
   }, [cooldown]);
 
+  // Deep-link do e-mail de boas-vindas: /entrar?email=...&codigo=1 abre direto
+  // no passo de colar, com o e-mail preenchido e SEM reenviar (o código já foi
+  // enviado no e-mail; reenviar invalidaria aquele).
+  useEffect(() => {
+    const params = new URLSearchParams(window.location.search);
+    const emailParam = params.get("email");
+    if (emailParam) setEmail(emailParam.trim().toLowerCase());
+    if (emailParam && params.get("codigo") === "1") setStep("code");
+  }, []);
+
   // Dispara o envio do código (só sai e-mail para quem comprou — gate no servidor).
   async function dispararEnvio() {
     const res = await fetch("/api/auth/magic-link", {

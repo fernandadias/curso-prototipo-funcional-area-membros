@@ -46,11 +46,26 @@ async function sendBrevo(params: {
 }
 
 // E-mail de boas-vindas — disparado quando a compra é confirmada na Hotmart.
-export async function sendWelcomeEmail(email: string): Promise<void> {
-  const html = `
-<div style="font-family: Arial, Helvetica, sans-serif; max-width: 480px; margin: 0 auto; color: #1a1a1a; line-height: 1.6;">
-  <p style="font-size: 18px; margin-bottom: 4px;">Hey designer 🍄</p>
-  <p>É oficial: sua compra do <strong>Protótipo Funcional</strong> foi confirmada e seu acesso já está liberado. Bora sair do mockup e abrir o editor!</p>
+// Se um `code` for fornecido (gerado no webhook), o e-mail já traz o código de
+// acesso e um botão que leva direto à tela de colar, com o e-mail preenchido —
+// assim a pessoa entra com um único e-mail. Sem código, cai no passo a passo.
+export async function sendWelcomeEmail(
+  email: string,
+  code?: string,
+): Promise<void> {
+  // Leva direto ao passo de colar o código, com o e-mail já preenchido e sem
+  // reenviar um novo código (que invalidaria o que está neste e-mail).
+  const entrarUrl = `${LOGIN_URL}?email=${encodeURIComponent(email)}&codigo=1`;
+
+  const blocoCodigo = code
+    ? `
+  <p>Pra entrar agora é rapidinho — use o código abaixo:</p>
+  <p style="font-size: 32px; font-weight: bold; letter-spacing: 6px; text-align: center; background: #f4f4f4; padding: 18px; border-radius: 10px; margin: 24px 0;">${code}</p>
+  <p style="text-align: center; margin: 28px 0;">
+    <a href="${entrarUrl}" style="display: inline-block; background: #d4f542; color: #1c1c1c; font-weight: bold; padding: 14px 28px; border-radius: 999px; text-decoration: none;">Entrar com esse código →</a>
+  </p>
+  <p style="color: #555; font-size: 14px;">O botão abre a tela de login já com seu e-mail preenchido — é só colar o código. Ele vale por 24 horas; se expirar, peça um novo ali mesmo.</p>`
+    : `
   <p style="margin: 24px 0 8px;"><strong>Como entrar:</strong></p>
   <ol style="padding-left: 20px; margin: 0 0 24px;">
     <li>Acesse <a href="${LOGIN_URL}" style="color: #6b8e00; font-weight: bold;">a área do aluno</a>.</li>
@@ -59,7 +74,13 @@ export async function sendWelcomeEmail(email: string): Promise<void> {
   </ol>
   <p style="text-align: center; margin: 28px 0;">
     <a href="${LOGIN_URL}" style="display: inline-block; background: #d4f542; color: #1c1c1c; font-weight: bold; padding: 14px 28px; border-radius: 999px; text-decoration: none;">Entrar na plataforma →</a>
-  </p>
+  </p>`;
+
+  const html = `
+<div style="font-family: Arial, Helvetica, sans-serif; max-width: 480px; margin: 0 auto; color: #1a1a1a; line-height: 1.6;">
+  <p style="font-size: 18px; margin-bottom: 4px;">Hey designer 🍄</p>
+  <p>É oficial: sua compra do <strong>Protótipo Funcional</strong> foi confirmada e seu acesso já está liberado. Bora sair do mockup e abrir o editor!</p>
+  ${blocoCodigo}
   <p>Qualquer coisa, é só responder este e-mail. Te espero lá dentro.</p>
   <p style="margin-top: 24px;">Bora construir experiências reais.<br><strong>Nanda</strong> 💚</p>
 </div>`.trim();

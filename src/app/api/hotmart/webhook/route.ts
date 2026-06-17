@@ -103,7 +103,18 @@ export async function POST(request: NextRequest) {
 
     // Boas-vindas apenas quando o acesso passa a ativo pela primeira vez.
     if (!eraAtivo) {
-      await sendWelcomeEmail(email);
+      // Gera um código de acesso já neste momento, para embutir no e-mail —
+      // assim a pessoa entra com um único e-mail. Se falhar, manda o e-mail
+      // sem código (com o passo a passo de login como fallback).
+      let code: string | undefined;
+      const { data: link, error: linkError } =
+        await supabase.auth.admin.generateLink({ type: "magiclink", email });
+      if (linkError) {
+        console.error("[hotmart] generateLink error:", linkError.message);
+      } else {
+        code = link?.properties?.email_otp;
+      }
+      await sendWelcomeEmail(email, code);
     }
   }
 
