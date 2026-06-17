@@ -3,7 +3,7 @@
 import Link from "next/link";
 import { usePathname } from "next/navigation";
 import { useCallback, useEffect, useRef, useState } from "react";
-import { LoginButton } from "./LoginButton";
+import { HeaderActions } from "./HeaderActions";
 
 export type NavLink = {
   label: string;
@@ -217,13 +217,7 @@ export function HeaderNav({
           </div>
 
           <div className="nav-right">
-            {cta && (
-              <NavAnchor
-                link={{ label: cta.label, href: cta.href }}
-                className="btn btn-primary btn-cta"
-              />
-            )}
-            <LoginButton />
+            <HeaderActions cta={cta} />
           </div>
 
           <button
@@ -258,14 +252,7 @@ export function HeaderNav({
               onClick={close}
             />
           ))}
-          {cta && (
-            <NavAnchor
-              link={{ label: cta.label, href: cta.href }}
-              className="btn btn-primary"
-              onClick={close}
-            />
-          )}
-          <LoginButton />
+          <HeaderActions cta={cta} onNavigate={close} />
         </div>
       </div>
     </>
