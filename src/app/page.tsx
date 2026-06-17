@@ -3,6 +3,7 @@ import path from "node:path";
 import Script from "next/script";
 import "@/components/landing/landing.css";
 import { SiteHeader } from "@/components/chrome/SiteHeader";
+import { LeadCapture } from "@/components/landing/LeadCapture";
 
 // A LP foi portada com fidelidade total: o markup original vive em
 // lp-body.html (injetado no SSR), o CSS em landing.css e o JS em
@@ -25,6 +26,7 @@ export default function Home() {
       />
       <SiteHeader variant="lp" />
       <div dangerouslySetInnerHTML={{ __html: lpBody }} />
+      <LeadCapture />
       <Script src="/lp/landing.js" strategy="afterInteractive" />
     </>
   );

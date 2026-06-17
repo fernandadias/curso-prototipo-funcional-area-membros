@@ -377,86 +377,10 @@
     if(accessCta)accessCta.addEventListener('click',closeLesson);
   }
 
-  // Lead capture modal → Brevo → Hotmart
-  const HOTMART_URL='https://pay.hotmart.com/G106003864J?off=u44pgon3';
-  const BREVO_FORM_URL='https://4c5e69f2.sibforms.com/serve/MUIFAHixP8yVTeIvCXAUj_s9mvhkKhMgSa_bNLNa2xVCAkdEqNOf2Lpah44bhbvg9eDWFwCL2f7eWOgwUkZRcUPBn80qPGGns1xtXKn96GipeJoCPX2w3BC6RLaMmAGH6xf9iY-nu883XMV1dbL0BGzUg4koM_o6I_w309ij7jGnQFkqkhwXbnpFyfJML6a9YuIaqLqOGnf5U3iu';
-  const leadModal=document.querySelector('#leadModal');
-  const buyBtn=document.querySelector('#buyBtn');
-  const leadForm=document.querySelector('#leadForm');
-  if(leadModal&&buyBtn&&leadForm){
-    const closeBtn=leadModal.querySelector('.lead-modal-close');
-    const errEl=leadForm.querySelector('.lead-form-err');
-    const submitBtn=leadForm.querySelector('.lead-submit');
-    const emailInput=leadForm.querySelector('input[name="EMAIL"]');
-    const nameInput=leadForm.querySelector('input[name="NOME"]');
-    let lastTrigger=null;
-
-    const showError=msg=>{errEl.textContent=msg;errEl.hidden=false};
-    const clearError=()=>{errEl.hidden=true;errEl.textContent=''};
-
-    const openLead=()=>{
-      lastTrigger=document.activeElement;
-      leadModal.classList.add('open');
-      leadModal.setAttribute('aria-hidden','false');
-      document.body.style.overflow='hidden';
-      setTimeout(()=>{(nameInput||emailInput).focus()},260);
-    };
-    const closeLead=()=>{
-      leadModal.classList.remove('open');
-      leadModal.setAttribute('aria-hidden','true');
-      document.body.style.overflow='';
-      clearError();
-      if(lastTrigger&&typeof lastTrigger.focus==='function')lastTrigger.focus();
-    };
-
-    buyBtn.addEventListener('click',e=>{e.preventDefault();openLead()});
-    closeBtn.addEventListener('click',closeLead);
-    leadModal.addEventListener('click',e=>{if(e.target===leadModal)closeLead()});
-    document.addEventListener('keydown',e=>{if(e.key==='Escape'&&leadModal.classList.contains('open'))closeLead()});
-
-    // Foco circular dentro do modal
-    leadModal.addEventListener('keydown',e=>{
-      if(e.key!=='Tab')return;
-      const focusables=leadModal.querySelectorAll('button,input,select,textarea,a[href]');
-      if(!focusables.length)return;
-      const first=focusables[0],last=focusables[focusables.length-1];
-      if(e.shiftKey&&document.activeElement===first){e.preventDefault();last.focus()}
-      else if(!e.shiftKey&&document.activeElement===last){e.preventDefault();first.focus()}
-    });
-
-    const isValidEmail=v=>/^[^\s@]+@[^\s@]+\.[^\s@]+$/.test(v);
-
-    leadForm.addEventListener('submit',async e=>{
-      e.preventDefault();
-      clearError();
-      const data=new FormData(leadForm);
-      const email=(data.get('EMAIL')||'').toString().trim();
-      const name=(data.get('NOME')||'').toString().trim();
-      const phone=(data.get('TELEFONE')||'').toString().trim();
-      if(!email){showError('Email é obrigatório');emailInput.focus();return}
-      if(!isValidEmail(email)){showError('Digite um email válido');emailInput.focus();return}
-
-      submitBtn.disabled=true;
-      const originalLabel=submitBtn.textContent;
-      submitBtn.textContent='Enviando...';
-
-      if(BREVO_FORM_URL){
-        try{
-          await fetch(BREVO_FORM_URL,{method:'POST',body:data,mode:'no-cors'});
-        }catch(_){/* não bloqueia o checkout */}
-      }
-
-      const params=new URLSearchParams();
-      params.set('email',email);
-      if(name)params.set('name',name);
-      if(phone)params.set('phonenumber',phone);
-      const sep=HOTMART_URL.includes('?')?'&':'?';
-      window.location.href=HOTMART_URL+sep+params.toString();
-
-      // fallback caso o redirect demore
-      setTimeout(()=>{submitBtn.disabled=false;submitBtn.textContent=originalLabel},4000);
-    });
-  }
+  // Captura de leads → Brevo → Hotmart migrada para o componente React
+  // <LeadCapture /> (src/components/landing/LeadCapture.tsx). Vive em React
+  // para re-executar a cada navegação e usar delegação de clique, evitando o
+  // bug de o modal "às vezes" não abrir antes do checkout.
 
   document.querySelectorAll('.post, .int-card').forEach(card=>{
     let raf=null,mx=0,my=0;
