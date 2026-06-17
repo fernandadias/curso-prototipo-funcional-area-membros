@@ -2,7 +2,7 @@
 
 import Link from "next/link";
 import { usePathname } from "next/navigation";
-import { useMemo, useState } from "react";
+import { useEffect, useMemo, useState } from "react";
 import type { ModuleMeta } from "@/lib/content";
 import { lessonKey, useProgress } from "./useProgress";
 
@@ -15,7 +15,28 @@ export function Sidebar({
 }) {
   const pathname = usePathname();
   const [query, setQuery] = useState("");
+  const [colapsada, setColapsada] = useState(false);
   const { mounted, isViewed } = useProgress();
+
+  useEffect(() => {
+    try {
+      setColapsada(localStorage.getItem("pf:sb-collapsed") === "1");
+    } catch {
+      /* ignora */
+    }
+  }, []);
+
+  function alternarColapso() {
+    setColapsada((v) => {
+      const novo = !v;
+      try {
+        localStorage.setItem("pf:sb-collapsed", novo ? "1" : "0");
+      } catch {
+        /* ignora */
+      }
+      return novo;
+    });
+  }
 
   const q = query.trim().toLowerCase();
   const filtered = useMemo(() => {
@@ -47,7 +68,19 @@ export function Sidebar({
     : 0;
 
   return (
-    <aside className="sb">
+    <aside className={`sb ${colapsada ? "sb-colapsada" : ""}`}>
+      <button
+        type="button"
+        className="sb-toggle"
+        onClick={alternarColapso}
+        aria-label={colapsada ? "Expandir menu de aulas" : "Recolher menu de aulas"}
+        title={colapsada ? "Expandir" : "Recolher"}
+      >
+        {colapsada ? "»" : "«"}
+      </button>
+
+      {colapsada ? null : (
+        <>
       <div className="sb-search">
         <svg width="15" height="15" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2" strokeLinecap="round" aria-hidden="true">
           <circle cx="11" cy="11" r="7" />
@@ -148,6 +181,8 @@ export function Sidebar({
           <p className="sb-empty">Nenhuma aula encontrada.</p>
         )}
       </nav>
+        </>
+      )}
     </aside>
   );
 }
