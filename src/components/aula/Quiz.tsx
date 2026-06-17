@@ -1,6 +1,7 @@
 "use client";
 
 import { useState, type ReactNode } from "react";
+import { playClick, playSuccess, playError } from "@/lib/sfx";
 
 // Quiz de múltipla escolha com feedback imediato. Conforme o
 // CONTRATO-CONTEUDO.md, as opções vêm por PROP (dados), não por filhos —
@@ -30,6 +31,14 @@ export function Quiz({
   const respondida = escolhida !== null;
   const acertou = escolhida === indiceCorreto;
 
+  function responder(i: number) {
+    if (respondida) return;
+    playClick();
+    setEscolhida(i);
+    if (i === indiceCorreto) playSuccess();
+    else playError();
+  }
+
   return (
     <div className="quiz" data-respondida={respondida}>
       <p className="quiz-stem">{pergunta}</p>
@@ -47,7 +56,7 @@ export function Quiz({
               type="button"
               className={`quiz-opcao ${estado}`}
               disabled={respondida}
-              onClick={() => setEscolhida(i)}
+              onClick={() => responder(i)}
             >
               {texto}
             </button>
