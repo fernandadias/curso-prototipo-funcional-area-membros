@@ -4,7 +4,11 @@ import { useEffect, useState } from "react";
 import Link from "next/link";
 import { useRouter } from "next/navigation";
 import { createClient } from "@/lib/supabase/client";
-import { CHECKOUT_URL } from "@/lib/config";
+import {
+  CHECKOUT_URL,
+  HELP_PURCHASES_URL,
+  HELP_CHANGE_EMAIL_URL,
+} from "@/lib/config";
 import "../aulas/aulas.css";
 import "@/components/chrome/site-header.css";
 
@@ -16,9 +20,8 @@ export default function EntrarPage() {
   const [sending, setSending] = useState(false);
   const [verifying, setVerifying] = useState(false);
   const [erro, setErro] = useState("");
-  // Contador de reenvio: o Supabase exige no mínimo 60s entre envios para o
-  // mesmo e-mail; e cada novo código invalida o anterior. O cooldown evita
-  // que o aluno peça vários códigos seguidos (causa de "código inválido").
+  // Cooldown de reenvio (Supabase exige ~60s entre envios; cada novo código
+  // invalida o anterior).
   const [cooldown, setCooldown] = useState(0);
 
   useEffect(() => {
@@ -27,9 +30,7 @@ export default function EntrarPage() {
     return () => clearTimeout(id);
   }, [cooldown]);
 
-  // Deep-link do e-mail de boas-vindas: /entrar?email=...&codigo=1 abre direto
-  // no passo de colar, com o e-mail preenchido e SEM reenviar (o código já foi
-  // enviado no e-mail; reenviar invalidaria aquele).
+  // Deep-link do e-mail de boas-vindas: /entrar?email=...&codigo=1
   useEffect(() => {
     const params = new URLSearchParams(window.location.search);
     const emailParam = params.get("email");
@@ -37,7 +38,6 @@ export default function EntrarPage() {
     if (emailParam && params.get("codigo") === "1") setStep("code");
   }, []);
 
-  // Dispara o envio do código (só sai e-mail para quem comprou — gate no servidor).
   async function dispararEnvio() {
     const res = await fetch("/api/auth/magic-link", {
       method: "POST",
@@ -47,7 +47,6 @@ export default function EntrarPage() {
     if (!res.ok) throw new Error();
   }
 
-  // Passo 1: pedir o código pela primeira vez.
   async function enviar(e: React.FormEvent) {
     e.preventDefault();
     setSending(true);
@@ -63,7 +62,6 @@ export default function EntrarPage() {
     }
   }
 
-  // Reenvio do código (respeita o cooldown e limpa o campo do código antigo).
   async function reenviar() {
     if (cooldown > 0 || sending) return;
     setSending(true);
@@ -79,8 +77,6 @@ export default function EntrarPage() {
     }
   }
 
-  // Passo 2: verifica o código numérico (imune a scanner de e-mail).
-  // O tamanho segue o "Email OTP Length" do Supabase (hoje 8 dígitos).
   async function verificar(e: React.FormEvent) {
     e.preventDefault();
     setVerifying(true);
@@ -105,41 +101,52 @@ export default function EntrarPage() {
   return (
     <div className="aulas-root">
       <div className="entrar-wrap">
+        <Link href="/aulas" className="entrar-logo">
+          {/* eslint-disable-next-line @next/next/no-img-element */}
+          <img src="/logo-prototipo-funcional-vertical.svg" alt="Protótipo Funcional" />
+        </Link>
+
         <div className="entrar-card">
-          <Link href="/" className="entrar-logo">
-            {/* eslint-disable-next-line @next/next/no-img-element */}
-            <img src="/logo-prototipo-funcional-vertical.svg" alt="Protótipo Funcional" />
-          </Link>
+          <span className="entrar-eyebrow">Área do aluno</span>
 
           {step === "email" ? (
             <>
-              <h1>Área do aluno</h1>
+              <h1>Bora fazer design com código?</h1>
               <p className="entrar-sub">
                 Entre com o e-mail da sua compra. Enviamos um código de acesso —
                 sem senha.
               </p>
               <form onSubmit={enviar} className="entrar-form">
-                <input
-                  type="email"
-                  required
-                  placeholder="seu@email.com"
-                  value={email}
-                  onChange={(ev) => setEmail(ev.target.value)}
-                  autoComplete="email"
-                  autoFocus
-                />
-                <button type="submit" className="btn btn-primary" disabled={sending}>
-                  {sending ? "Enviando..." : "Enviar código de acesso"}
+                <label className="entrar-label">
+                  Email de compra
+                  <input
+                    type="email"
+                    required
+                    placeholder="email@email.com"
+                    value={email}
+                    onChange={(ev) => setEmail(ev.target.value)}
+                    autoComplete="email"
+                    autoFocus
+                  />
+                </label>
+                <button type="submit" className="btn btn-primary entrar-btn" disabled={sending}>
+                  {sending ? "Enviando..." : "Receber o código de acesso"}
                 </button>
                 {erro && <p className="entrar-erro">{erro}</p>}
               </form>
+              <p className="entrar-foot">
+                Não sabe qual seu email de compra?{" "}
+                <a href={HELP_PURCHASES_URL} target="_blank" rel="noopener noreferrer">
+                  Te ajudo
+                </a>
+              </p>
             </>
           ) : (
             <>
               <h1>Digite o código</h1>
               <p className="entrar-sub">
-                Caso <strong>{email}</strong> já tenha comprado o curso,
-                enviamos um e-mail com o seu código de acesso. Digite-o abaixo.
+                Caso <strong>{email}</strong> já tenha comprado o curso, enviamos
+                um e-mail com o seu código de acesso. Digite-o abaixo.
               </p>
               <form onSubmit={verificar} className="entrar-form">
                 <input
@@ -155,7 +162,7 @@ export default function EntrarPage() {
                   autoFocus
                   className="entrar-code"
                 />
-                <button type="submit" className="btn btn-primary" disabled={verifying}>
+                <button type="submit" className="btn btn-primary entrar-btn" disabled={verifying}>
                   {verifying ? "Verificando..." : "Entrar"}
                 </button>
                 {erro && <p className="entrar-erro">{erro}</p>}
@@ -164,38 +171,41 @@ export default function EntrarPage() {
                 Use sempre o código do <strong>e-mail mais recente</strong> — um
                 novo código cancela o anterior.
               </p>
-              <button
-                type="button"
-                className="entrar-voltar"
-                onClick={reenviar}
-                disabled={cooldown > 0 || sending}
-              >
-                {cooldown > 0
-                  ? `Reenviar código em ${cooldown}s`
-                  : sending
-                    ? "Reenviando..."
-                    : "Reenviar código"}
-              </button>
-              <button
-                type="button"
-                className="entrar-voltar"
-                onClick={() => {
-                  setStep("email");
-                  setCode("");
-                  setErro("");
-                  setCooldown(0);
-                }}
-              >
-                ← Usar outro e-mail
-              </button>
+              <div className="entrar-foot-row">
+                <button
+                  type="button"
+                  className="entrar-link"
+                  onClick={reenviar}
+                  disabled={cooldown > 0 || sending}
+                >
+                  {cooldown > 0
+                    ? `Reenviar código em ${cooldown}s`
+                    : sending
+                      ? "Reenviando..."
+                      : "Reenviar código"}
+                </button>
+                <a
+                  href={HELP_CHANGE_EMAIL_URL}
+                  target="_blank"
+                  rel="noopener noreferrer"
+                  className="entrar-link entrar-link-accent"
+                >
+                  Usar outro e-mail
+                </a>
+              </div>
             </>
           )}
+        </div>
 
-          <div className="entrar-buy">
-            <span>Ainda não é aluno?</span>
-            <a href={CHECKOUT_URL} className="btn btn-ghost">
-              Comprar o curso
+        <div className="entrar-buy">
+          <span>Ainda não é aluno?</span>
+          <div className="entrar-buy-actions">
+            <a href={CHECKOUT_URL} className="btn btn-primary entrar-btn">
+              Comprar agora
             </a>
+            <Link href="/aulas" className="btn btn-ghost entrar-btn">
+              Assistir aulas gratuitas
+            </Link>
           </div>
         </div>
       </div>
