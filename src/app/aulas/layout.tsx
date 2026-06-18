@@ -1,5 +1,5 @@
 import "./aulas.css";
-import { SiteHeader } from "@/components/chrome/SiteHeader";
+import { AulasHeader } from "@/components/aulas/AulasHeader";
 import { Sidebar } from "@/components/aulas/Sidebar";
 import { ClickSound } from "@/components/aulas/ClickSound";
 import { getModules } from "@/lib/content";
@@ -16,7 +16,7 @@ export default async function AulasLayout({
   return (
     <div className="aulas-root">
       <ClickSound />
-      <SiteHeader variant="aulas" />
+      <AulasHeader />
       <div className="aulas-shell">
         <Sidebar tree={modules} temAcesso={temAcesso} />
         <main className="aulas-main">{children}</main>
