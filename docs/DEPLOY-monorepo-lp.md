@@ -42,10 +42,30 @@ Criar um **novo projeto** Vercel a partir do **mesmo repositório**.
    `www.prototipofuncional.com.br`.
    - ⚠️ Se o apex hoje aponta para o projeto do app, **remova o domínio
      apex do projeto antigo primeiro** (um domínio só vive em um projeto).
-6. DNS:
-   - Apex `@` → **A** `76.76.21.21` (ou ALIAS/ANAME `cname.vercel-dns.com`,
-     conforme seu provedor — a Vercel mostra o registro exato).
-   - `www` → **CNAME** `cname.vercel-dns.com`.
+6. DNS — **no registro.br** (este domínio é `.br`).
+
+### Opção recomendada: manter o DNS no registro.br (preserva o e-mail/MX)
+No **editor de zona DNS** do registro.br (NÃO trocar os servidores DNS),
+adicione:
+
+| Tipo | Nome | Valor |
+|---|---|---|
+| A | `@` (apex) | `76.76.21.21` |
+| CNAME | `www` | `cname.vercel-dns.com` |
+| CNAME | `curso` | `cname.vercel-dns.com` |
+
+- ⚠️ **Não mexer nos registros MX** (e-mail `contato@…` continua funcionando).
+- ⚠️ Apex usa **A** (não CNAME — a raiz não aceita CNAME). IP da Vercel:
+  `76.76.21.21`.
+
+### Opção alternativa: delegar a zona para a Vercel
+Trocar os servidores DNS para `ns1.vercel-dns.com` / `ns2.vercel-dns.com`.
+- Mais simples (a Vercel gerencia tudo), **mas**: **desative o DNSSEC** no
+  registro.br e **recrie os registros MX** do e-mail dentro da Vercel, senão
+  o e-mail para de funcionar.
+
+> A Vercel mostra o registro exato ao adicionar cada domínio no projeto —
+> siga os valores que ela exibir.
 
 ## 3) Conferências pós-deploy
 
