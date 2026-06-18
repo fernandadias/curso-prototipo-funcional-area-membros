@@ -4,11 +4,7 @@ import { useEffect, useState } from "react";
 import Link from "next/link";
 import { useRouter } from "next/navigation";
 import { createClient } from "@/lib/supabase/client";
-import {
-  CHECKOUT_URL,
-  HELP_PURCHASES_URL,
-  HELP_CHANGE_EMAIL_URL,
-} from "@/lib/config";
+import { CHECKOUT_URL, HELP_PURCHASES_URL } from "@/lib/config";
 import "../aulas/aulas.css";
 import "@/components/chrome/site-header.css";
 
@@ -184,14 +180,19 @@ export default function EntrarPage() {
                       ? "Reenviando..."
                       : "Reenviar código"}
                 </button>
-                <a
-                  href={HELP_CHANGE_EMAIL_URL}
-                  target="_blank"
-                  rel="noopener noreferrer"
-                  className="entrar-link entrar-link-accent"
+                <span className="entrar-sep" aria-hidden="true" />
+                <button
+                  type="button"
+                  className="entrar-link"
+                  onClick={() => {
+                    setStep("email");
+                    setCode("");
+                    setErro("");
+                    setCooldown(0);
+                  }}
                 >
                   Usar outro e-mail
-                </a>
+                </button>
               </div>
             </>
           )}
