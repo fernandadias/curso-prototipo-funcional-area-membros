@@ -2,7 +2,8 @@ import { createServerClient } from "@supabase/ssr";
 import { NextResponse, type NextRequest } from "next/server";
 
 // Renova a sessão do Supabase a cada request e propaga os cookies.
-export async function middleware(request: NextRequest) {
+// (Convenção "proxy" do Next 16 — antigo middleware.)
+export async function proxy(request: NextRequest) {
   let response = NextResponse.next({ request });
 
   // Sem chaves configuradas ainda → não faz nada (evita quebrar em dev).
