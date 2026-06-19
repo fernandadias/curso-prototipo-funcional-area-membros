@@ -76,18 +76,8 @@ export function Sidebar({
 
   return (
     <aside className={`sb ${colapsada ? "sb-colapsada" : ""}`}>
-      <button
-        type="button"
-        className="sb-toggle"
-        onClick={alternarColapso}
-        aria-label={colapsada ? "Expandir menu" : "Recolher menu"}
-        title={colapsada ? "Expandir" : "Recolher"}
-      >
-        {colapsada ? "»" : "«"}
-      </button>
-
-      {colapsada ? null : (
-        <>
+      <div className="sb-top">
+        {!colapsada && (
           <div className="sb-search">
             <svg width="15" height="15" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2" strokeLinecap="round" aria-hidden="true">
               <circle cx="11" cy="11" r="7" />
@@ -101,7 +91,20 @@ export function Sidebar({
               aria-label="Buscar aulas"
             />
           </div>
+        )}
+        <button
+          type="button"
+          className="sb-toggle"
+          onClick={alternarColapso}
+          aria-label={colapsada ? "Expandir menu" : "Recolher menu"}
+          title={colapsada ? "Expandir" : "Recolher"}
+        >
+          {colapsada ? "›" : "‹"}
+        </button>
+      </div>
 
+      {!colapsada && (
+        <>
           {temAcesso && (
             <div className="sb-prog">
               <div className="sb-prog-head">
@@ -123,11 +126,12 @@ export function Sidebar({
               const temLista = m.status !== "em-breve" && m.aulas.length > 0;
               const temConteudo = temLista || !!m.uau;
               // "Em breve" começa recolhido (só o cabeçalho); os demais abertos.
+              // Só o módulo atual começa aberto; os demais, recolhidos.
               const fechado = q
                 ? false
                 : m.slug in fechados
                   ? fechados[m.slug]
-                  : m.status === "em-breve";
+                  : m.slug !== moduloAtivoSlug;
 
               const total = m.aulas.length;
               const vistosMod = mounted
@@ -140,28 +144,28 @@ export function Sidebar({
 
               return (
                 <div className="sbm" key={m.slug}>
-                  <div className="sbm-head">
+                  <button
+                    type="button"
+                    className="sbm-head"
+                    aria-expanded={!fechado}
+                    onClick={() => setFechados((f) => ({ ...f, [m.slug]: !fechado }))}
+                  >
                     <span className={`sbm-badge ${ativo ? "on" : ""}`}>
                       M{String(m.numero).padStart(2, "0")}
                     </span>
-                    <div className="sbm-headtxt">
-                      <p className="sbm-title">{m.titulo}</p>
-                      <div className="sbm-meta">
+                    <span className="sbm-headtxt">
+                      <span className="sbm-title">{m.titulo}</span>
+                      <span className="sbm-meta">
                         <span className={`sbm-tag sbm-tag-${st.cls}`}>{st.label}</span>
                         {count && <span className="sbm-count">{count}</span>}
-                      </div>
-                    </div>
+                      </span>
+                    </span>
                     {temConteudo && (
-                      <button
-                        type="button"
-                        className="sbm-toggle"
-                        aria-label={fechado ? "Expandir módulo" : "Recolher módulo"}
-                        onClick={() => setFechados((f) => ({ ...f, [m.slug]: !fechado }))}
-                      >
+                      <span className="sbm-toggle" aria-hidden="true">
                         {fechado ? "▾" : "▴"}
-                      </button>
+                      </span>
                     )}
-                  </div>
+                  </button>
 
                   {!fechado && m.uau && (
                     <p className="sbm-obj">
