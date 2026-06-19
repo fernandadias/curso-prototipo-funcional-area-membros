@@ -58,6 +58,367 @@
   padding: 40px 24px 64px;
 }
 
+/* ---------- Início (home do aluno) ---------- */
+.inicio-eyebrow {
+  font-family: "Kode Mono", monospace;
+  text-transform: uppercase;
+  letter-spacing: 0.1em;
+  font-size: 11px;
+  color: var(--text-mute);
+  margin: 0 0 8px;
+}
+.inicio-saudacao {
+  font-size: clamp(28px, 4vw, 38px);
+  font-weight: 900;
+  letter-spacing: -0.02em;
+  margin: 0 0 28px;
+}
+.ic-card,
+.ic-prox,
+.ic-retomar,
+.ic-avisos,
+.ic-cal {
+  background: var(--surface);
+  border: 1px solid var(--border-light);
+  border-radius: var(--radius);
+}
+.ic-btn {
+  font-family: "Kode Mono", monospace;
+  text-transform: uppercase;
+  letter-spacing: 0.05em;
+  font-size: 12px;
+  font-weight: 600;
+}
+
+/* próximo encontro */
+.ic-prox {
+  display: flex;
+  gap: 24px;
+  padding: 24px;
+  margin-bottom: 32px;
+  flex-wrap: wrap;
+}
+.ic-prox-info {
+  flex: 1;
+  min-width: 260px;
+}
+.ic-prox-tag {
+  display: block;
+  font-family: "Kode Mono", monospace;
+  text-transform: uppercase;
+  letter-spacing: 0.08em;
+  font-size: 11px;
+  color: var(--accent);
+  margin-bottom: 8px;
+}
+.ic-prox-info h2 {
+  font-size: 23px;
+  font-weight: 800;
+  margin: 0 0 6px;
+}
+.ic-prox-quando {
+  color: var(--text-mute);
+  font-size: 14px;
+  margin: 0 0 18px;
+}
+.ic-prox-ctas {
+  display: flex;
+  align-items: center;
+  gap: 10px;
+  flex-wrap: wrap;
+}
+.ic-link {
+  background: none;
+  border: none;
+  color: var(--text-dim);
+  font: inherit;
+  font-size: 13px;
+  cursor: pointer;
+}
+.ic-count-label {
+  display: block;
+  font-family: "Kode Mono", monospace;
+  text-transform: uppercase;
+  letter-spacing: 0.08em;
+  font-size: 10px;
+  color: var(--text-mute);
+  margin-bottom: 8px;
+  text-align: right;
+}
+.ic-count-boxes {
+  display: flex;
+  gap: 8px;
+}
+.ic-count-box {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  gap: 4px;
+  min-width: 52px;
+  padding: 10px 8px;
+  background: #161616;
+  border: 1px solid var(--border);
+  border-radius: 10px;
+}
+.ic-count-box strong {
+  font-family: "Kode Mono", monospace;
+  font-size: 22px;
+  color: var(--text);
+}
+.ic-count-box span {
+  font-family: "Kode Mono", monospace;
+  text-transform: uppercase;
+  font-size: 9px;
+  letter-spacing: 0.06em;
+  color: var(--text-mute);
+}
+
+/* seções */
+.ic-sec {
+  margin-bottom: 32px;
+}
+.ic-sec-head {
+  display: flex;
+  align-items: baseline;
+  justify-content: space-between;
+  margin-bottom: 14px;
+}
+.ic-sec-head h3 {
+  font-size: 17px;
+  font-weight: 800;
+}
+.ic-sec-head h3 span {
+  font-weight: 400;
+  font-size: 13px;
+  color: var(--text-mute);
+  margin-left: 6px;
+}
+.ic-vertodas {
+  color: var(--accent);
+  text-decoration: none;
+  font-size: 13px;
+}
+
+/* gravações */
+.ic-grav {
+  display: grid;
+  grid-template-columns: repeat(3, 1fr);
+  gap: 16px;
+}
+.ic-grav-thumb {
+  position: relative;
+  aspect-ratio: 16 / 9;
+  border-radius: 10px;
+  border: 1px solid var(--border-light);
+  background: repeating-linear-gradient(135deg, #1c1c1c, #1c1c1c 9px, #1f1f1f 9px, #1f1f1f 18px);
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  margin-bottom: 10px;
+}
+.ic-play {
+  width: 44px;
+  height: 44px;
+  border-radius: 50%;
+  background: rgba(212, 245, 66, 0.18);
+  color: var(--accent);
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  font-size: 14px;
+}
+.ic-grav-dur {
+  position: absolute;
+  right: 8px;
+  bottom: 8px;
+  font-family: "Kode Mono", monospace;
+  font-size: 10px;
+  background: rgba(0, 0, 0, 0.6);
+  color: #fff;
+  padding: 2px 6px;
+  border-radius: 5px;
+}
+.ic-grav-tit {
+  font-weight: 600;
+  font-size: 14.5px;
+  margin: 0 0 3px;
+}
+.ic-grav-meta {
+  color: var(--text-mute);
+  font-size: 12.5px;
+  margin: 0;
+}
+
+/* retomar */
+.ic-retomar {
+  display: flex;
+  align-items: center;
+  gap: 16px;
+  padding: 16px 18px;
+  margin-bottom: 32px;
+  text-decoration: none;
+  color: inherit;
+}
+.ic-retomar-play {
+  width: 48px;
+  height: 48px;
+  border-radius: 10px;
+  flex-shrink: 0;
+  background: repeating-linear-gradient(135deg, #222, #222 6px, #1c1c1c 6px, #1c1c1c 12px);
+  color: var(--accent);
+  display: flex;
+  align-items: center;
+  justify-content: center;
+}
+.ic-retomar-txt {
+  flex: 1;
+  min-width: 0;
+  display: flex;
+  flex-direction: column;
+  gap: 3px;
+}
+.ic-retomar-rotulo {
+  font-family: "Kode Mono", monospace;
+  text-transform: uppercase;
+  letter-spacing: 0.06em;
+  font-size: 10px;
+  color: var(--text-mute);
+}
+.ic-retomar-tit {
+  font-weight: 700;
+  font-size: 16px;
+}
+.ic-retomar-cta {
+  flex-shrink: 0;
+}
+
+/* avisos + calendário */
+.ic-bottom {
+  display: grid;
+  grid-template-columns: 1.2fr 1fr;
+  gap: 20px;
+}
+.ic-avisos,
+.ic-cal {
+  padding: 20px;
+}
+.ic-avisos-cont {
+  font-size: 12px;
+  color: var(--text-mute);
+}
+.ic-avisos-lista {
+  display: flex;
+  flex-direction: column;
+  gap: 14px;
+}
+.ic-aviso {
+  display: flex;
+  gap: 10px;
+}
+.ic-aviso-dot {
+  width: 7px;
+  height: 7px;
+  border-radius: 50%;
+  background: var(--accent);
+  margin-top: 6px;
+  flex-shrink: 0;
+}
+.ic-aviso-head {
+  font-size: 11px;
+  color: var(--text-mute);
+  margin: 0 0 3px;
+}
+.ic-aviso-tag {
+  font-family: "Kode Mono", monospace;
+  text-transform: uppercase;
+  letter-spacing: 0.06em;
+  color: var(--accent);
+}
+.ic-aviso-tit {
+  font-weight: 600;
+  font-size: 14px;
+  margin: 0 0 2px;
+}
+.ic-aviso-txt {
+  color: var(--text-mute);
+  font-size: 13px;
+  margin: 0;
+  line-height: 1.45;
+}
+
+/* calendário */
+.ic-cal-leg-top {
+  font-size: 12px;
+  color: var(--text-mute);
+}
+.ic-cal-grid {
+  display: grid;
+  grid-template-columns: repeat(7, 1fr);
+  gap: 4px;
+}
+.ic-cal-dow {
+  text-align: center;
+  font-family: "Kode Mono", monospace;
+  font-size: 10px;
+  color: var(--text-mute);
+  padding-bottom: 6px;
+}
+.ic-cal-dia {
+  position: relative;
+  aspect-ratio: 1;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  font-size: 13px;
+  color: var(--text-dim);
+  border-radius: 8px;
+}
+.ic-cal-dia.tem-evento {
+  background: var(--surface-2);
+  color: var(--text);
+}
+.ic-cal-dia.hoje {
+  border: 1px solid var(--accent);
+  color: var(--accent);
+}
+.ic-cal-dot {
+  position: absolute;
+  bottom: 5px;
+  width: 5px;
+  height: 5px;
+  border-radius: 50%;
+}
+.ic-cal-dot.aula {
+  background: var(--accent);
+}
+.ic-cal-dot.encontro {
+  background: #7bbedb;
+}
+.ic-cal-leg {
+  display: flex;
+  gap: 18px;
+  margin-top: 14px;
+  font-size: 12px;
+  color: var(--text-mute);
+}
+.ic-cal-leg span {
+  display: inline-flex;
+  align-items: center;
+  gap: 6px;
+}
+.ic-cal-leg .ic-cal-dot {
+  position: static;
+}
+
+@media (max-width: 760px) {
+  .ic-grav {
+    grid-template-columns: 1fr;
+  }
+  .ic-bottom {
+    grid-template-columns: 1fr;
+  }
+}
+
 /* ---------- header da área de aulas (AulasHeader) ---------- */
 .ah {
   position: fixed;
