@@ -6,6 +6,12 @@ import { useEffect, useMemo, useState } from "react";
 import type { ModuleMeta } from "@/lib/content";
 import { lessonKey, useProgress } from "./useProgress";
 
+const STATUS = {
+  disponivel: { label: "Em andamento", cls: "andamento" },
+  chegando: { label: "Chegando", cls: "chegando" },
+  "em-breve": { label: "Em breve", cls: "breve" },
+} as const;
+
 export function Sidebar({
   tree,
   temAcesso = false,
@@ -14,9 +20,10 @@ export function Sidebar({
   temAcesso?: boolean;
 }) {
   const pathname = usePathname();
+  const { mounted, isViewed } = useProgress();
   const [query, setQuery] = useState("");
   const [colapsada, setColapsada] = useState(false);
-  const { mounted, isViewed } = useProgress();
+  const [fechados, setFechados] = useState<Record<string, boolean>>({});
 
   useEffect(() => {
     try {
@@ -39,33 +46,33 @@ export function Sidebar({
   }
 
   const q = query.trim().toLowerCase();
-  const filtered = useMemo(() => {
+  const moduloAtivoSlug =
+    tree.find((m) =>
+      m.aulas.some((a) => pathname === `/aulas/${m.slug}/${a.slug}`),
+    )?.slug ||
+    tree.find((m) => m.status === "disponivel")?.slug;
+
+  // progresso global (só aluno)
+  const progresso = useMemo(() => {
+    const disp = tree.flatMap((m) =>
+      m.aulas.filter((a) => a.status === "disponivel").map((a) => lessonKey(m.slug, a.slug)),
+    );
+    const vistos = mounted ? disp.filter((k) => isViewed(k)).length : 0;
+    const pct = disp.length ? Math.round((vistos / disp.length) * 100) : 0;
+    return { total: disp.length, vistos, pct };
+  }, [tree, mounted, isViewed]);
+
+  const filtrados = useMemo(() => {
     if (!q) return tree;
     return tree
       .map((m) => ({
         ...m,
         aulas: m.aulas.filter(
-          (a) =>
-            a.titulo.toLowerCase().includes(q) ||
-            m.titulo.toLowerCase().includes(q),
+          (a) => a.titulo.toLowerCase().includes(q) || m.titulo.toLowerCase().includes(q),
         ),
       }))
-      .filter((m) => m.aulas.length > 0);
+      .filter((m) => m.titulo.toLowerCase().includes(q) || m.aulas.length > 0);
   }, [tree, q]);
-
-  // progresso: um segmento por aula disponível (chegando/em-breve não contam)
-  const allKeys = useMemo(
-    () =>
-      tree.flatMap((m) =>
-        m.aulas
-          .filter((a) => a.status === "disponivel")
-          .map((a) => lessonKey(m.slug, a.slug)),
-      ),
-    [tree],
-  );
-  const viewedCount = mounted
-    ? allKeys.filter((k) => isViewed(k)).length
-    : 0;
 
   return (
     <aside className={`sb ${colapsada ? "sb-colapsada" : ""}`}>
@@ -73,7 +80,7 @@ export function Sidebar({
         type="button"
         className="sb-toggle"
         onClick={alternarColapso}
-        aria-label={colapsada ? "Expandir menu de aulas" : "Recolher menu de aulas"}
+        aria-label={colapsada ? "Expandir menu" : "Recolher menu"}
         title={colapsada ? "Expandir" : "Recolher"}
       >
         {colapsada ? "»" : "«"}
@@ -81,106 +88,131 @@ export function Sidebar({
 
       {colapsada ? null : (
         <>
-      <div className="sb-search">
-        <svg width="15" height="15" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2" strokeLinecap="round" aria-hidden="true">
-          <circle cx="11" cy="11" r="7" />
-          <path d="M21 21l-4-4" />
-        </svg>
-        <input
-          type="search"
-          placeholder="Buscar aulas..."
-          value={query}
-          onChange={(e) => setQuery(e.target.value)}
-          aria-label="Buscar aulas"
-        />
-      </div>
-
-      <Link href="/aulas" className="sb-all">
-        Todas as aulas
-      </Link>
-
-      <div className="sb-progress">
-        <div className="sb-progress-head">
-          <span>Progresso</span>
-          <span>
-            {viewedCount}/{allKeys.length}
-          </span>
-        </div>
-        <div className="sb-progress-bar" aria-hidden="true">
-          {allKeys.map((k) => (
-            <span
-              key={k}
-              className={`sb-seg ${mounted && isViewed(k) ? "on" : ""}`}
+          <div className="sb-search">
+            <svg width="15" height="15" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2" strokeLinecap="round" aria-hidden="true">
+              <circle cx="11" cy="11" r="7" />
+              <path d="M21 21l-4-4" />
+            </svg>
+            <input
+              type="search"
+              placeholder="Buscar aulas..."
+              value={query}
+              onChange={(e) => setQuery(e.target.value)}
+              aria-label="Buscar aulas"
             />
-          ))}
-        </div>
-      </div>
-
-      <nav className="sb-tree">
-        {filtered.map((m) => (
-          <div className="sb-mod" key={m.slug}>
-            <p className="sb-mod-title">
-              Módulo {String(m.numero).padStart(2, "0")}: {m.titulo}
-              {m.status === "em-breve" && (
-                <span className="sb-mod-tag">Em breve</span>
-              )}
-            </p>
-            {m.uau && (
-              <p className="sb-mod-uau">
-                <span className="sb-mod-uau-tag">Objetivo final</span>{" "}
-                {m.uau}
-              </p>
-            )}
-            {m.status !== "em-breve" && (
-              <ul>
-                {m.aulas.map((a) => {
-                  const viewed = mounted && isViewed(lessonKey(m.slug, a.slug));
-                  if (a.status !== "disponivel") {
-                    return (
-                      <li key={a.slug}>
-                        <span className="sb-aula sb-aula-soon" aria-disabled="true">
-                          <span className="sb-aula-titulo">{a.titulo}</span>
-                          <span className="sb-aula-meta">
-                            <span className="sb-aula-soon-tag">
-                              Chegando{a.previsao ? ` · ${a.previsao}` : ""}
-                            </span>
-                          </span>
-                        </span>
-                      </li>
-                    );
-                  }
-                  const href = `/aulas/${m.slug}/${a.slug}`;
-                  const active = pathname === href;
-                  return (
-                    <li key={a.slug}>
-                      <Link
-                        href={href}
-                        className={`sb-aula ${active ? "active" : ""} ${viewed ? "viewed" : ""}`}
-                      >
-                        <span className="sb-aula-titulo">{a.titulo}</span>
-                        <span className="sb-aula-meta">
-                          {a.duracao && (
-                            <span className="sb-aula-dur">{a.duracao}</span>
-                          )}
-                          {!a.free && !temAcesso && (
-                            <svg className="sb-lock" width="13" height="13" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round" aria-label="Aula para alunos">
-                              <rect x="4" y="11" width="16" height="10" rx="2" />
-                              <path d="M8 11V7a4 4 0 018 0v4" />
-                            </svg>
-                          )}
-                        </span>
-                      </Link>
-                    </li>
-                  );
-                })}
-              </ul>
-            )}
           </div>
-        ))}
-        {filtered.length === 0 && (
-          <p className="sb-empty">Nenhuma aula encontrada.</p>
-        )}
-      </nav>
+
+          {temAcesso && (
+            <div className="sb-prog">
+              <div className="sb-prog-head">
+                <span>Progresso</span>
+                <span>
+                  {progresso.vistos}/{progresso.total} · {progresso.pct}%
+                </span>
+              </div>
+              <div className="sb-prog-bar" aria-hidden="true">
+                <span style={{ width: `${progresso.pct}%` }} />
+              </div>
+            </div>
+          )}
+
+          <nav className="sb-tree">
+            {filtrados.map((m) => {
+              const st = STATUS[m.status];
+              const ativo = m.slug === moduloAtivoSlug;
+              const temLista = m.status !== "em-breve" && m.aulas.length > 0;
+              const temConteudo = temLista || !!m.uau;
+              // "Em breve" começa recolhido (só o cabeçalho); os demais abertos.
+              const fechado = q
+                ? false
+                : m.slug in fechados
+                  ? fechados[m.slug]
+                  : m.status === "em-breve";
+
+              const total = m.aulas.length;
+              const vistosMod = mounted
+                ? m.aulas.filter((a) => a.status === "disponivel" && isViewed(lessonKey(m.slug, a.slug))).length
+                : 0;
+              const gratis = m.aulas.filter((a) => a.free).length;
+              let count = "";
+              if (m.status === "disponivel") count = `${temAcesso ? vistosMod : gratis} / ${total}`;
+              else if (m.status === "chegando") count = `${total} aulas`;
+
+              return (
+                <div className="sbm" key={m.slug}>
+                  <div className="sbm-head">
+                    <span className={`sbm-badge ${ativo ? "on" : ""}`}>
+                      M{String(m.numero).padStart(2, "0")}
+                    </span>
+                    <div className="sbm-headtxt">
+                      <p className="sbm-title">{m.titulo}</p>
+                      <div className="sbm-meta">
+                        <span className={`sbm-tag sbm-tag-${st.cls}`}>{st.label}</span>
+                        {count && <span className="sbm-count">{count}</span>}
+                      </div>
+                    </div>
+                    {temConteudo && (
+                      <button
+                        type="button"
+                        className="sbm-toggle"
+                        aria-label={fechado ? "Expandir módulo" : "Recolher módulo"}
+                        onClick={() => setFechados((f) => ({ ...f, [m.slug]: !fechado }))}
+                      >
+                        {fechado ? "▾" : "▴"}
+                      </button>
+                    )}
+                  </div>
+
+                  {!fechado && m.uau && (
+                    <p className="sbm-obj">
+                      <strong>Objetivo:</strong> {m.uau}
+                    </p>
+                  )}
+
+                  {!fechado && temLista && (
+                    <ul className="sbm-list">
+                      {m.aulas.map((a, i) => {
+                        const num = String(a.numero ?? i + 1).padStart(2, "0");
+                        const href = `/aulas/${m.slug}/${a.slug}`;
+                        const ativoAula = pathname === href;
+                        const visto = mounted && isViewed(lessonKey(m.slug, a.slug));
+                        const linkavel = a.status === "disponivel";
+
+                        let tag = "";
+                        if (a.status === "chegando") tag = temAcesso ? "Chegando" : "Para alunos";
+                        else if (!a.free && !temAcesso) tag = "Para alunos";
+
+                        const marker = visto && temAcesso ? "✓" : num;
+
+                        const inner = (
+                          <>
+                            <span className="sbl-num">{marker}</span>
+                            <span className="sbl-title">{a.titulo}</span>
+                            {tag && <span className={`sbl-tag ${tag === "Chegando" ? "is-chegando" : "is-alunos"}`}>{tag}</span>}
+                          </>
+                        );
+
+                        return (
+                          <li key={a.slug}>
+                            {linkavel ? (
+                              <Link href={href} className={`sbl ${ativoAula ? "active" : ""} ${visto ? "visto" : ""}`}>
+                                {inner}
+                              </Link>
+                            ) : (
+                              <span className="sbl sbl-off" aria-disabled="true">
+                                {inner}
+                              </span>
+                            )}
+                          </li>
+                        );
+                      })}
+                    </ul>
+                  )}
+                </div>
+              );
+            })}
+            {filtrados.length === 0 && <p className="sb-empty">Nenhuma aula encontrada.</p>}
+          </nav>
         </>
       )}
     </aside>
