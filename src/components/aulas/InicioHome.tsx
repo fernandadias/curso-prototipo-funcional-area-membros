@@ -38,6 +38,7 @@ export function InicioHome() {
   const [nome, setNome] = useState("designer");
   const [agora, setAgora] = useState(() => Date.now());
   const [avisos, setAvisos] = useState<Aviso[]>(AVISOS);
+  const [diaSel, setDiaSel] = useState<number | null>(null);
   const alvo = useMemo(() => proximaQuinta1900().getTime(), []);
 
   // Remove avisos já dispensados (lembrados no localStorage).
@@ -92,12 +93,15 @@ export function InicioHome() {
   const hoje = data.getDate();
   const primeiroDia = new Date(ano, mes, 1).getDay();
   const diasNoMes = new Date(ano, mes + 1, 0).getDate();
-  const eventos: Record<number, "aula" | "encontro"> = {
-    [Math.min(hoje, diasNoMes)]: "encontro",
-    [Math.min(hoje + 1, diasNoMes)]: "aula",
-    [Math.min(hoje + 4, diasNoMes)]: "encontro",
-    [Math.min(hoje + 7, diasNoMes)]: "aula",
+  type Evento = { tipo: "aula" | "encontro"; titulo: string; hora?: string };
+  const EVENTOS: Record<number, Evento> = {
+    [Math.min(hoje, diasNoMes)]: { tipo: "encontro", titulo: "Tira-dúvidas ao vivo · Módulo 01", hora: "19h00" },
+    [Math.min(hoje + 1, diasNoMes)]: { tipo: "aula", titulo: "Figma Make: do design à primeira demo" },
+    [Math.min(hoje + 4, diasNoMes)]: { tipo: "encontro", titulo: "Encontro de portfólio ao vivo", hora: "19h00" },
+    [Math.min(hoje + 7, diasNoMes)]: { tipo: "aula", titulo: "Ler o código que o Figma Make gerou" },
   };
+  const diaDetalhe = diaSel != null ? diaSel : EVENTOS[hoje] ? hoje : null;
+  const detalhe = diaDetalhe != null ? EVENTOS[diaDetalhe] : null;
   const celulas: (number | null)[] = [
     ...Array(primeiroDia).fill(null),
     ...Array.from({ length: diasNoMes }, (_, i) => i + 1),
@@ -216,17 +220,47 @@ export function InicioHome() {
             {DIAS.map((d) => (
               <span className="ic-cal-dow" key={d}>{d[0].toUpperCase()}</span>
             ))}
-            {celulas.map((dia, i) =>
-              dia === null ? (
-                <span key={`b${i}`} />
-              ) : (
-                <span key={dia} className={`ic-cal-dia ${dia === hoje ? "hoje" : ""} ${eventos[dia] ? "tem-evento" : ""}`}>
+            {celulas.map((dia, i) => {
+              if (dia === null) return <span key={`b${i}`} />;
+              const ev = EVENTOS[dia];
+              const cls = `ic-cal-dia ${dia === hoje ? "hoje" : ""} ${ev ? "tem-evento" : ""} ${dia === diaDetalhe ? "sel" : ""}`;
+              const conteudo = (
+                <>
                   {dia}
-                  {eventos[dia] && <span className={`ic-cal-dot ${eventos[dia]}`} />}
+                  {ev && <span className={`ic-cal-dot ${ev.tipo}`} />}
+                </>
+              );
+              return ev ? (
+                <button
+                  key={dia}
+                  type="button"
+                  className={cls}
+                  onClick={() => setDiaSel(dia)}
+                  aria-label={`${dia}: ${ev.titulo}`}
+                >
+                  {conteudo}
+                </button>
+              ) : (
+                <span key={dia} className={cls}>
+                  {conteudo}
                 </span>
-              ),
-            )}
+              );
+            })}
           </div>
+
+          {detalhe && (
+            <div className="ic-cal-detalhe">
+              <span className={`ic-cal-dot ${detalhe.tipo}`} aria-hidden="true" />
+              <div>
+                <p className="ic-cal-det-dia">
+                  Dia {diaDetalhe} · {detalhe.tipo === "aula" ? "Aula" : "Encontro"}
+                  {detalhe.hora ? ` · ${detalhe.hora}` : ""}
+                </p>
+                <p className="ic-cal-det-tit">{detalhe.titulo}</p>
+              </div>
+            </div>
+          )}
+
           <div className="ic-cal-leg">
             <span><span className="ic-cal-dot aula" /> Aula</span>
             <span><span className="ic-cal-dot encontro" /> Encontro</span>
