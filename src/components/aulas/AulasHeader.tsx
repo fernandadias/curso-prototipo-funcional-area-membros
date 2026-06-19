@@ -6,7 +6,6 @@ import { useEffect, useRef, useState } from "react";
 import { createClient } from "@/lib/supabase/client";
 import { CHECKOUT_URL } from "@/lib/config";
 
-type Estado = "loading" | "aluno" | "visitante";
 type Aluno = { nome: string; papel: string };
 
 const LINKS_ALUNO = [
@@ -23,62 +22,14 @@ function iniciais(nome: string) {
   return (a + b).toUpperCase();
 }
 
-export function AulasHeader() {
+// `aluno` vem do servidor (layout) — fonte da verdade, igual à sidebar.
+// null = visitante (anônimo ou logado sem acesso).
+export function AulasHeader({ aluno = null }: { aluno?: Aluno | null }) {
   const router = useRouter();
   const pathname = usePathname();
-  const [estado, setEstado] = useState<Estado>("loading");
-  const [aluno, setAluno] = useState<Aluno | null>(null);
   const [menuAberto, setMenuAberto] = useState(false);
   const [perfilModal, setPerfilModal] = useState(false);
   const wrapRef = useRef<HTMLDivElement>(null);
-
-  useEffect(() => {
-    if (!process.env.NEXT_PUBLIC_SUPABASE_URL) {
-      setEstado("visitante");
-      return;
-    }
-    const supabase = createClient();
-    let ativo = true;
-
-    async function checar() {
-      const {
-        data: { user },
-      } = await supabase.auth.getUser();
-      if (!ativo) return;
-      if (!user?.email) {
-        setEstado("visitante");
-        return;
-      }
-      const [{ data: acesso }, { data: perfil }] = await Promise.all([
-        supabase
-          .from("course_access")
-          .select("status")
-          .eq("email", user.email.toLowerCase())
-          .eq("status", "active")
-          .maybeSingle(),
-        supabase
-          .from("profiles")
-          .select("name, is_instructor")
-          .eq("user_id", user.id)
-          .maybeSingle(),
-      ]);
-      if (!ativo) return;
-      if (!acesso) {
-        setEstado("visitante");
-        return;
-      }
-      const nome = (perfil?.name as string) || user.email.split("@")[0];
-      setAluno({ nome, papel: perfil?.is_instructor ? "Instrutora" : "Estudante" });
-      setEstado("aluno");
-    }
-
-    checar();
-    const { data: sub } = supabase.auth.onAuthStateChange(() => checar());
-    return () => {
-      ativo = false;
-      sub.subscription.unsubscribe();
-    };
-  }, []);
 
   // fecha o dropdown ao clicar fora
   useEffect(() => {
@@ -96,8 +47,6 @@ export function AulasHeader() {
     const supabase = createClient();
     await supabase.auth.signOut();
     setMenuAberto(false);
-    setEstado("visitante");
-    setAluno(null);
     router.refresh();
   }
 
@@ -112,7 +61,7 @@ export function AulasHeader() {
     }
   }
 
-  const ehAluno = estado === "aluno";
+  const ehAluno = !!aluno;
   const navLinks = ehAluno ? LINKS_ALUNO : [{ label: "Aulas", href: "/aulas" }];
   const isActive = (href: string) =>
     href === "/aulas" ? pathname.startsWith("/aulas") : pathname === href;

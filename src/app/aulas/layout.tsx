@@ -3,7 +3,7 @@ import { AulasHeader } from "@/components/aulas/AulasHeader";
 import { Sidebar } from "@/components/aulas/Sidebar";
 import { ClickSound } from "@/components/aulas/ClickSound";
 import { getModules } from "@/lib/content";
-import { userHasAccess } from "@/lib/access";
+import { getAlunoInfo } from "@/lib/access";
 
 export default async function AulasLayout({
   children,
@@ -11,12 +11,14 @@ export default async function AulasLayout({
   children: React.ReactNode;
 }) {
   const modules = getModules();
-  const temAcesso = await userHasAccess();
+  // Uma checagem no servidor → header e sidebar sempre concordam.
+  const aluno = await getAlunoInfo();
+  const temAcesso = !!aluno;
 
   return (
     <div className="aulas-root">
       <ClickSound />
-      <AulasHeader />
+      <AulasHeader aluno={aluno} />
       <div className="aulas-shell">
         <Sidebar tree={modules} temAcesso={temAcesso} />
         <main className="aulas-main">{children}</main>
