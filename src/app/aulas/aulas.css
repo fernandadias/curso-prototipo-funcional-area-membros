@@ -463,6 +463,50 @@
   }
 }
 
+/* ---------- botões (chrome) — disponíveis em toda a área de aulas ---------- */
+.aulas-root .btn {
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  gap: 8px;
+  height: 40px;
+  padding: 0 18px;
+  border-radius: 999px;
+  border: 1px solid transparent;
+  font-family: "Kode Mono", monospace;
+  font-size: 14px;
+  font-weight: 500;
+  text-transform: uppercase;
+  letter-spacing: 0.04em;
+  white-space: nowrap;
+  line-height: 1;
+  cursor: pointer;
+  text-decoration: none;
+  transition: transform 0.25s cubic-bezier(0.34, 1.56, 0.64, 1),
+    background 0.25s ease, border-color 0.25s ease, box-shadow 0.25s ease,
+    color 0.2s ease;
+}
+.aulas-root .btn-primary {
+  background: var(--accent);
+  color: #1c1c1c;
+  border-color: var(--accent);
+}
+.aulas-root .btn-primary:hover {
+  background: #e8ff66;
+  border-color: #e8ff66;
+  transform: translateY(-2px);
+  box-shadow: 0 12px 28px rgba(212, 245, 66, 0.3);
+}
+.aulas-root .btn-ghost {
+  background: transparent;
+  color: var(--text);
+  border-color: var(--border-light);
+}
+.aulas-root .btn-ghost:hover {
+  border-color: var(--accent);
+  color: var(--accent);
+}
+
 /* ---------- header da área de aulas (AulasHeader) ---------- */
 .ah {
   position: fixed;
@@ -482,7 +526,7 @@
   padding: 0 24px;
 }
 .ah-logo img {
-  height: 24px;
+  height: 36px;
   display: block;
 }
 .ah-nav {
