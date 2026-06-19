@@ -58,6 +58,49 @@
   padding: 40px 24px 64px;
 }
 
+/* ---------- Encontros (gravações) ---------- */
+.enc-grid {
+  display: grid;
+  grid-template-columns: repeat(auto-fill, minmax(280px, 1fr));
+  gap: 18px;
+}
+.enc-card {
+  background: none;
+  border: none;
+  padding: 0;
+  text-align: left;
+  cursor: pointer;
+  font: inherit;
+  color: inherit;
+}
+.enc-card:hover .ic-grav-thumb {
+  border-color: var(--accent);
+}
+.enc-modal {
+  position: fixed;
+  inset: 0;
+  z-index: 100;
+  background: rgba(0, 0, 0, 0.7);
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  padding: 24px;
+}
+.enc-modal-card {
+  position: relative;
+  width: 100%;
+  max-width: 900px;
+  background: var(--surface);
+  border: 1px solid var(--border-light);
+  border-radius: var(--radius);
+  padding: 18px;
+}
+.enc-modal-tit {
+  font-weight: 700;
+  font-size: 16px;
+  margin: 12px 0 0;
+}
+
 /* ---------- Início (home do aluno) ---------- */
 .inicio-eyebrow {
   font-family: "Kode Mono", monospace;
