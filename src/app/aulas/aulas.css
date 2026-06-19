@@ -358,6 +358,50 @@
 .ic-aviso {
   display: flex;
   gap: 10px;
+  align-items: flex-start;
+}
+.ic-aviso-body {
+  flex: 1;
+  min-width: 0;
+}
+.ic-aviso-x {
+  flex-shrink: 0;
+  background: none;
+  border: none;
+  color: var(--text-mute);
+  font-size: 18px;
+  line-height: 1;
+  padding: 2px 4px;
+  cursor: pointer;
+  border-radius: 6px;
+}
+.ic-aviso-x:hover {
+  color: var(--text);
+  background: var(--surface-2);
+}
+.ic-avisos-empty {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  gap: 10px;
+  text-align: center;
+  padding: 28px 12px;
+  color: var(--text-mute);
+}
+.ic-avisos-empty span {
+  width: 36px;
+  height: 36px;
+  border-radius: 50%;
+  background: rgba(212, 245, 66, 0.12);
+  color: var(--accent);
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  font-size: 16px;
+}
+.ic-avisos-empty p {
+  margin: 0;
+  font-size: 14px;
 }
 .ic-aviso-dot {
   width: 7px;
@@ -418,18 +462,20 @@
   border-radius: 8px;
 }
 .ic-cal-dia.tem-evento {
-  background: var(--surface-2);
+  background: var(--border-light);
   color: var(--text);
+  font-weight: 600;
 }
 .ic-cal-dia.hoje {
   border: 1px solid var(--accent);
   color: var(--accent);
+  font-weight: 700;
 }
 .ic-cal-dot {
   position: absolute;
-  bottom: 5px;
-  width: 5px;
-  height: 5px;
+  bottom: 4px;
+  width: 6px;
+  height: 6px;
   border-radius: 50%;
 }
 .ic-cal-dot.aula {

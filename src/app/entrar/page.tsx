@@ -85,7 +85,7 @@ export default function EntrarPage() {
         type: "email",
       });
       if (error) throw error;
-      router.push("/aulas");
+      router.push("/inicio");
       router.refresh();
     } catch {
       setErro("Código inválido ou expirado. Confira o e-mail mais recente.");

@@ -10,11 +10,13 @@ const ENCONTROS = [
   { n: "02", titulo: "Lendo o código que a IA gerou", quando: "29 mai", dur: "1h04" },
   { n: "03", titulo: "Primeira tela no ar — ao vivo", quando: "05 jun", dur: "1h12" },
 ];
-const AVISOS = [
-  { tag: "Novo", quando: "há 2 h", titulo: "Aula 02 liberada mais cedo", texto: "Figma Make: do design à primeira demo já está no ar. Bora?" },
-  { tag: "Comunidade", quando: "ontem", titulo: "Encontro ao vivo nesta quinta", texto: "Tira-dúvidas do Módulo 01. Coloque na agenda aqui em cima." },
-  { tag: "Aviso", quando: "3 dias", titulo: "Gravações agora ficam no portal", texto: "Reveja os encontros passados na aba Encontros." },
+type Aviso = { id: string; tag: string; quando: string; titulo: string; texto: string };
+const AVISOS: Aviso[] = [
+  { id: "a1", tag: "Novo", quando: "há 2 h", titulo: "Aula 02 liberada mais cedo", texto: "Figma Make: do design à primeira demo já está no ar. Bora?" },
+  { id: "a2", tag: "Comunidade", quando: "ontem", titulo: "Encontro ao vivo nesta quinta", texto: "Tira-dúvidas do Módulo 01. Coloque na agenda aqui em cima." },
+  { id: "a3", tag: "Aviso", quando: "3 dias", titulo: "Gravações agora ficam no portal", texto: "Reveja os encontros passados na aba Encontros." },
 ];
+const AVISOS_KEY = "pf:avisos-dismiss";
 const RETOMAR = {
   rotulo: "Continuar de onde parou · Aula 02",
   titulo: "Figma Make: do design à primeira demo",
@@ -35,7 +37,28 @@ function proximaQuinta1900() {
 export function InicioHome() {
   const [nome, setNome] = useState("designer");
   const [agora, setAgora] = useState(() => Date.now());
+  const [avisos, setAvisos] = useState<Aviso[]>(AVISOS);
   const alvo = useMemo(() => proximaQuinta1900().getTime(), []);
+
+  // Remove avisos já dispensados (lembrados no localStorage).
+  useEffect(() => {
+    try {
+      const off: string[] = JSON.parse(localStorage.getItem(AVISOS_KEY) || "[]");
+      if (off.length) setAvisos(AVISOS.filter((a) => !off.includes(a.id)));
+    } catch {
+      /* ignora */
+    }
+  }, []);
+
+  function dispensar(id: string) {
+    setAvisos((prev) => prev.filter((a) => a.id !== id));
+    try {
+      const off: string[] = JSON.parse(localStorage.getItem(AVISOS_KEY) || "[]");
+      localStorage.setItem(AVISOS_KEY, JSON.stringify([...new Set([...off, id])]));
+    } catch {
+      /* ignora */
+    }
+  }
 
   useEffect(() => {
     const id = setInterval(() => setAgora(Date.now()), 1000);
@@ -147,22 +170,41 @@ export function InicioHome() {
         <section className="ic-avisos">
           <div className="ic-sec-head">
             <h3>Avisos gerais</h3>
-            <span className="ic-avisos-cont">3 não lidos</span>
+            {avisos.length > 0 && (
+              <span className="ic-avisos-cont">
+                {avisos.length} não {avisos.length === 1 ? "lido" : "lidos"}
+              </span>
+            )}
           </div>
-          <div className="ic-avisos-lista">
-            {AVISOS.map((a) => (
-              <div className="ic-aviso" key={a.titulo}>
-                <span className="ic-aviso-dot" aria-hidden="true" />
-                <div>
-                  <p className="ic-aviso-head">
-                    <span className="ic-aviso-tag">{a.tag}</span> {a.quando}
-                  </p>
-                  <p className="ic-aviso-tit">{a.titulo}</p>
-                  <p className="ic-aviso-txt">{a.texto}</p>
+          {avisos.length === 0 ? (
+            <div className="ic-avisos-empty">
+              <span aria-hidden="true">✓</span>
+              <p>Você está em dia! Nenhum aviso por aqui.</p>
+            </div>
+          ) : (
+            <div className="ic-avisos-lista">
+              {avisos.map((a) => (
+                <div className="ic-aviso" key={a.id}>
+                  <span className="ic-aviso-dot" aria-hidden="true" />
+                  <div className="ic-aviso-body">
+                    <p className="ic-aviso-head">
+                      <span className="ic-aviso-tag">{a.tag}</span> {a.quando}
+                    </p>
+                    <p className="ic-aviso-tit">{a.titulo}</p>
+                    <p className="ic-aviso-txt">{a.texto}</p>
+                  </div>
+                  <button
+                    type="button"
+                    className="ic-aviso-x"
+                    aria-label="Dispensar aviso"
+                    onClick={() => dispensar(a.id)}
+                  >
+                    ×
+                  </button>
                 </div>
-              </div>
-            ))}
-          </div>
+              ))}
+            </div>
+          )}
         </section>
 
         <section className="ic-cal">
