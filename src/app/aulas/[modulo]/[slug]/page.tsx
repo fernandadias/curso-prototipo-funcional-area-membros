@@ -22,7 +22,18 @@ export async function generateMetadata({
   const { modulo, slug } = await params;
   const data = getLessonSource(modulo, slug);
   if (!data) return {};
-  return { title: data.meta.titulo, description: data.meta.descricao };
+  const url = `/aulas/${modulo}/${slug}`;
+  return {
+    title: data.meta.titulo,
+    description: data.meta.descricao,
+    alternates: { canonical: url },
+    openGraph: {
+      type: "article",
+      url,
+      title: data.meta.titulo,
+      description: data.meta.descricao,
+    },
+  };
 }
 
 async function compile(source: string) {

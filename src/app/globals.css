@@ -31,6 +31,6 @@
 body {
   background: var(--bg);
   color: var(--text);
-  font-family: "Geist", system-ui, -apple-system, sans-serif;
+  font-family: var(--font-geist), system-ui, -apple-system, sans-serif;
   -webkit-font-smoothing: antialiased;
 }

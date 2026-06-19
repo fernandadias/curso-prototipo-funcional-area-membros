@@ -1,7 +1,23 @@
 import type { Metadata, Viewport } from "next";
+import { Geist, Kode_Mono } from "next/font/google";
 import "./globals.css";
 import { ServiceWorkerCleanup } from "@/components/chrome/ServiceWorkerCleanup";
 import { CustomCursor } from "@/components/chrome/CustomCursor";
+
+// Fontes auto-hospedadas pelo next/font: zero requests ao Google em runtime,
+// sem layout shift (font-display: swap embutido) e sem CSS render-blocking.
+// Expostas como CSS vars consumidas em globals.css / aulas.css / site-header.css.
+const geist = Geist({
+  subsets: ["latin"],
+  display: "swap",
+  variable: "--font-geist",
+});
+
+const kodeMono = Kode_Mono({
+  subsets: ["latin"],
+  display: "swap",
+  variable: "--font-kode-mono",
+});
 
 export const viewport: Viewport = {
   themeColor: "#1c1c1c",
@@ -9,7 +25,9 @@ export const viewport: Viewport = {
 };
 
 export const metadata: Metadata = {
-  metadataBase: new URL("https://prototipofuncional.com.br"),
+  // O app das aulas vive no subdomínio curso.* (a LP estática fica no apex).
+  // metadataBase precisa apontar pra cá pra que canonical/OG resolvam certo.
+  metadataBase: new URL("https://curso.prototipofuncional.com.br"),
   title: {
     default:
       "Protótipo Funcional: Saia do Figma estático e projete experiências reais",
@@ -31,8 +49,11 @@ export const metadata: Metadata = {
     "Next.js",
   ],
   alternates: { canonical: "/" },
-  icons: { icon: "/ico.svg", apple: "/ico.svg" },
+  // favicon.ico é detectado por convenção (app/favicon.ico); ico.svg é o ícone
+  // vetorial moderno; o apple-icon é gerado por app/apple-icon.tsx.
+  icons: { icon: [{ url: "/ico.svg", type: "image/svg+xml" }] },
   openGraph: {
+    // A imagem é injetada automaticamente por app/opengraph-image.tsx.
     type: "website",
     url: "/",
     siteName: "Protótipo Funcional",
@@ -41,14 +62,13 @@ export const metadata: Metadata = {
       "Protótipo Funcional: Saia do Figma estático e projete experiências reais",
     description:
       "Curso prático pra Product Designers que querem prototipar com código. Construa fluxos com dados, estados e interações reais, e não apenas mockups.",
-    images: [{ url: "/og-image.jpg", width: 1200, height: 630 }],
   },
   twitter: {
     card: "summary_large_image",
     creator: "@nandadiasdesign",
     title: "Protótipo Funcional: Saia do Figma estático",
-    description: "Curso prático pra Product Designers que querem prototipar com código.",
-    images: ["/og-image.jpg"],
+    description:
+      "Curso prático pra Product Designers que querem prototipar com código.",
   },
 };
 
@@ -58,19 +78,7 @@ export default function RootLayout({
   children: React.ReactNode;
 }>) {
   return (
-    <html lang="pt-BR">
-      <head>
-        <link rel="preconnect" href="https://fonts.googleapis.com" />
-        <link
-          rel="preconnect"
-          href="https://fonts.gstatic.com"
-          crossOrigin="anonymous"
-        />
-        <link
-          href="https://fonts.googleapis.com/css2?family=Geist:wght@400;500;600;700;800;900&family=Kode+Mono:wght@400;500;600;700&display=swap"
-          rel="stylesheet"
-        />
-      </head>
+    <html lang="pt-BR" className={`${geist.variable} ${kodeMono.variable}`}>
       <body>
         <ServiceWorkerCleanup />
         <CustomCursor />

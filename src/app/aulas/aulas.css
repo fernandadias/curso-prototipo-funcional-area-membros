@@ -15,13 +15,13 @@
 
   background: var(--bg);
   color: var(--text);
-  font-family: "Geist", system-ui, sans-serif;
+  font-family: var(--font-geist), system-ui, sans-serif;
   min-height: 100vh;
   line-height: 1.6;
 }
 
 .aulas-mono {
-  font-family: "Kode Mono", monospace;
+  font-family: var(--font-kode-mono), monospace;
   text-transform: uppercase;
   letter-spacing: 0.14em;
   font-size: 12px;
@@ -104,7 +104,7 @@
 
 /* ---------- Início (home do aluno) ---------- */
 .inicio-eyebrow {
-  font-family: "Kode Mono", monospace;
+  font-family: var(--font-kode-mono), monospace;
   text-transform: uppercase;
   letter-spacing: 0.1em;
   font-size: 11px;
@@ -127,7 +127,7 @@
   border-radius: var(--radius);
 }
 .ic-btn {
-  font-family: "Kode Mono", monospace;
+  font-family: var(--font-kode-mono), monospace;
   text-transform: uppercase;
   letter-spacing: 0.05em;
   font-size: 12px;
@@ -148,7 +148,7 @@
 }
 .ic-prox-tag {
   display: block;
-  font-family: "Kode Mono", monospace;
+  font-family: var(--font-kode-mono), monospace;
   text-transform: uppercase;
   letter-spacing: 0.08em;
   font-size: 11px;
@@ -181,7 +181,7 @@
 }
 .ic-count-label {
   display: block;
-  font-family: "Kode Mono", monospace;
+  font-family: var(--font-kode-mono), monospace;
   text-transform: uppercase;
   letter-spacing: 0.08em;
   font-size: 10px;
@@ -205,12 +205,12 @@
   border-radius: 10px;
 }
 .ic-count-box strong {
-  font-family: "Kode Mono", monospace;
+  font-family: var(--font-kode-mono), monospace;
   font-size: 22px;
   color: var(--text);
 }
 .ic-count-box span {
-  font-family: "Kode Mono", monospace;
+  font-family: var(--font-kode-mono), monospace;
   text-transform: uppercase;
   font-size: 9px;
   letter-spacing: 0.06em;
@@ -275,7 +275,7 @@
   position: absolute;
   right: 8px;
   bottom: 8px;
-  font-family: "Kode Mono", monospace;
+  font-family: var(--font-kode-mono), monospace;
   font-size: 10px;
   background: rgba(0, 0, 0, 0.6);
   color: #fff;
@@ -322,7 +322,7 @@
   gap: 3px;
 }
 .ic-retomar-rotulo {
-  font-family: "Kode Mono", monospace;
+  font-family: var(--font-kode-mono), monospace;
   text-transform: uppercase;
   letter-spacing: 0.06em;
   font-size: 10px;
@@ -417,7 +417,7 @@
   margin: 0 0 3px;
 }
 .ic-aviso-tag {
-  font-family: "Kode Mono", monospace;
+  font-family: var(--font-kode-mono), monospace;
   text-transform: uppercase;
   letter-spacing: 0.06em;
   color: var(--accent);
@@ -446,7 +446,7 @@
 }
 .ic-cal-dow {
   text-align: center;
-  font-family: "Kode Mono", monospace;
+  font-family: var(--font-kode-mono), monospace;
   font-size: 10px;
   color: var(--text-mute);
   padding-bottom: 6px;
@@ -497,7 +497,7 @@
   margin-top: 6px;
 }
 .ic-cal-det-dia {
-  font-family: "Kode Mono", monospace;
+  font-family: var(--font-kode-mono), monospace;
   text-transform: uppercase;
   letter-spacing: 0.05em;
   font-size: 10px;
@@ -559,7 +559,7 @@
   padding: 0 18px;
   border-radius: 999px;
   border: 1px solid transparent;
-  font-family: "Kode Mono", monospace;
+  font-family: var(--font-kode-mono), monospace;
   font-size: 14px;
   font-weight: 500;
   text-transform: uppercase;
@@ -644,7 +644,7 @@
   gap: 10px;
 }
 .ah-cta {
-  font-family: "Kode Mono", monospace;
+  font-family: var(--font-kode-mono), monospace;
   text-transform: uppercase;
   letter-spacing: 0.06em;
   font-size: 12px;
@@ -894,7 +894,7 @@
 .sb-progress-head {
   display: flex;
   justify-content: space-between;
-  font-family: "Kode Mono", monospace;
+  font-family: var(--font-kode-mono), monospace;
   text-transform: uppercase;
   letter-spacing: 0.1em;
   font-size: 10px;
@@ -930,7 +930,7 @@
 .sb-prog-head {
   display: flex;
   justify-content: space-between;
-  font-family: "Kode Mono", monospace;
+  font-family: var(--font-kode-mono), monospace;
   font-size: 10px;
   letter-spacing: 0.06em;
   text-transform: uppercase;
@@ -981,7 +981,7 @@
   display: flex;
   align-items: center;
   justify-content: center;
-  font-family: "Kode Mono", monospace;
+  font-family: var(--font-kode-mono), monospace;
   font-size: 11px;
   font-weight: 600;
   background: var(--bg);
@@ -1013,7 +1013,7 @@
   flex-wrap: wrap;
 }
 .sbm-tag {
-  font-family: "Kode Mono", monospace;
+  font-family: var(--font-kode-mono), monospace;
   font-size: 9px;
   letter-spacing: 0.06em;
   text-transform: uppercase;
@@ -1034,7 +1034,7 @@
   border: 1px solid var(--border);
 }
 .sbm-count {
-  font-family: "Kode Mono", monospace;
+  font-family: var(--font-kode-mono), monospace;
   font-size: 10px;
   color: var(--text-mute);
 }
@@ -1059,7 +1059,7 @@
   margin: 4px 0 0;
 }
 .sbm-obj strong {
-  font-family: "Kode Mono", monospace;
+  font-family: var(--font-kode-mono), monospace;
   text-transform: uppercase;
   letter-spacing: 0.06em;
   font-size: 10px;
@@ -1111,7 +1111,7 @@
   display: flex;
   align-items: center;
   justify-content: center;
-  font-family: "Kode Mono", monospace;
+  font-family: var(--font-kode-mono), monospace;
   font-size: 11.5px;
   color: var(--text-mute);
 }
@@ -1126,7 +1126,7 @@
 }
 .sbl-tag {
   flex-shrink: 0;
-  font-family: "Kode Mono", monospace;
+  font-family: var(--font-kode-mono), monospace;
   font-size: 9px;
   letter-spacing: 0.05em;
   text-transform: uppercase;
@@ -1155,7 +1155,7 @@
 .sb-mod-tag {
   flex-shrink: 0;
   white-space: nowrap;
-  font-family: "Kode Mono", monospace;
+  font-family: var(--font-kode-mono), monospace;
   font-size: 9px;
   letter-spacing: 0.06em;
   text-transform: uppercase;
@@ -1176,7 +1176,7 @@
   line-height: 1.45;
 }
 .sb-mod-uau-tag {
-  font-family: "Kode Mono", monospace;
+  font-family: var(--font-kode-mono), monospace;
   font-size: 9px;
   letter-spacing: 0.06em;
   text-transform: uppercase;
@@ -1238,7 +1238,7 @@
 }
 .sb-aula-soon-tag {
   flex-shrink: 0;
-  font-family: "Kode Mono", monospace;
+  font-family: var(--font-kode-mono), monospace;
   font-size: 9px;
   letter-spacing: 0.06em;
   text-transform: uppercase;
@@ -1316,7 +1316,7 @@
   background: var(--surface-2);
 }
 .aula-num {
-  font-family: "Kode Mono", monospace;
+  font-family: var(--font-kode-mono), monospace;
   font-size: 12px;
   color: var(--text-mute);
   min-width: 28px;
@@ -1337,7 +1337,7 @@
   color: var(--accent);
   border-radius: 999px;
   padding: 2px 9px;
-  font-family: "Kode Mono", monospace;
+  font-family: var(--font-kode-mono), monospace;
   text-transform: uppercase;
   letter-spacing: 0.08em;
   font-size: 10px;
@@ -1351,7 +1351,7 @@
 .tag-breve {
   border-radius: 999px;
   padding: 2px 9px;
-  font-family: "Kode Mono", monospace;
+  font-family: var(--font-kode-mono), monospace;
   text-transform: uppercase;
   letter-spacing: 0.06em;
   font-size: 10px;
@@ -1385,7 +1385,7 @@
 }
 .modulo-uau-tag {
   flex-shrink: 0;
-  font-family: "Kode Mono", monospace;
+  font-family: var(--font-kode-mono), monospace;
   font-size: 10px;
   letter-spacing: 0.06em;
   text-transform: uppercase;
@@ -1458,7 +1458,7 @@
   color: #fff;
 }
 .prosa code {
-  font-family: "Kode Mono", monospace;
+  font-family: var(--font-kode-mono), monospace;
   background: var(--surface-2);
   border: 1px solid var(--border-light);
   border-radius: 5px;
@@ -1671,7 +1671,7 @@ ol.steps {
   display: flex;
   align-items: center;
   justify-content: center;
-  font-family: "Kode Mono", monospace;
+  font-family: var(--font-kode-mono), monospace;
   font-weight: 700;
   font-size: 13px;
 }
@@ -1776,7 +1776,7 @@ ol.steps {
 }
 .msg .who {
   display: block;
-  font-family: "Kode Mono", monospace;
+  font-family: var(--font-kode-mono), monospace;
   font-size: 10px;
   text-transform: uppercase;
   letter-spacing: 0.06em;
@@ -1834,7 +1834,7 @@ ol.steps {
   display: inline-flex;
   align-items: center;
   gap: 4px;
-  font-family: "Kode Mono", monospace;
+  font-family: var(--font-kode-mono), monospace;
   text-transform: uppercase;
   letter-spacing: 0.08em;
   font-size: 11px;
@@ -1877,7 +1877,7 @@ ol.steps {
     #232323 24px
   );
   color: var(--text-mute);
-  font-family: "Kode Mono", monospace;
+  font-family: var(--font-kode-mono), monospace;
   text-transform: uppercase;
   letter-spacing: 0.12em;
   font-size: 12px;
@@ -1903,7 +1903,7 @@ ol.steps {
 }
 .callout-rotulo {
   display: block;
-  font-family: "Kode Mono", monospace;
+  font-family: var(--font-kode-mono), monospace;
   text-transform: uppercase;
   letter-spacing: 0.1em;
   font-size: 11px;
@@ -1996,7 +1996,7 @@ ol.steps {
   color: var(--text-mute);
 }
 .widget-todo-tag {
-  font-family: "Kode Mono", monospace;
+  font-family: var(--font-kode-mono), monospace;
   text-transform: uppercase;
   letter-spacing: 0.1em;
   font-size: 11px;
@@ -2016,7 +2016,7 @@ ol.steps {
   cursor: pointer;
 }
 .dz-tag {
-  font-family: "Kode Mono", monospace;
+  font-family: var(--font-kode-mono), monospace;
   font-size: 11px;
   text-transform: uppercase;
   letter-spacing: 0.06em;
@@ -2099,7 +2099,7 @@ ol.steps {
 
 /* checklist-progress */
 .check-titulo {
-  font-family: "Kode Mono", monospace;
+  font-family: var(--font-kode-mono), monospace;
   font-size: 12px;
   text-transform: uppercase;
   letter-spacing: 0.06em;
@@ -2136,7 +2136,7 @@ ul.check-lista {
 }
 .check-progresso {
   margin: 14px 0 0;
-  font-family: "Kode Mono", monospace;
+  font-family: var(--font-kode-mono), monospace;
   font-size: 13px;
   color: var(--text-mute);
 }
@@ -2186,7 +2186,7 @@ ul.check-lista {
   margin-bottom: 14px;
 }
 .cle-btn {
-  font-family: "Kode Mono", monospace;
+  font-family: var(--font-kode-mono), monospace;
   font-size: 12px;
   padding: 6px 12px;
   border: 1px solid var(--border);
@@ -2225,7 +2225,7 @@ ul.check-lista {
   border-radius: 10px;
   padding: 14px;
   overflow-x: auto;
-  font-family: "Kode Mono", Menlo, Consolas, monospace;
+  font-family: var(--font-kode-mono), Menlo, Consolas, monospace;
   font-size: 12.5px;
   line-height: 1.7;
   margin: 0;
@@ -2255,7 +2255,7 @@ ul.check-lista {
 }
 .cle-tag {
   display: inline-block;
-  font-family: "Kode Mono", monospace;
+  font-family: var(--font-kode-mono), monospace;
   font-size: 10px;
   letter-spacing: 0.05em;
   text-transform: uppercase;
@@ -2338,7 +2338,7 @@ ul.check-lista {
   border-top: 1px dashed var(--border);
 }
 .mk-label {
-  font-family: "Kode Mono", monospace;
+  font-family: var(--font-kode-mono), monospace;
   font-size: 11px;
   letter-spacing: 0.06em;
   text-transform: uppercase;
@@ -2391,7 +2391,7 @@ ul.check-lista {
   margin: 2em 0;
 }
 .term-btn {
-  font-family: "Kode Mono", monospace;
+  font-family: var(--font-kode-mono), monospace;
   font-size: 13px;
   padding: 8px 14px;
   border: 1px solid var(--accent);
@@ -2410,7 +2410,7 @@ ul.check-lista {
   border-radius: 10px;
   padding: 14px 16px;
   overflow-x: auto;
-  font-family: "Kode Mono", Menlo, Consolas, monospace;
+  font-family: var(--font-kode-mono), Menlo, Consolas, monospace;
   font-size: 12.5px;
   line-height: 1.7;
   margin: 10px 0 0;
@@ -2866,7 +2866,7 @@ ul.check-lista {
   text-align: right;
 }
 .aula-nav-dir {
-  font-family: "Kode Mono", monospace;
+  font-family: var(--font-kode-mono), monospace;
   text-transform: uppercase;
   letter-spacing: 0.08em;
   font-size: 11px;
@@ -2951,7 +2951,7 @@ ul.check-lista {
 }
 .entrar-eyebrow {
   display: block;
-  font-family: "Kode Mono", monospace;
+  font-family: var(--font-kode-mono), monospace;
   text-transform: uppercase;
   letter-spacing: 0.1em;
   font-size: 11px;
@@ -3004,7 +3004,7 @@ ul.check-lista {
 .entrar-btn {
   height: 48px;
   width: 100%;
-  font-family: "Kode Mono", monospace;
+  font-family: var(--font-kode-mono), monospace;
   text-transform: uppercase;
   letter-spacing: 0.06em;
   font-size: 13px;
@@ -3060,7 +3060,7 @@ ul.check-lista {
 }
 .entrar-code {
   text-align: center;
-  font-family: "Kode Mono", monospace;
+  font-family: var(--font-kode-mono), monospace;
   font-size: 26px !important;
   letter-spacing: 0.4em;
   padding-left: 0.4em !important;
@@ -3217,7 +3217,7 @@ ul.check-lista {
   color: var(--text);
 }
 .cmt-badge {
-  font-family: "Kode Mono", monospace;
+  font-family: var(--font-kode-mono), monospace;
   text-transform: uppercase;
   letter-spacing: 0.08em;
   font-size: 10px;
@@ -3322,7 +3322,7 @@ ul.check-lista {
   display: inline-flex;
   align-items: center;
   gap: 8px;
-  font-family: "Kode Mono", monospace;
+  font-family: var(--font-kode-mono), monospace;
   text-transform: uppercase;
   letter-spacing: 0.12em;
   font-size: 11px;
@@ -3384,7 +3384,7 @@ ul.check-lista {
   display: flex;
   align-items: center;
   justify-content: center;
-  font-family: "Kode Mono", monospace;
+  font-family: var(--font-kode-mono), monospace;
 }
 .ob-step-txt {
   font-size: 15px;

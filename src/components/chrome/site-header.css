@@ -164,7 +164,7 @@ nav.top {
 }
 .mobile-menu-links a:not(.btn) {
   padding: 14px 18px;
-  font-family: "Geist", sans-serif;
+  font-family: var(--font-geist), sans-serif;
   font-size: 16px;
   font-weight: 500;
   color: var(--text-dim);
@@ -268,7 +268,7 @@ nav.top.nav--aulas {
   padding: 0 18px;
   border-radius: 999px;
   border: 1px solid transparent;
-  font-family: "Kode Mono", monospace;
+  font-family: var(--font-kode-mono), monospace;
   font-size: 14px;
   font-weight: 500;
   text-transform: uppercase;
