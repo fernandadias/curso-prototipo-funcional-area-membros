@@ -167,6 +167,12 @@
   .bar.lp { background: #6b5bb0; color: #f1edff; }
   .bar.post { background: #2c2c2c; color: var(--dim); border: 1px dashed var(--line-strong); }
   .bar.plat .pri, .bar.lp .pri, .bar.post .pri { background: rgba(255, 255, 255, 0.18); }
+  .bar.done {
+    background: rgba(212, 245, 66, 0.14);
+    color: var(--lime);
+    border: 1px solid rgba(212, 245, 66, 0.55);
+  }
+  .bar.done .pri { background: var(--lime); color: #161616; }
 
   .mile {
     grid-row: 1;
@@ -214,6 +220,11 @@
     🎯 <b>Meta:</b> abrir a venda. <b>Dependência de negócio:</b> Módulos&nbsp;1 e&nbsp;2 prontos para os alunos
     (conteúdo + vídeo), com paywall e acesso funcionando de ponta a ponta.
   </div>
+  <p style="margin-top:14px;color:var(--dim);font-size:13.5px">
+    <b style="color:var(--lime)">Status (20/06):</b> trilha de <b>plataforma concluída</b> — paywall,
+    empty states, gating no servidor, enxugar p/ lançamento e CI. Em aberto: <b>conteúdo/vídeo</b>
+    (M2 em escrita), <b>LP</b> e o pós-lançamento.
+  </p>
 
   <h2>O que precisa estar pronto (critérios de lançamento)</h2>
   <div class="crit">
@@ -231,6 +242,7 @@
     <span><i class="sw lp"></i> Landing page</span>
     <span><i class="sw post"></i> Pós-lançamento</span>
     <span><i class="sw mile"></i> Marco</span>
+    <span><i class="sw" style="background:rgba(212,245,66,.18);border:1px solid rgba(212,245,66,.55)"></i> ✓ Concluído</span>
   </div>
 
   <div class="gantt">
@@ -275,23 +287,23 @@
 
     <div class="grow">
       <div class="rlabel"><span class="t">Paywall no meio da aula paga</span><span class="meta">#26 · <span class="me">eu</span></span></div>
-      <div class="lane"><div class="bar plat" style="grid-column:1/2"><span class="pri">must</span>Paywall</div></div>
+      <div class="lane"><div class="bar plat done" style="grid-column:1/2"><span class="pri">feito</span>✓ Paywall</div></div>
     </div>
     <div class="grow">
       <div class="rlabel"><span class="t">Empty states: fechada &amp; chegando</span><span class="meta">#26 · <span class="me">eu</span></span></div>
-      <div class="lane"><div class="bar plat" style="grid-column:1/2"><span class="pri">must</span>Empty states</div></div>
+      <div class="lane"><div class="bar plat done" style="grid-column:1/2"><span class="pri">feito</span>✓ Empty states</div></div>
     </div>
     <div class="grow">
       <div class="rlabel"><span class="t">Gating de conteúdo no servidor</span><span class="meta">#49 · <span class="me">eu</span> · segurança</span></div>
-      <div class="lane"><div class="bar plat" style="grid-column:1/2"><span class="pri">must</span>Gating servidor</div></div>
+      <div class="lane"><div class="bar plat done" style="grid-column:1/2"><span class="pri">feito</span>✓ Gating servidor</div></div>
     </div>
     <div class="grow">
       <div class="rlabel"><span class="t">Enxugar p/ lançar (login→/aulas, esconder Início/Encontros)</span><span class="meta"><span class="me">eu</span></span></div>
-      <div class="lane"><div class="bar plat" style="grid-column:1/2"><span class="pri">must</span>Enxugar</div></div>
+      <div class="lane"><div class="bar plat done" style="grid-column:1/2"><span class="pri">feito</span>✓ Enxugar</div></div>
     </div>
     <div class="grow">
       <div class="rlabel"><span class="t">CI: build + lint + type-check em PR</span><span class="meta">#47 · <span class="me">eu</span></span></div>
-      <div class="lane"><div class="bar plat" style="grid-column:1/2"><span class="pri">should</span>CI</div></div>
+      <div class="lane"><div class="bar plat done" style="grid-column:1/2"><span class="pri">feito</span>✓ CI</div></div>
     </div>
 
     <!-- TRILHA LP -->
@@ -353,13 +365,13 @@
     </div>
   </div>
 
-  <h2>O que eu começo já (sem depender de você)</h2>
+  <h2>Plataforma — concluído ✓</h2>
   <div class="box">
     <ul>
-      <li><b>#26 Paywall + empty states</b> e <b>#49 gating no servidor</b> — o coração do modelo free/pago e da segurança do lançamento.</li>
-      <li><b>Enxugar p/ lançar</b> — login → /aulas e esconder Início/Encontros (mock) até a #9.</li>
-      <li><b>#47 CI</b> — rede de proteção pra não quebrar em produção.</li>
-      <li><b>#24 LP</b> — reposicionar a copy enquanto a gravação acontece.</li>
+      <li>✅ <b>#26 Paywall + empty states</b> e <b>#49 gating no servidor</b> — coração do modelo free/pago, com bloqueio no servidor.</li>
+      <li>✅ <b>Enxugar p/ lançar</b> — login → /aulas e Início/Encontros (mock) escondidos via flag <code>COMUNIDADE_ATIVA</code> até a #9.</li>
+      <li>✅ <b>#47 CI</b> — lint + build em todo PR (primeira execução verde).</li>
+      <li>⏭️ <b>#24 LP</b> — reposicionar a copy (multimídia) — <b>próximo</b>, em paralelo à gravação.</li>
     </ul>
   </div>
 
