@@ -1,6 +1,12 @@
 // Link de checkout da Hotmart (mesmo usado na LP).
 export const CHECKOUT_URL = "https://pay.hotmart.com/G106003864J?off=u44pgon3";
 
+// Flag de lançamento: a área de comunidade (Início + Encontros) usa dados
+// mock até o backend (#9) ficar pronto. Enquanto false, escondemos do menu,
+// o login cai em /aulas e as rotas /inicio e /encontros redirecionam.
+// Vire para true quando #9/#27 estiverem prontas.
+export const COMUNIDADE_ATIVA = false;
+
 // Artigos de ajuda da Hotmart usados nos CTAs do login.
 // "Te ajudo": encontrar a compra / e-mail usado.
 export const HELP_PURCHASES_URL =

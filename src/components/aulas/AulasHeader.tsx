@@ -4,15 +4,18 @@ import Link from "next/link";
 import { usePathname, useRouter } from "next/navigation";
 import { useEffect, useRef, useState } from "react";
 import { createClient } from "@/lib/supabase/client";
-import { CHECKOUT_URL } from "@/lib/config";
+import { CHECKOUT_URL, COMUNIDADE_ATIVA } from "@/lib/config";
 
 type Aluno = { nome: string; papel: string };
 
-const LINKS_ALUNO = [
-  { label: "Início", href: "/inicio" },
-  { label: "Aulas", href: "/aulas" },
-  { label: "Encontros", href: "/encontros" },
-];
+// Início/Encontros só entram no menu quando a comunidade estiver ativa (#9).
+const LINKS_ALUNO = COMUNIDADE_ATIVA
+  ? [
+      { label: "Início", href: "/inicio" },
+      { label: "Aulas", href: "/aulas" },
+      { label: "Encontros", href: "/encontros" },
+    ]
+  : [{ label: "Aulas", href: "/aulas" }];
 
 function iniciais(nome: string) {
   const partes = nome.trim().split(/\s+/).filter(Boolean);

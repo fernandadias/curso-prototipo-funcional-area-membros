@@ -4,7 +4,7 @@ import { useEffect, useState } from "react";
 import Link from "next/link";
 import { useRouter } from "next/navigation";
 import { createClient } from "@/lib/supabase/client";
-import { CHECKOUT_URL, HELP_PURCHASES_URL } from "@/lib/config";
+import { CHECKOUT_URL, HELP_PURCHASES_URL, COMUNIDADE_ATIVA } from "@/lib/config";
 import "../aulas/aulas.css";
 import "@/components/chrome/site-header.css";
 
@@ -85,7 +85,7 @@ export default function EntrarPage() {
         type: "email",
       });
       if (error) throw error;
-      router.push("/inicio");
+      router.push(COMUNIDADE_ATIVA ? "/inicio" : "/aulas");
       router.refresh();
     } catch {
       setErro("Código inválido ou expirado. Confira o e-mail mais recente.");
