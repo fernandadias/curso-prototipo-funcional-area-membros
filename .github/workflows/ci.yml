@@ -1,0 +1,40 @@
+name: CI
+
+# Roda em todo PR para a main e em pushes na main, garantindo que lint,
+# type-check e build passam antes de chegar em produção.
+on:
+  pull_request:
+    branches: [main]
+  push:
+    branches: [main]
+
+# Cancela execuções antigas do mesmo branch/PR quando chega um novo push.
+concurrency:
+  group: ci-${{ github.ref }}
+  cancel-in-progress: true
+
+jobs:
+  verify:
+    name: Lint + build
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v4
+
+      - uses: actions/setup-node@v4
+        with:
+          node-version: 22
+          cache: npm
+
+      - name: Instalar dependências
+        run: npm ci
+
+      - name: Lint
+        run: npm run lint
+
+      - name: Build (inclui type-check)
+        run: npm run build
+        env:
+          # Placeholders públicos só para o build — o Supabase real é acessado
+          # em runtime (cookies/env de produção), não durante o build.
+          NEXT_PUBLIC_SUPABASE_URL: https://example.supabase.co
+          NEXT_PUBLIC_SUPABASE_ANON_KEY: ci-placeholder-anon-key
