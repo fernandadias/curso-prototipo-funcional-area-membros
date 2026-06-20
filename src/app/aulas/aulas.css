@@ -2763,6 +2763,33 @@ ul.check-lista {
   overflow: hidden;
   background: var(--surface);
 }
+
+/* empty state de aula "chegando" */
+.coming-card {
+  margin: 2.5em 0 1em;
+  border: 1px solid var(--border-light);
+  border-radius: var(--radius);
+  background: var(--surface);
+  padding: 40px 32px;
+  text-align: center;
+}
+.coming-card .aulas-mono {
+  display: inline-block;
+  color: var(--accent);
+  margin-bottom: 10px;
+}
+.coming-card h2 {
+  font-size: 22px;
+  font-weight: 800;
+  margin: 0 0 8px;
+}
+.coming-card p {
+  color: var(--text-dim);
+  font-size: 15px;
+  line-height: 1.6;
+  max-width: 520px;
+  margin: 0 auto 20px;
+}
 .paywall-head {
   padding: 28px 28px 0;
 }

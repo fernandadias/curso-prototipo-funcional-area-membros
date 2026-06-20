@@ -4,6 +4,7 @@ import { compileMDX } from "next-mdx-remote/rsc";
 import { getAllLessonParams, getLessonSource } from "@/lib/content";
 import { mdxComponents } from "@/components/aula/mdx-components";
 import { PaywallCard } from "@/components/aulas/PaywallCard";
+import { ComingSoonCard } from "@/components/aulas/ComingSoonCard";
 import { MarkLessonToggle } from "@/components/aulas/MarkLessonToggle";
 import { Comments } from "@/components/aulas/Comments";
 import { userHasAccess } from "@/lib/access";
@@ -46,34 +47,36 @@ export default async function AulaPage({
   const data = getLessonSource(modulo, slug);
   if (!data) notFound();
 
-  // Aula "chegando" (em revisão) ainda não tem página própria.
-  if (data.meta.status !== "disponivel") notFound();
-
   const { meta, modulo: mod, prev, next } = data;
+  const chegando = meta.status === "chegando";
 
-  // Gate: aula gratuita é sempre liberada; aula paga exige aluno logado
-  // com acesso ativo (course_access, preenchido pelo webhook da Hotmart).
-  const temAcesso = meta.free || (await userHasAccess());
-  const hasMarker = PAYWALL_RE.test(data.raw);
-
+  // Gate (só para aulas disponíveis): gratuita sempre liberada; paga exige
+  // aluno logado com acesso ativo (course_access, preenchido pelo webhook).
+  // O conteúdo pago só é compilado/enviado quando há acesso — gating no servidor.
   let content = null;
-  let mostrarPaywall = false;
+  let lock: null | "paywall" | "fechada" = null;
 
-  if (temAcesso) {
-    content = await compile(data.raw);
-  } else if (hasMarker) {
-    // preview grátis = tudo antes do marcador <Paywall />
-    const preview = data.raw.split(PAYWALL_RE)[0];
-    try {
-      content = await compile(preview);
-    } catch {
-      content = null; // corte no meio de bloco JSX → gate total
+  if (!chegando) {
+    const temAcesso = meta.free || (await userHasAccess());
+    const hasMarker = PAYWALL_RE.test(data.raw);
+    if (temAcesso) {
+      content = await compile(data.raw);
+    } else if (hasMarker) {
+      // preview grátis = tudo antes do marcador <Paywall />
+      const preview = data.raw.split(PAYWALL_RE)[0];
+      try {
+        content = await compile(preview);
+      } catch {
+        content = null; // corte no meio de bloco JSX → trata como bloqueio total
+      }
+      lock = "paywall";
+    } else {
+      lock = "fechada"; // aula paga sem marcador → empty state "só para alunos"
     }
-    mostrarPaywall = true;
-  } else {
-    mostrarPaywall = true; // aula paga sem marcador → gate total
   }
 
+  // Conteúdo liberado por completo (aluno ou aula grátis) → mostra concluir + comentários.
+  const liberada = !!content && !lock;
   const hrefDe = (s: { slug: string }) => `/aulas/${mod.slug}/${s.slug}`;
 
   return (
@@ -126,13 +129,17 @@ export default async function AulaPage({
         <p className="aula-sub">{meta.descricao}</p>
       </header>
 
+      {chegando && <ComingSoonCard previsao={meta.previsao ?? mod.previsao} />}
       {content && <article className="prosa">{content}</article>}
-      {mostrarPaywall && <PaywallCard />}
+      {lock === "paywall" && <PaywallCard />}
+      {lock === "fechada" && <PaywallCard variant="fechada" />}
 
-      {/* marcar conclusão */}
-      <div className="aula-done">
-        <MarkLessonToggle moduloSlug={mod.slug} slug={meta.slug} />
-      </div>
+      {/* marcar conclusão (só com a aula liberada) */}
+      {liberada && (
+        <div className="aula-done">
+          <MarkLessonToggle moduloSlug={mod.slug} slug={meta.slug} />
+        </div>
+      )}
 
       {/* footer prev/next */}
       <nav className="aula-nav">
@@ -158,7 +165,7 @@ export default async function AulaPage({
         )}
       </nav>
 
-      <Comments lessonKey={`${mod.slug}/${meta.slug}`} />
+      {liberada && <Comments lessonKey={`${mod.slug}/${meta.slug}`} />}
     </div>
   );
 }

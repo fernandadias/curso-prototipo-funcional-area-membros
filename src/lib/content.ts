@@ -140,9 +140,11 @@ export function getLessonSource(moduloSlug: string, aulaSlug: string) {
 // Lista plana de todos os pares (modulo, aula) — usado no generateStaticParams.
 // Só aulas disponíveis geram página; "chegando" entram apenas como título.
 export function getAllLessonParams() {
+  // Inclui "chegando" para que a aula tenha rota e mostre o empty state
+  // (em produção) ao ser clicada na sidebar.
   return getModules().flatMap((m) =>
     m.aulas
-      .filter((a) => a.status === "disponivel")
+      .filter((a) => a.status === "disponivel" || a.status === "chegando")
       .map((a) => ({ modulo: m.slug, slug: a.slug })),
   );
 }

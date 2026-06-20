@@ -180,10 +180,12 @@ export function Sidebar({
                         const href = `/aulas/${m.slug}/${a.slug}`;
                         const ativoAula = pathname === href;
                         const visto = mounted && isViewed(lessonKey(m.slug, a.slug));
-                        const linkavel = a.status === "disponivel";
+                        // Todas clicáveis: disponível → conteúdo/paywall; chegando → empty state.
+                        const linkavel = true;
 
                         let tag = "";
-                        if (a.status === "chegando") tag = temAcesso ? "Chegando" : "Para alunos";
+                        // "Chegando" prevalece (estado de prontidão), mesmo p/ não-aluno.
+                        if (a.status === "chegando") tag = "Chegando";
                         else if (!a.free && !temAcesso) tag = "Para alunos";
 
                         const marker = visto && temAcesso ? "✓" : num;

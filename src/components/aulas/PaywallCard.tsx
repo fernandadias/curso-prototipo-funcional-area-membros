@@ -16,15 +16,21 @@ const BENEFICIOS = [
   },
 ];
 
-export function PaywallCard() {
+// variant "corte": aparece no meio da aula (após o preview grátis).
+// variant "fechada": aula paga sem preview — empty state "só para alunos".
+export function PaywallCard({ variant = "corte" }: { variant?: "corte" | "fechada" }) {
+  const fechada = variant === "fechada";
   return (
-    <section className="paywall-card">
+    <section className={`paywall-card${fechada ? " paywall-fechada" : ""}`}>
       <div className="paywall-head">
-        <span className="aulas-mono">Conteúdo exclusivo</span>
-        <h2>Desbloqueie o curso completo</h2>
+        <span className="aulas-mono">
+          {fechada ? "Aula para alunos" : "Conteúdo exclusivo"}
+        </span>
+        <h2>{fechada ? "Esta é uma aula para alunos" : "Desbloqueie o curso completo"}</h2>
         <p>
-          Esta aula continua para alunos. Garanta seu acesso e veja esta e
-          todas as demais aulas.
+          {fechada
+            ? "Esta aula faz parte do conteúdo para alunos. Garanta seu acesso e veja esta e todas as demais aulas."
+            : "Esta aula continua para alunos. Garanta seu acesso e veja esta e todas as demais aulas."}
         </p>
       </div>
 
