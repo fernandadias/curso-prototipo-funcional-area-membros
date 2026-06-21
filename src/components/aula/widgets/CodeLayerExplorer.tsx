@@ -1,6 +1,7 @@
 "use client";
 
 import { useState } from "react";
+import { Icon } from "@/components/ui/Icon";
 
 // Explorador de camadas: acende uma das três camadas no código gerado e
 // esmaece as outras. Conceito da Aula 03 (ler o código do Figma Make).
@@ -23,7 +24,7 @@ const BOTOES: { l: Camada; rotulo: string }[] = [
 const SEGMENTOS: { layer: Exclude<Camada, "all">; tag: string; code: string }[] = [
   {
     layer: "html",
-    tag: "▸ Estrutura",
+    tag: "Estrutura",
     code: `<div class="todo">
   <h2>Minhas tarefas</h2>
   <input id="campo" placeholder="Nova tarefa">
@@ -33,7 +34,7 @@ const SEGMENTOS: { layer: Exclude<Camada, "all">; tag: string; code: string }[] 
   },
   {
     layer: "css",
-    tag: "▸ Estilo",
+    tag: "Estilo",
     code: `<style>
   .todo { font-family: sans-serif; max-width: 320px; }
   #add  { background: #6b4; color: white; border-radius: 6px; }
@@ -42,7 +43,7 @@ const SEGMENTOS: { layer: Exclude<Camada, "all">; tag: string; code: string }[] 
   },
   {
     layer: "js",
-    tag: "▸ Comportamento",
+    tag: "Comportamento",
     code: `<script>
   add.addEventListener("click", () => {
     const li = document.createElement("li");
@@ -79,7 +80,9 @@ export function CodeLayerExplorer() {
               key={s.layer}
               className={`cle-seg cle-seg-${s.layer} ${on ? "on" : "faded"}`}
             >
-              <span className="cle-tag">{s.tag}</span>
+              <span className="cle-tag">
+                <Icon name="caret-right" smaller /> {s.tag}
+              </span>
               {"\n" + s.code + "\n"}
             </span>
           );

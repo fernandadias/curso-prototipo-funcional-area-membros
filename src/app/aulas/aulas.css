@@ -3558,3 +3558,50 @@ ul.check-lista {
 .quiz-fb.no .fa-solid {
   color: #e08585;
 }
+
+/* ---------- Callout: ícone FA acompanha o rótulo (accent) ---------- */
+.callout-ico {
+  color: var(--accent);
+}
+.callout-atencao .callout-ico {
+  color: var(--accent);
+}
+
+/* ---------- Prompt: rótulo branco + tracking no corpo ---------- */
+.prompt-label {
+  color: #fff;
+}
+.prompt-text {
+  letter-spacing: 0.04em;
+}
+
+/* ---------- Checkbox dos widgets (lima + check FA via CSS) ---------- */
+.aulas-root .widget input[type="checkbox"] {
+  appearance: none;
+  -webkit-appearance: none;
+  width: 18px;
+  height: 18px;
+  margin: 0;
+  flex-shrink: 0;
+  border-radius: 5px;
+  border: 1.5px solid var(--border-light);
+  background: var(--surface-2);
+  cursor: pointer;
+  position: relative;
+}
+.aulas-root .widget input[type="checkbox"]:checked {
+  background: var(--accent);
+  border-color: var(--accent);
+}
+.aulas-root .widget input[type="checkbox"]:checked::after {
+  content: "\f00c"; /* fa-check */
+  font-family: "Font Awesome 7 Pro";
+  font-weight: 900;
+  font-size: 11px;
+  color: #1c1c1c;
+  position: absolute;
+  inset: 0;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+}

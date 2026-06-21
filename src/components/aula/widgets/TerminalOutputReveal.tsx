@@ -1,6 +1,7 @@
 "use client";
 
 import { useState } from "react";
+import { Icon } from "@/components/ui/Icon";
 
 // Caixa de saída de terminal que expande ao clicar. Usada pra mostrar o que o
 // agente "imprime" sem assustar (a pessoa não precisa decorar nada).
@@ -31,7 +32,15 @@ export function TerminalOutputReveal({
         className={`term-btn ${aberto ? "on" : ""}`}
         onClick={() => setAberto((v) => !v)}
       >
-        {aberto ? `▾ Ocultar a saída` : `▸ ${String(rotulo)}`}
+        {aberto ? (
+          <>
+            <Icon name="caret-down" /> Ocultar a saída
+          </>
+        ) : (
+          <>
+            <Icon name="caret-right" /> {String(rotulo)}
+          </>
+        )}
       </button>
       {aberto && (
         <pre className="term-out">

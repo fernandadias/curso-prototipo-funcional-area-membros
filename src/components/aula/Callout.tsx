@@ -1,12 +1,14 @@
 import type { ReactNode } from "react";
+import { Icon } from "@/components/ui/Icon";
 
 // Caixa de destaque conforme o contrato: <Callout tipo="dica|atencao|fonte">
 type Tipo = "dica" | "atencao" | "fonte";
 
+// Ícones Font Awesome (nunca emoji) — ver docs/DESIGN.md.
 const ICONE: Record<Tipo, string> = {
-  dica: "💡",
-  atencao: "⚠️",
-  fonte: "🔗",
+  dica: "lightbulb",
+  atencao: "hexagon-exclamation",
+  fonte: "book-blank",
 };
 
 const ROTULO: Record<Tipo, string> = {
@@ -25,7 +27,7 @@ export function Callout({
   return (
     <aside className={`callout callout-${tipo}`}>
       <span className="callout-ico" aria-hidden="true">
-        {ICONE[tipo]}
+        <Icon name={ICONE[tipo]} />
       </span>
       <div className="callout-body">
         <span className="callout-rotulo">{ROTULO[tipo]}</span>

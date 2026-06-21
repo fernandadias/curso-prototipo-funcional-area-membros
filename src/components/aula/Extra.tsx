@@ -1,3 +1,5 @@
+import { Icon } from "@/components/ui/Icon";
+
 export function Extra({
   slug,
   titulo,
@@ -16,7 +18,9 @@ export function Extra({
     >
       <div className="extra-card-hd">
         <span className="extra-card-tag">Extra</span>
-        <span className="extra-card-cta">Abrir ↗</span>
+        <span className="extra-card-cta">
+          Abrir <Icon name="arrow-up-right" smaller />
+        </span>
       </div>
       <div className="extra-card-bd" data-cursor-dark>
         <span className="extra-card-titulo">{titulo}</span>

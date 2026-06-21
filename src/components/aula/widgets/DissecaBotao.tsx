@@ -1,6 +1,7 @@
 "use client";
 
 import { useState } from "react";
+import { Icon } from "@/components/ui/Icon";
 
 // Dissecação do botão "Curtir": liga/desliga as três camadas e vê o impacto.
 // Inclui contador de curtidas (comportamento) e nota explicativa por estado.
@@ -89,7 +90,13 @@ export function DissecaBotao() {
               }`}
               onClick={curtir}
             >
-              {estilo ? (curtido ? "♥ Curtido" : "♡ Curtir") : "Curtir"}
+              {estilo ? (
+                <>
+                  <Icon name="heart" /> {curtido ? "Curtido" : "Curtir"}
+                </>
+              ) : (
+                "Curtir"
+              )}
             </button>
             <span className={`dz-count ${estilo ? "" : "raw"}`}>
               {contagem} {plural}

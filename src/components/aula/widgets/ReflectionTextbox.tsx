@@ -1,6 +1,7 @@
 "use client";
 
 import { useEffect, useState } from "react";
+import { Icon } from "@/components/ui/Icon";
 
 // Campo de reflexão com auto-save local (privado do aluno, por enquanto).
 // Uso no MDX:
@@ -9,7 +10,7 @@ import { useEffect, useState } from "react";
 //     placeholder="Ex.: percebi que…" hint="Só você vê isso por enquanto." />
 export function ReflectionTextbox({
   id,
-  titulo = "✍️ Reflexão",
+  titulo = "Reflexão",
   descricao,
   placeholder = "Escreva aqui…",
   hint = "Por enquanto, só você vê o que escrever aqui.",
@@ -45,7 +46,9 @@ export function ReflectionTextbox({
 
   return (
     <div className="widget reflect-widget">
-      <p className="reflect-titulo">{String(titulo)}</p>
+      <p className="reflect-titulo">
+        <Icon name="file-pen" /> {String(titulo)}
+      </p>
       {descricao ? <p className="reflect-desc">{String(descricao)}</p> : null}
       <textarea
         value={texto}

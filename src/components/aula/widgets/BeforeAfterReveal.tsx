@@ -1,21 +1,22 @@
 "use client";
 
 import { useState } from "react";
+import { Icon } from "@/components/ui/Icon";
 
 // Comparação "antes × depois" de prompts: mostra a versão fraca e revela a
 // versão forte ao clicar. Conceito da Aula 07 (dirigir o agente).
-// Uso no MDX:
+// Uso no MDX (sem glyph nos rótulos — os ícones vêm do componente):
 //   <Widget nome="before-after-reveal"
-//     rotuloFraco="✗ Single-shot" textoFraco="..."
-//     rotuloForte="✓ Iterativo" passosFortes={["1. …", "2. …"]}
-//     porque="a cada passo você confere…" botao="Ver a versão em passos →" />
+//     rotuloFraco="Single-shot" textoFraco="..."
+//     rotuloForte="Iterativo" passosFortes={["1. …", "2. …"]}
+//     porque="a cada passo você confere…" botao="Ver a versão em passos" />
 export function BeforeAfterReveal({
-  rotuloFraco = "✗ Versão fraca",
+  rotuloFraco = "Versão fraca",
   textoFraco,
-  rotuloForte = "✓ Versão forte",
+  rotuloForte = "Versão forte",
   passosFortes,
   porque,
-  botao = "Ver a versão melhor →",
+  botao = "Ver a versão melhor",
 }: {
   rotuloFraco?: unknown;
   textoFraco?: unknown;
@@ -30,7 +31,9 @@ export function BeforeAfterReveal({
   return (
     <div className={`widget makeover ${aberto ? "open" : ""}`}>
       <div className="mk-bloco mk-fraco">
-        <p className="mk-label mk-label-fraco">{String(rotuloFraco)}</p>
+        <p className="mk-label mk-label-fraco">
+          <Icon name="xmark" /> {String(rotuloFraco)}
+        </p>
         <p className="mk-bubble mk-bubble-fraco">{String(textoFraco ?? "")}</p>
       </div>
 
@@ -40,11 +43,13 @@ export function BeforeAfterReveal({
           className="mk-btn"
           onClick={() => setAberto(true)}
         >
-          {String(botao)}
+          {String(botao)} <Icon name="arrow-right" smaller />
         </button>
       ) : (
         <div className="mk-bloco mk-forte">
-          <p className="mk-label mk-label-forte">{String(rotuloForte)}</p>
+          <p className="mk-label mk-label-forte">
+            <Icon name="check" /> {String(rotuloForte)}
+          </p>
           {passos.map((p, i) => (
             <p key={i} className="mk-bubble mk-bubble-forte">
               {p}

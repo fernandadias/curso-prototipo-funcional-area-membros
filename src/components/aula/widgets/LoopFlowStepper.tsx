@@ -1,6 +1,7 @@
 "use client";
 
 import { useState } from "react";
+import { Icon } from "@/components/ui/Icon";
 
 // Loop de um dia de trabalho com o agente: toque em cada etapa e veja a
 // descrição mudar. Conceito da Aula 05 (cockpit e motor).
@@ -47,7 +48,11 @@ export function LoopFlowStepper() {
             >
               {p.rotulo}
             </button>
-            {p.seta && <span className="lfs-arrow">{p.seta}</span>}
+            {p.seta && (
+              <span className="lfs-arrow">
+                <Icon name={p.seta === "↩" ? "arrow-rotate-left" : "arrow-right"} />
+              </span>
+            )}
           </span>
         ))}
       </div>
