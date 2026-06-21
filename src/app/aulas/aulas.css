@@ -3627,3 +3627,49 @@ ul.check-lista {
 .ah-modal-emoji {
   color: var(--accent);
 }
+
+/* ---------- Camadas: indicador numerado colorido (sem borda esquerda) ---------- */
+.camadas {
+  counter-reset: camada;
+}
+.aulas-root .camada {
+  display: flex;
+  gap: 12px;
+  align-items: flex-start;
+  counter-increment: camada;
+  border-left: none;
+  border-radius: 8px;
+}
+.aulas-root .camada::before {
+  content: counter(camada, decimal-leading-zero);
+  flex-shrink: 0;
+  min-width: 30px;
+  height: 30px;
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  border-radius: 7px;
+  background: var(--bg);
+  border: 1px solid currentColor;
+  font-family: "Kode Mono", monospace;
+  font-size: 11.5px;
+  font-weight: 600;
+  color: var(--cor-camada, var(--text-mute));
+}
+.camada-html {
+  --cor-camada: #e0a16a;
+}
+.camada-css,
+.camada-azul {
+  --cor-camada: #7bbedb;
+}
+.camada-js,
+.camada-dourado {
+  --cor-camada: #d8c06a;
+}
+.camada-roxo {
+  --cor-camada: #b39ddb;
+}
+.camada-verde {
+  --cor-camada: #8ed18a;
+}
