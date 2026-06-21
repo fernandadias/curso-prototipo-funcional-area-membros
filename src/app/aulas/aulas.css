@@ -3731,3 +3731,19 @@ ul.check-lista {
   color: #1c1c1c;
   font-weight: 600;
 }
+
+/* ---------- Títulos com ícone/indicador alinhados ---------- */
+.card-tit {
+  display: flex;
+  align-items: center;
+  gap: 10px;
+}
+.col-card-tit,
+.caixa-checklist-tit {
+  display: flex;
+  align-items: center;
+  gap: 8px;
+}
+.handson .fa-solid {
+  color: #8ed18a;
+}

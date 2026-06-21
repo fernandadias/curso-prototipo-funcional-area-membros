@@ -15,7 +15,7 @@ aula que coloca essa habilidade na sua mão.
 
 <div className="big-idea"><strong>A virada de chave:</strong> trate o agente como um **dev júnior brilhante** (rápido, incansável, cheio de conhecimento), **não como uma máquina mágica**. Um júnior brilhante entrega coisas incríveis *se* você der contexto claro, dividir o trabalho em pedaços e revisar o que ele faz. Largado com um pedido vago, ele chuta. É igualzinho com o agente.</div>
 
-<div className="handson">🛠️ <strong>Faça junto:</strong> abra o projeto da Aula 06 no editor e abra o Claude Code ao lado. A partir de agora, cada caixinha de prompt é algo que você manda *de verdade*. Um de cada vez, conferindo o resultado antes do próximo.</div>
+<div className="handson"><Icon name="dumbbell" /> <strong>Faça junto:</strong> abra o projeto da Aula 06 no editor e abra o Claude Code ao lado. A partir de agora, cada caixinha de prompt é algo que você manda *de verdade*. Um de cada vez, conferindo o resultado antes do próximo.</div>
 
 ## Hábito 1 · Peça em passos, não tudo de uma vez
 
@@ -39,7 +39,7 @@ conferindo cada um. Veja a diferença pra construir a sua lista de tarefas:
   botao="Ver a versão em passos"
 />
 
-<div className="handson">🛠️ <strong>Sua vez:</strong> mande esses quatro pedidos, um a um, no seu projeto. Depois de cada um, recarregue o `localhost:3000` e veja a mudança. No fim, você tem uma lista de tarefas funcional, e já vamos usar ela pra treinar os outros hábitos.</div>
+<div className="handson"><Icon name="dumbbell" /> <strong>Sua vez:</strong> mande esses quatro pedidos, um a um, no seu projeto. Depois de cada um, recarregue o `localhost:3000` e veja a mudança. No fim, você tem uma lista de tarefas funcional, e já vamos usar ela pra treinar os outros hábitos.</div>
 
 <Prompt texto="Na página inicial, substitua o conteúdo por um título 'Minhas tarefas' e um campo de texto com um botão Adicionar." />
 <Prompt texto="Agora, ao clicar em Adicionar, mostre o texto digitado numa lista abaixo do campo." />
@@ -58,28 +58,28 @@ na prática:
 
 <div className="cards">
   <div className="card">
-    <p className="card-tit">📍 Diga ONDE mexer</p>
+    <p className="card-tit"><ListIndicator>01</ListIndicator> Diga ONDE mexer</p>
     <p className="card-desc">Apontar o lugar evita que o agente saia procurando (e mexendo) no que não devia. **Como fazer:** nomeie o arquivo ou o componente. No seu projeto Next.js, a tela inicial mora em `app/page.tsx`. Não sabe onde está algo? Pergunte ao próprio agente.</p>
     <p className="card-prompt">Em vez de "muda o botão" → **"em `app/page.tsx`, o botão Adicionar…"**<br />Ou: "em qual arquivo está o botão Adicionar?"</p>
   </div>
   <div className="card">
-    <p className="card-tit">🎯 Descreva o ESTADO FINAL</p>
+    <p className="card-tit"><ListIndicator>02</ListIndicator> Descreva o ESTADO FINAL</p>
     <p className="card-desc">Dizer só o que está errado deixa o agente adivinhar o certo. Diga como deve ficar. **Como fazer:** descreva o resultado esperado, com detalhes visuais. Você é designer, abuse disso.</p>
     <p className="card-prompt">Em vez de "a lista tá estranha" → **"quero cada tarefa numa linha, texto à esquerda e um X à direita, com uma linha fina separando os itens".**</p>
   </div>
   <div className="card">
-    <p className="card-tit">🐞 Cole a EVIDÊNCIA</p>
+    <p className="card-tit"><ListIndicator>03</ListIndicator> Cole a EVIDÊNCIA</p>
     <p className="card-desc">Quando quebra, aparece uma mensagem (geralmente vermelha) no navegador ou no terminal do editor. Ela parece grega pra gente, mas é ouro pro agente. **Como fazer:** copie a mensagem *inteira*, sem resumir, e cole no chat.</p>
     <p className="card-prompt">**"Apareceu este erro quando cliquei em Adicionar: `texto is not defined`. O esperado é o item entrar na lista."**</p>
   </div>
   <div className="card">
-    <p className="card-tit">🖼️ Mostre uma REFERÊNCIA do que você quer</p>
+    <p className="card-tit"><ListIndicator>04</ListIndicator> Mostre uma REFERÊNCIA do que você quer</p>
     <p className="card-desc">Uma imagem vale mil prompts, e essa é a nossa praia. **Como fazer:** arraste um print ou cole um link de algo parecido com o que você quer. O Claude Code aceita imagens no chat.</p>
     <p className="card-prompt">**"Quero o card de tarefa parecido com este print [arrasta a imagem]."**</p>
   </div>
 </div>
 
-<div className="handson">🛠️ <strong>Sua vez:</strong> refine a sua lista praticando **ONDE + ESTADO FINAL** num pedido só. Compare mentalmente com o que viria de um "deixa a lista bonita". Sente a diferença de controle? (Se algum passo der erro, é a deixa pra praticar a **evidência**: copie a mensagem vermelha inteira e cole no chat.)</div>
+<div className="handson"><Icon name="dumbbell" /> <strong>Sua vez:</strong> refine a sua lista praticando **ONDE + ESTADO FINAL** num pedido só. Compare mentalmente com o que viria de um "deixa a lista bonita". Sente a diferença de controle? (Se algum passo der erro, é a deixa pra praticar a **evidência**: copie a mensagem vermelha inteira e cole no chat.)</div>
 
 <Prompt texto="Em app/page.tsx, deixe cada tarefa numa linha, com o texto à esquerda e o X à direita, separadas por uma linha fina." />
 
@@ -111,7 +111,7 @@ na sua lista de tarefas, você queira mexer só no botão:
   botao="Ver a versão cirúrgica"
 />
 
-<div className="handson">🛠️ <strong>Sua vez:</strong> pratique a **delimitação** na sua lista. Mande e <u>não confira o resultado ainda</u>: guarde pro próximo hábito.</div>
+<div className="handson"><Icon name="dumbbell" /> <strong>Sua vez:</strong> pratique a **delimitação** na sua lista. Mande e <u>não confira o resultado ainda</u>: guarde pro próximo hábito.</div>
 
 <Prompt texto="Deixe o botão Adicionar verde e com cantos arredondados. Não altere a lista nem o campo de texto, só o botão." />
 
@@ -126,10 +126,10 @@ agente faz *demais*. É aqui que a leitura do diff salva você.
 
 <Video src="PLACEHOLDER" legenda="Exercitando o hábito 4" />
 
-<div className="handson">🛠️ <strong>Sua vez:</strong> você acabou de pedir o botão verde (Hábito 3). Agora **leia o diff** dessa mudança no editor: o agente mexeu *só* no botão? Se passou do alvo, corrija numa frase ("desfaça a mudança em X, mantenha o botão"). Se ficou certo, pronto: você fechou o loop inteiro sozinha.</div>
+<div className="handson"><Icon name="dumbbell" /> <strong>Sua vez:</strong> você acabou de pedir o botão verde (Hábito 3). Agora **leia o diff** dessa mudança no editor: o agente mexeu *só* no botão? Se passou do alvo, corrija numa frase ("desfaça a mudança em X, mantenha o botão"). Se ficou certo, pronto: você fechou o loop inteiro sozinha.</div>
 
 <div className="caixa-checklist">
-  <p className="caixa-checklist-tit">🧭 Checklist do bom pedido</p>
+  <p className="caixa-checklist-tit"><Icon name="clipboard-list-check" /> Checklist do bom pedido</p>
   <ul>
     <li>**Um passo por vez**, não o app inteiro de uma vez.</li>
     <li>**Onde** mexer (arquivo/componente) e **qual** o estado final.</li>
