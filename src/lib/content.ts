@@ -2,12 +2,8 @@ import fs from "node:fs";
 import path from "node:path";
 import matter from "gray-matter";
 
-// Lê o conteúdo das aulas conforme o CONTRATO-CONTEUDO.md:
-//   content/modulos/NN-slug-modulo/_modulo.mdx
-//   content/modulos/NN-slug-modulo/NN-slug-aula.mdx
-// O slug usado nas URLs é o nome da pasta/arquivo SEM o prefixo numérico.
-
 const CONTENT_DIR = path.join(process.cwd(), "content", "modulos");
+const EXTRAS_DIR = path.join(process.cwd(), "content", "extras");
 
 const stripOrderPrefix = (name: string) => name.replace(/^\d+-/, "");
 
@@ -147,4 +143,39 @@ export function getAllLessonParams() {
       .filter((a) => a.status === "disponivel" || a.status === "chegando")
       .map((a) => ({ modulo: m.slug, slug: a.slug })),
   );
+}
+
+// ── Extras ────────────────────────────────────────────────────────────────────
+// Páginas de conteúdo opcional que abrem em nova aba.
+//   content/extras/slug.mdx
+
+export type ExtraMeta = {
+  titulo: string;
+  descricao: string;
+  kicker?: string;
+  slug: string;
+};
+
+export function getExtraSource(slug: string): { raw: string; meta: ExtraMeta } | null {
+  const filePath = path.join(EXTRAS_DIR, `${slug}.mdx`);
+  if (!fs.existsSync(filePath)) return null;
+  const raw = fs.readFileSync(filePath, "utf8");
+  const { data } = matter(raw);
+  return {
+    raw,
+    meta: {
+      titulo: data.titulo as string,
+      descricao: data.descricao as string,
+      kicker: data.kicker as string | undefined,
+      slug,
+    },
+  };
+}
+
+export function getAllExtraParams(): { slug: string }[] {
+  if (!fs.existsSync(EXTRAS_DIR)) return [];
+  return fs
+    .readdirSync(EXTRAS_DIR)
+    .filter((f) => f.endsWith(".mdx"))
+    .map((f) => ({ slug: f.replace(/\.mdx$/, "") }));
 }

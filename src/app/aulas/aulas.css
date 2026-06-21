@@ -3456,3 +3456,47 @@ ul.check-lista {
 .ob-sign strong {
   color: var(--text);
 }
+
+/* ---------- Extras (conteúdo opcional, abre em nova aba) ---------- */
+.extras-wrap {
+  min-height: 100vh;
+}
+
+.extra-card {
+  display: block;
+  border: 1px solid rgba(212, 245, 66, 0.25);
+  border-left: 4px solid var(--accent);
+  background: rgba(212, 245, 66, 0.04);
+  border-radius: 0 var(--radius) var(--radius) 0;
+  padding: 14px 16px;
+  margin: 1.6em 0;
+  text-decoration: none;
+  transition: background 0.15s, border-color 0.15s;
+}
+.extra-card:hover {
+  background: rgba(212, 245, 66, 0.09);
+  border-left-color: var(--accent);
+  border-color: rgba(212, 245, 66, 0.45);
+}
+.extra-card-tag {
+  display: inline-block;
+  font-family: "Kode Mono", monospace;
+  font-size: 11px;
+  text-transform: uppercase;
+  letter-spacing: 0.1em;
+  color: var(--accent);
+  margin-bottom: 5px;
+}
+.extra-card-titulo {
+  display: block;
+  color: var(--text);
+  font-size: 15px;
+  font-weight: 700;
+  margin-bottom: 3px;
+}
+.extra-card-desc {
+  color: var(--text-dim);
+  font-size: 14px;
+  margin: 0;
+  line-height: 1.45;
+}
