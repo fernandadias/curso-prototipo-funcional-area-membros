@@ -3772,3 +3772,11 @@ ul.check-lista {
 .extra-card-desc {
   color: var(--text-dim);
 }
+
+/* ---------- Nota da tabela de comparação ---------- */
+.cmp-nota {
+  margin: -8px 0 1.6em;
+  font-size: 13px;
+  font-style: italic;
+  color: var(--text-mute);
+}
