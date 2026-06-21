@@ -1,5 +1,36 @@
+import { cache } from "react";
 import { cookies } from "next/headers";
 import { createClient } from "./supabase/server";
+
+// Deduplica as idas ao Supabase dentro de UMA mesma request (React.cache).
+// O layout (getAlunoInfo) e a página (userHasAccess) batiam em getUser() e
+// course_access separadamente — agora cada um roda no máximo uma vez por request.
+const fetchUser = cache(async () => {
+  try {
+    const supabase = await createClient();
+    const {
+      data: { user },
+    } = await supabase.auth.getUser();
+    return user;
+  } catch {
+    return null;
+  }
+});
+
+const fetchAccessActive = cache(async (email: string) => {
+  try {
+    const supabase = await createClient();
+    const { data } = await supabase
+      .from("course_access")
+      .select("status")
+      .eq("email", email.toLowerCase())
+      .eq("status", "active")
+      .maybeSingle();
+    return Boolean(data);
+  } catch {
+    return false;
+  }
+});
 
 // Override de pré-visualização — SÓ em desenvolvimento. Permite ver a área como
 // aluno ou visitante sem login real, controlado pelo DevPreviewToggle (cookie).
@@ -16,15 +47,7 @@ async function devPreview(): Promise<"aluno" | "visitante" | null> {
 
 // Usuário logado (ou null). Usa getUser() — valida o token no servidor.
 export async function getCurrentUser() {
-  try {
-    const supabase = await createClient();
-    const {
-      data: { user },
-    } = await supabase.auth.getUser();
-    return user;
-  } catch {
-    return null;
-  }
+  return fetchUser();
 }
 
 // Dados do aluno para o header (calculados no servidor, fonte da verdade).
@@ -36,20 +59,12 @@ export async function getAlunoInfo(): Promise<AlunoInfo | null> {
   if (dev === "aluno") return { nome: "Aluna (dev)", papel: "Estudante" };
   if (dev === "visitante") return null;
   try {
-    const supabase = await createClient();
-    const {
-      data: { user },
-    } = await supabase.auth.getUser();
+    const user = await fetchUser();
     if (!user?.email) return null;
 
-    const { data: acesso } = await supabase
-      .from("course_access")
-      .select("status")
-      .eq("email", user.email.toLowerCase())
-      .eq("status", "active")
-      .maybeSingle();
-    if (!acesso) return null;
+    if (!(await fetchAccessActive(user.email))) return null;
 
+    const supabase = await createClient();
     const { data: perfil } = await supabase
       .from("profiles")
       .select("name, is_instructor")
@@ -69,22 +84,7 @@ export async function getAlunoInfo(): Promise<AlunoInfo | null> {
 export async function userHasAccess(): Promise<boolean> {
   const dev = await devPreview();
   if (dev) return dev === "aluno";
-  try {
-    const supabase = await createClient();
-    const {
-      data: { user },
-    } = await supabase.auth.getUser();
-    if (!user?.email) return false;
-
-    const { data } = await supabase
-      .from("course_access")
-      .select("status")
-      .eq("email", user.email.toLowerCase())
-      .eq("status", "active")
-      .maybeSingle();
-
-    return Boolean(data);
-  } catch {
-    return false;
-  }
+  const user = await fetchUser();
+  if (!user?.email) return false;
+  return fetchAccessActive(user.email);
 }

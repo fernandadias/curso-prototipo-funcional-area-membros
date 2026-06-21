@@ -3967,3 +3967,68 @@ ul.check-lista {
   color: var(--text);
   transform: translateY(-2px);
 }
+
+/* ---------- navegação: highlight otimista + skeletons ---------- */
+/* Item da sidebar realça na hora do clique (antes do servidor responder). */
+.sbl:has(.sbl-pending) {
+  background: var(--surface-2);
+  color: var(--accent);
+}
+.sbl:has(.sbl-pending) .sbl-num {
+  color: var(--accent);
+}
+
+/* Esqueletos do corpo/cabeçalho da aula enquanto o MDX compila/streama. */
+.aula-sk {
+  display: flex;
+  flex-direction: column;
+  gap: 14px;
+  margin-top: 28px;
+}
+.aula-sk-head {
+  display: flex;
+  flex-direction: column;
+  gap: 16px;
+  margin-bottom: 8px;
+}
+.sk-line,
+.sk-title,
+.sk-mono {
+  display: block;
+  height: 14px;
+  border-radius: 6px;
+  background: linear-gradient(
+    90deg,
+    var(--surface) 25%,
+    var(--surface-2) 50%,
+    var(--surface) 75%
+  );
+  background-size: 200% 100%;
+  animation: sk-shimmer 1.4s ease-in-out infinite;
+}
+.sk-title {
+  height: 30px;
+  border-radius: 8px;
+}
+.sk-mono {
+  height: 11px;
+  opacity: 0.7;
+}
+.sk-gap {
+  margin-top: 12px;
+}
+@keyframes sk-shimmer {
+  0% {
+    background-position: 200% 0;
+  }
+  100% {
+    background-position: -200% 0;
+  }
+}
+@media (prefers-reduced-motion: reduce) {
+  .sk-line,
+  .sk-title,
+  .sk-mono {
+    animation: none;
+  }
+}

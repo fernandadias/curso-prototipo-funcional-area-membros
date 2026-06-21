@@ -20,6 +20,13 @@ export default function EntrarPage() {
   // invalida o anterior).
   const [cooldown, setCooldown] = useState(0);
 
+  // Destino pós-login — prefetch desde já para que o push após o OTP seja
+  // instantâneo (a área de aulas é rota dinâmica e não prefetcharia sozinha).
+  const destino = COMUNIDADE_ATIVA ? "/inicio" : "/aulas";
+  useEffect(() => {
+    router.prefetch(destino);
+  }, [router, destino]);
+
   useEffect(() => {
     if (cooldown <= 0) return;
     const id = setTimeout(() => setCooldown((c) => c - 1), 1000);
@@ -85,7 +92,7 @@ export default function EntrarPage() {
         type: "email",
       });
       if (error) throw error;
-      router.push(COMUNIDADE_ATIVA ? "/inicio" : "/aulas");
+      router.push(destino);
       router.refresh();
     } catch {
       setErro("Código inválido ou expirado. Confira o e-mail mais recente.");

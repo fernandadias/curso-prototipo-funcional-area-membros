@@ -1,6 +1,6 @@
 "use client";
 
-import Link from "next/link";
+import Link, { useLinkStatus } from "next/link";
 import { usePathname } from "next/navigation";
 import { useEffect, useMemo, useState } from "react";
 import type { ModuleMeta } from "@/lib/content";
@@ -203,6 +203,9 @@ export function Sidebar({
                           <li key={a.slug}>
                             {linkavel ? (
                               <Link href={href} className={`sbl ${ativoAula ? "active" : ""} ${visto ? "visto" : ""}`}>
+                                {/* highlight otimista: marca a linha como ativa
+                                    assim que clicada, sem esperar o servidor */}
+                                <SblPending />
                                 {inner}
                               </Link>
                             ) : (
@@ -224,4 +227,11 @@ export function Sidebar({
       )}
     </aside>
   );
+}
+
+// Marcador invisível: enquanto a navegação para esta aula está pendente,
+// o CSS (`.sbl:has(.sbl-pending)`) realça a linha como ativa na hora.
+function SblPending() {
+  const { pending } = useLinkStatus();
+  return pending ? <span className="sbl-pending" aria-hidden="true" /> : null;
 }
