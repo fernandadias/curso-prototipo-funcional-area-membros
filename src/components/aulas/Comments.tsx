@@ -3,6 +3,7 @@
 import { useCallback, useEffect, useState } from "react";
 import Link from "next/link";
 import { createClient } from "@/lib/supabase/client";
+import { Icon } from "@/components/ui/Icon";
 
 type Author = { name: string | null; is_instructor: boolean } | null;
 type Comment = {
@@ -38,6 +39,58 @@ function quando(iso: string) {
   return d.toLocaleDateString("pt-BR", { day: "2-digit", month: "short" });
 }
 
+// ---- Mock de desenvolvimento -------------------------------------------------
+// Sem Supabase configurado localmente, os comentários não carregam. Em dev,
+// quando o DevPreviewToggle está em "Aluno", mostramos comentários fake (UI
+// completa, ações só no estado local). Nunca roda em produção.
+const IS_DEV = process.env.NODE_ENV !== "production";
+const MOCK_ME_ID = "dev-me";
+function devPreviewCookie(): string {
+  if (typeof document === "undefined") return "";
+  return (
+    document.cookie
+      .split("; ")
+      .find((c) => c.startsWith("pf-dev-preview="))
+      ?.split("=")[1] ?? ""
+  );
+}
+function mockComments(): Comment[] {
+  const now = Date.now();
+  const min = 60_000;
+  return [
+    {
+      id: "mock-1",
+      user_id: "u-ana",
+      parent_id: null,
+      body: "Consegui rodar aqui depois de um tropeço no login do agente. Valeu demais!",
+      created_at: new Date(now - 95 * min).toISOString(),
+      author: { name: "Ana", is_instructor: false },
+    },
+    {
+      id: "mock-2",
+      user_id: "instrutora",
+      parent_id: null,
+      body: "Boa, Ana! Qualquer dúvida no próximo passo, manda aqui que a gente destrava junto.",
+      created_at: new Date(now - 40 * min).toISOString(),
+      author: { name: "Nanda", is_instructor: true },
+    },
+    {
+      id: "mock-3",
+      user_id: "u-bia",
+      parent_id: "mock-1",
+      body: "Passei pelo mesmo! O segredo foi reiniciar o editor depois de instalar a extensão.",
+      created_at: new Date(now - 12 * min).toISOString(),
+      author: { name: "Bia", is_instructor: false },
+    },
+  ];
+}
+const MOCK_REACTIONS: Reaction[] = [
+  { comment_id: "mock-1", user_id: "x1", value: 1 },
+  { comment_id: "mock-1", user_id: "x2", value: 1 },
+  { comment_id: "mock-2", user_id: "x3", value: 1 },
+];
+// -----------------------------------------------------------------------------
+
 export function Comments({ lessonKey }: { lessonKey: string }) {
   const [me, setMe] = useState<Me>(null);
   const [estado, setEstado] = useState<"loading" | "anon" | "sem-acesso" | "ok">(
@@ -48,8 +101,26 @@ export function Comments({ lessonKey }: { lessonKey: string }) {
   const [novo, setNovo] = useState("");
   const [enviando, setEnviando] = useState(false);
   const [respondendo, setRespondendo] = useState<string | null>(null);
+  const [mock, setMock] = useState(false);
 
   const carregar = useCallback(async () => {
+    // Dev: espelha o DevPreviewToggle (Aluno = mock, Visitante = bloqueado).
+    if (IS_DEV) {
+      const pv = devPreviewCookie();
+      if (pv === "aluno") {
+        setMe({ id: MOCK_ME_ID, isInstructor: false });
+        setComments(mockComments());
+        setReactions(MOCK_REACTIONS);
+        setMock(true);
+        setEstado("ok");
+        return;
+      }
+      if (pv === "visitante") {
+        setEstado("anon");
+        return;
+      }
+    }
+
     const supabase = createClient();
     const {
       data: { user },
@@ -106,6 +177,20 @@ export function Comments({ lessonKey }: { lessonKey: string }) {
   async function publicar(parentId: string | null, texto: string) {
     const body = texto.trim();
     if (!body || !me || enviando) return;
+    if (mock) {
+      const novoC: Comment = {
+        id: `mock-${Date.now()}`,
+        user_id: me.id,
+        parent_id: parentId,
+        body,
+        created_at: new Date().toISOString(),
+        author: { name: "Aluna (dev)", is_instructor: false },
+      };
+      setComments((prev) => [...prev, novoC]);
+      if (parentId) setRespondendo(null);
+      else setNovo("");
+      return;
+    }
     setEnviando(true);
     const supabase = createClient();
     const { data, error } = await supabase
@@ -123,22 +208,25 @@ export function Comments({ lessonKey }: { lessonKey: string }) {
 
   async function reagir(commentId: string, value: number) {
     if (!me) return;
-    const supabase = createClient();
     const atual = reactions.find(
       (r) => r.comment_id === commentId && r.user_id === me.id,
     );
     const semMinha = reactions.filter(
       (r) => !(r.comment_id === commentId && r.user_id === me.id),
     );
-    if (atual && atual.value === value) {
-      setReactions(semMinha);
+    const remover = atual && atual.value === value;
+    setReactions(
+      remover ? semMinha : [...semMinha, { comment_id: commentId, user_id: me.id, value }],
+    );
+    if (mock) return;
+    const supabase = createClient();
+    if (remover) {
       await supabase
         .from("comment_reactions")
         .delete()
         .eq("comment_id", commentId)
         .eq("user_id", me.id);
     } else {
-      setReactions([...semMinha, { comment_id: commentId, user_id: me.id, value }]);
       await supabase
         .from("comment_reactions")
         .upsert(
@@ -150,9 +238,10 @@ export function Comments({ lessonKey }: { lessonKey: string }) {
 
   async function apagar(id: string) {
     if (!confirm("Apagar este comentário?")) return;
+    setComments((prev) => prev.filter((c) => c.id !== id && c.parent_id !== id));
+    if (mock) return;
     const supabase = createClient();
     await supabase.from("comments").delete().eq("id", id);
-    setComments((prev) => prev.filter((c) => c.id !== id && c.parent_id !== id));
   }
 
   if (estado === "loading") {
@@ -207,7 +296,7 @@ export function Comments({ lessonKey }: { lessonKey: string }) {
       </form>
 
       {topo.length === 0 ? (
-        <p className="cmts-vazio">Ainda não há comentários. Seja a primeira pessoa. 🍄</p>
+        <p className="cmts-vazio">Ainda não há comentários. Seja a primeira pessoa.</p>
       ) : (
         <ul className="cmt-list">
           {topo.map((c) => (
@@ -295,14 +384,14 @@ function CommentItem({
             className={`cmt-react${meuVoto === 1 ? " on" : ""}`}
             onClick={() => onReagir(comment.id, 1)}
           >
-            👍 {ups > 0 && ups}
+            <Icon name="thumbs-up" /> {ups > 0 && ups}
           </button>
           <button
             type="button"
             className={`cmt-react${meuVoto === -1 ? " on" : ""}`}
             onClick={() => onReagir(comment.id, -1)}
           >
-            👎 {downs > 0 && downs}
+            <Icon name="thumbs-down" /> {downs > 0 && downs}
           </button>
           {!aninhado && (
             <button
