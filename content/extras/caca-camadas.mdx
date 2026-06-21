@@ -1,0 +1,53 @@
+---
+titulo: "Caça-camadas"
+descricao: "Como achar estrutura, estilo e comportamento em qualquer código — mesmo sem saber programar."
+kicker: "Folha de consulta · Referência"
+---
+
+**A regra de ouro:** você não lê o código linha por linha. Você **escaneia procurando pistas**. Cada camada tem uma "cara" reconhecível. Use os tokens abaixo como iscas — bata o olho e caia fora.
+
+<div className="camadas">
+  <div className="camada camada-html">
+    <strong>🔶 Estrutura — HTML / JSX · "o que existe"</strong><br />
+    Os **substantivos**: as coisas que aparecem na tela.
+
+    **Procure por:**
+    - Etiquetas entre `< >` com nome de coisa
+    - `<button>`, `<input>`, `<img>`, `<h2>`, `<ul>`
+    - No React: `<Card>`, `<Button>` (maiúsculo)
+
+    **Exemplo:** `<button>Adicionar</button>`
+  </div>
+  <div className="camada camada-css">
+    <strong>🔷 Estilo — CSS / Tailwind · "como aparece"</strong><br />
+    Tudo sobre **cor, espaço, tamanho e forma**.
+
+    **Procure por:**
+    - `color`, `background`, `padding`, `border-radius`, `font-size`
+    - No Tailwind: apelidos dentro de `className="…"`
+    - `bg-green-500`, `rounded-lg`, `gap-4`, `text-white`
+
+    **Exemplo:** `className="rounded-lg bg-green-500 text-white"`
+  </div>
+  <div className="camada camada-js">
+    <strong>🔸 Comportamento — JavaScript · "o que acontece"</strong><br />
+    Os **verbos**: o que reage quando o usuário age.
+
+    **Procure por:**
+    - Palavras começando com `on…`: `onClick`, `onChange`
+    - A setinha `=>` e a palavra `function`
+    - `addEventListener`, `useState`
+
+    **Exemplo:** `onClick={() => addTask(text)}`
+  </div>
+</div>
+
+<Callout tipo="atencao">
+  **Na vida real elas se misturam.** Num mesmo botão React, a estrutura é o `<button>`, o estilo é o `className` e o comportamento é o `onClick`, tudo na mesma linha. Não procure três blocos separados; procure as **três pistas**, onde quer que estejam.
+</Callout>
+
+<div className="aula-fecho">
+
+Mantenha essa referência aberta ao lado enquanto lê código. Apoia a aula **Reconhecendo as camadas**.
+
+</div>
