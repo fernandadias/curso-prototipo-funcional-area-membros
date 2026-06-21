@@ -87,12 +87,19 @@ create policy "alunos leem perfis"
   on public.profiles for select to authenticated
   using ( public.is_active_student() );
 
--- Cada um edita o próprio nome (não pode mudar is_instructor por aqui — só
--- colunas; a flag fica protegida porque o update do app só envia name).
+-- Cada um edita o próprio perfil (apenas a própria linha).
 drop policy if exists "editar proprio perfil" on public.profiles;
 create policy "editar proprio perfil"
   on public.profiles for update to authenticated
   using ( user_id = auth.uid() ) with check ( user_id = auth.uid() );
+
+-- IMPORTANTE: RLS controla LINHAS, não COLUNAS. Sem o GRANT abaixo, um aluno
+-- poderia setar o próprio is_instructor=true direto pela anon key e virar
+-- moderador (apagar comentário de qualquer um). Travamos o UPDATE de
+-- `authenticated` para SÓ a coluna name; is_instructor fica fora do alcance
+-- (continua sendo marcado por você via SQL, no passo 9).
+revoke update on public.profiles from authenticated;
+grant  update (name) on public.profiles to authenticated;
 
 -- Cria o profile quando o usuário nasce, copiando o nome da course_access.
 create or replace function public.handle_new_user()
