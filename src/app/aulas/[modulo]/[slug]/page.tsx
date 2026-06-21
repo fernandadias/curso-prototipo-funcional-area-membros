@@ -135,7 +135,15 @@ export default async function AulaPage({
       </header>
 
       {chegando && <ComingSoonCard previsao={meta.previsao ?? mod.previsao} />}
-      {content && <article className="prosa">{content}</article>}
+      {content &&
+        (lock === "paywall" ? (
+          <div className="prosa-preview">
+            <article className="prosa">{content}</article>
+            <div className="prosa-fade" aria-hidden="true" />
+          </div>
+        ) : (
+          <article className="prosa">{content}</article>
+        ))}
       {lock === "paywall" && <PaywallCard />}
       {lock === "fechada" && <PaywallCard variant="fechada" />}
 

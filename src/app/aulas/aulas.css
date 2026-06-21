@@ -3781,6 +3781,20 @@ ul.check-lista {
   color: var(--text-mute);
 }
 
+/* ---------- Preview do paywall: texto dissolve no fundo até o card ---------- */
+.prosa-preview {
+  position: relative;
+}
+.prosa-fade {
+  position: absolute;
+  left: 0;
+  right: 0;
+  bottom: 0;
+  height: 240px;
+  background: linear-gradient(to bottom, transparent, var(--bg) 88%);
+  pointer-events: none;
+}
+
 /* ---------- Paywall: price-card featured (igual ao da landing) ---------- */
 .paywall-unlock {
   margin: 2.5em 0 1em;
