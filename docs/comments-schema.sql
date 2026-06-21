@@ -174,7 +174,19 @@ create policy "aluno gere propria reacao"
   with check ( user_id = auth.uid() and public.is_active_student() );
 
 -- =========================================================
--- 9) Marque-se como instrutora (troque pelo e-mail que VOCÊ usa para logar):
+-- 9) Higiene: tira do `anon` (visitante sem login) qualquer escrita.
+--    O app nunca escreve como anon e o RLS já barra (as policies são todas
+--    `to authenticated`), mas remover o GRANT é defense-in-depth — não
+--    dependemos só do RLS. SELECT do anon fica como está (o RLS já nega).
+-- =========================================================
+revoke insert, update, delete on public.profiles          from anon;
+revoke insert, update, delete on public.comments          from anon;
+revoke insert, update, delete on public.comment_reactions from anon;
+revoke insert, update, delete on public.course_access      from anon;
+revoke insert, update, delete on public.lesson_progress    from anon;
+
+-- =========================================================
+-- 10) Marque-se como instrutora (troque pelo e-mail que VOCÊ usa para logar):
 --    update public.profiles set is_instructor = true
 --    where user_id = (select id from auth.users where lower(email) = lower('SEU_EMAIL'));
 -- =========================================================
