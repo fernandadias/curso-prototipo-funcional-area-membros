@@ -43,14 +43,19 @@ export function CustomCursor() {
 
     const interactiveSel =
       'a,button,[role="button"],label,input,textarea,select,summary';
+    const darkSel = "[data-cursor-dark]";
     const onOver = (e: MouseEvent) => {
       const t = e.target as Element | null;
       if (t?.closest?.(interactiveSel)) cursor.classList.add("is-hover");
+      if (t?.closest?.(darkSel)) cursor.classList.add("is-dark");
     };
     const onOut = (e: MouseEvent) => {
       const from = (e.target as Element | null)?.closest?.(interactiveSel);
       const to = (e.relatedTarget as Element | null)?.closest?.(interactiveSel);
       if (from && !to) cursor.classList.remove("is-hover");
+      const fromDark = (e.target as Element | null)?.closest?.(darkSel);
+      const toDark = (e.relatedTarget as Element | null)?.closest?.(darkSel);
+      if (fromDark && !toDark) cursor.classList.remove("is-dark");
     };
 
     document.addEventListener("mousemove", onMove, { passive: true });

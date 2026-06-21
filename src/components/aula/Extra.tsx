@@ -18,8 +18,8 @@ export function Extra({
         <span className="extra-card-tag">Extra</span>
         <span className="extra-card-cta">Abrir ↗</span>
       </div>
-      <div className="extra-card-bd">
-        <strong className="extra-card-titulo">{titulo}</strong>
+      <div className="extra-card-bd" data-cursor-dark>
+        <span className="extra-card-titulo">{titulo}</span>
         <p className="extra-card-desc">{descricao}</p>
       </div>
     </a>

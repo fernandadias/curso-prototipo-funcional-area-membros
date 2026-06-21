@@ -3472,6 +3472,7 @@ ul.check-lista {
 }
 .extra-card-hd {
   background: #111;
+  border-radius: 4px 4px 0 0;
   padding: 10px 14px;
   display: flex;
   align-items: center;
