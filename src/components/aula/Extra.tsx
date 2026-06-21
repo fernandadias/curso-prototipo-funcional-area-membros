@@ -14,9 +14,14 @@ export function Extra({
       target="_blank"
       rel="noopener noreferrer"
     >
-      <span className="extra-card-tag">⤴ Extra</span>
-      <strong className="extra-card-titulo">{titulo}</strong>
-      <p className="extra-card-desc">{descricao}</p>
+      <div className="extra-card-hd">
+        <span className="extra-card-tag">Extra</span>
+        <span className="extra-card-cta">Abrir ↗</span>
+      </div>
+      <div className="extra-card-bd">
+        <strong className="extra-card-titulo">{titulo}</strong>
+        <p className="extra-card-desc">{descricao}</p>
+      </div>
     </a>
   );
 }
