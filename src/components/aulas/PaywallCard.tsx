@@ -1,19 +1,15 @@
 import Link from "next/link";
 import { CHECKOUT_URL } from "@/lib/config";
+import { Icon } from "@/components/ui/Icon";
 
+// Itens do plano — espelham o price-card featured da landing.
 const BENEFICIOS = [
-  {
-    titulo: "Acesso a todas as aulas",
-    desc: "Todos os módulos, com textos, quizzes e widgets interativos.",
-  },
-  {
-    titulo: "Novas aulas continuamente",
-    desc: "O curso evolui junto com as ferramentas de IA e prototipagem.",
-  },
-  {
-    titulo: "Materiais e boilerplates",
-    desc: "Repositórios prontos, prompts e recursos pra acelerar.",
-  },
+  "Acesso imediato aos Módulos 1 e 2 (~6h)",
+  "Demais módulos liberados conforme produzidos",
+  "Jam sessions ao vivo todos os meses",
+  "Repositório base no GitHub",
+  "Comunidade",
+  "Acesso vitalício",
 ];
 
 // variant "corte": aparece no meio da aula (após o preview grátis).
@@ -21,48 +17,47 @@ const BENEFICIOS = [
 export function PaywallCard({ variant = "corte" }: { variant?: "corte" | "fechada" }) {
   const fechada = variant === "fechada";
   return (
-    <section className={`paywall-card${fechada ? " paywall-fechada" : ""}`}>
-      <div className="paywall-head">
+    <section className="paywall-unlock">
+      <div className="pw-intro">
         <span className="aulas-mono">
           {fechada ? "Aula para alunos" : "Conteúdo exclusivo"}
         </span>
-        <h2>{fechada ? "Esta é uma aula para alunos" : "Desbloqueie o curso completo"}</h2>
+        <h2>Desbloqueie o curso completo</h2>
         <p>
-          {fechada
-            ? "Esta aula faz parte do conteúdo para alunos. Garanta seu acesso e veja esta e todas as demais aulas."
-            : "Esta aula continua para alunos. Garanta seu acesso e veja esta e todas as demais aulas."}
+          Esta aula continua para alunos. Garanta seu acesso e veja esta e todas
+          as demais aulas.
         </p>
       </div>
 
-      <div className="paywall-body">
-        <div className="paywall-price">
-          <span className="paywall-plan">Protótipo Funcional</span>
-          <strong className="paywall-value">R$ 397</strong>
-          <span className="paywall-once">Pagamento único</span>
-          <a className="btn btn-primary paywall-buy" href={CHECKOUT_URL}>
-            Comprar agora
-          </a>
-          <p className="paywall-already">
-            Já comprou?{" "}
-            <Link href="/entrar" className="paywall-login">
-              Entrar
-            </Link>
-          </p>
+      <div className="price-card featured">
+        <span className="price-badge">
+          <span className="chip">Vagas abertas</span>
+          <span className="chip-text">condição especial durante as gravações</span>
+        </span>
+        <div className="price-from">
+          de <s>R$ 797</s> por
         </div>
-
-        <ul className="paywall-benefits">
+        <div className="price">R$ 397</div>
+        <div className="price-desc">à vista ou em até 12x no cartão</div>
+        <ul>
           {BENEFICIOS.map((b) => (
-            <li key={b.titulo}>
-              <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2.4" strokeLinecap="round" strokeLinejoin="round" aria-hidden="true">
-                <path d="M20 6L9 17l-5-5" />
-              </svg>
-              <div>
-                <strong>{b.titulo}</strong>
-                <span>{b.desc}</span>
-              </div>
-            </li>
+            <li key={b}>{b}</li>
           ))}
         </ul>
+        <a href={CHECKOUT_URL} className="btn btn-primary" data-cta="hotmart">
+          Comprar agora
+        </a>
+        <div className="price-trust">
+          <span>
+            <Icon name="circle-check" /> 7 dias de garantia
+          </span>
+          <span>
+            <Icon name="lock" /> Compra segura
+          </span>
+        </div>
+        <p className="paywall-already">
+          Já comprou? <Link href="/entrar">Entrar</Link>
+        </p>
       </div>
     </section>
   );
