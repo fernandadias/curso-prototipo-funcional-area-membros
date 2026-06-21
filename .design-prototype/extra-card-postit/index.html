@@ -1,0 +1,514 @@
+<!DOCTYPE html>
+<html lang="pt-BR">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Extra Card · Post-it — 7 Variações de Affordance</title>
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=Geist:wght@300;400;500;600;700&family=Kode+Mono:wght@400;500;700&display=swap" rel="stylesheet">
+  <style>
+    /* ── TOKENS ── */
+    :root {
+      --bg:      #1a1a1a;
+      --accent:  #d4f542;
+      --text:    #f0f0f0;
+      --dim:     #888;
+      --border:  rgba(255,255,255,0.07);
+      --sans:    'Geist', system-ui, sans-serif;
+      --mono:    'Kode Mono', monospace;
+
+      /* post-it */
+      --pt-bg:    #d4f542;
+      --pt-head:  rgba(0,0,0,0.10);
+      --pt-kck:   rgba(26,26,26,0.65);
+      --pt-ttl:   #111;
+      --pt-dsc:   rgba(26,26,26,0.62);
+      --pt-act:   rgba(0,0,0,0.16);
+    }
+
+    *, *::before, *::after { box-sizing: border-box; margin: 0; padding: 0; }
+
+    body {
+      background: var(--bg);
+      color: var(--text);
+      font-family: var(--sans);
+      font-size: 15px;
+      line-height: 1.6;
+    }
+
+    /* ── NAV ── */
+    .nav {
+      position: sticky; top: 0; z-index: 100;
+      background: rgba(17,17,17,0.92);
+      backdrop-filter: blur(16px);
+      border-bottom: 1px solid var(--border);
+      padding: 10px 24px;
+      display: flex; align-items: center; gap: 6px;
+      overflow-x: auto;
+    }
+    .nav-lbl {
+      font-family: var(--mono); font-size: 10px; color: #444;
+      text-transform: uppercase; letter-spacing: .12em;
+      white-space: nowrap; margin-right: 8px; flex-shrink: 0;
+    }
+    .nav a {
+      font-size: 12px; color: var(--dim); text-decoration: none;
+      padding: 4px 11px; border-radius: 20px;
+      border: 1px solid transparent; white-space: nowrap;
+      transition: color .15s, border-color .15s;
+    }
+    .nav a:hover { color: var(--text); border-color: var(--border); }
+    .nav a.rec   { color: var(--accent); border-color: rgba(212,245,66,.3); }
+
+    /* ── LAYOUT ── */
+    .page { max-width: 640px; margin: 0 auto; padding: 52px 24px 80px; }
+
+    .section + .section {
+      margin-top: 72px; padding-top: 72px;
+      border-top: 1px solid var(--border);
+    }
+
+    .dir-meta { margin-bottom: 26px; }
+    .dir-num  {
+      font-family: var(--mono); font-size: 10px;
+      color: rgba(212,245,66,.45); text-transform: uppercase;
+      letter-spacing: .15em; margin-bottom: 4px;
+    }
+    .dir-name { font-size: 18px; font-weight: 700; margin-bottom: 3px; }
+    .dir-desc { font-size: 13px; color: var(--dim); }
+
+    .rec-chip {
+      display: inline-block; font-family: var(--mono); font-size: 9px;
+      background: var(--accent); color: #111; padding: 2px 8px;
+      border-radius: 20px; margin-left: 8px; text-transform: uppercase;
+      letter-spacing: .08em; vertical-align: middle; font-weight: 700;
+    }
+
+    /* ── PROSA ── */
+    .prosa { font-size: 17px; line-height: 1.75; }
+    .prosa p { margin-bottom: 1.3em; }
+    .prosa strong { font-weight: 600; }
+    .prosa em { color: var(--dim); font-style: italic; }
+    .slot { margin: 1.8em 0; }
+
+    /* ══════════════════════════════════════
+       BASE COMPARTILHADA — post-it
+       (todas as variações herdam isso)
+       ══════════════════════════════════════ */
+    .pt {
+      display: block; text-decoration: none;
+      background: var(--pt-bg);
+      border-radius: 3px; overflow: hidden;
+    }
+
+    .pt-hd {
+      background: var(--pt-head);
+      padding: 9px 14px;
+      display: flex; align-items: center; gap: 7px;
+    }
+
+    .pt-tag {
+      font-family: var(--mono); font-size: 9px; font-weight: 700;
+      color: var(--pt-kck); text-transform: uppercase; letter-spacing: .18em;
+      flex-shrink: 0;
+    }
+
+    .pt-sep {
+      width: 1px; height: 10px;
+      background: rgba(26,26,26,.22); flex-shrink: 0;
+    }
+
+    .pt-kicker {
+      font-family: var(--mono); font-size: 9px;
+      color: var(--pt-kck); text-transform: uppercase; letter-spacing: .1em;
+    }
+
+    .pt-bd { padding: 14px 16px 18px; }
+
+    .pt-title {
+      display: block; font-size: 15px; font-weight: 700;
+      color: var(--pt-ttl); margin-bottom: 5px; line-height: 1.3;
+    }
+
+    .pt-desc {
+      font-size: 13px; color: var(--pt-dsc); line-height: 1.5;
+    }
+
+    /* ══════════════════════════════════════
+       V1 · SETA ↗ NO HEADER
+       Affordance: símbolo ↗ grande no lado
+       direito do header. Leitura imediata,
+       zero ambiguidade sobre "abre fora".
+       ══════════════════════════════════════ */
+    .v1 .pt-hd { justify-content: space-between; }
+
+    .v1-arr {
+      font-family: var(--mono); font-size: 16px; font-weight: 700;
+      color: rgba(26,26,26,.45);
+      margin-left: auto; flex-shrink: 0;
+      transition: color .15s, transform .15s;
+    }
+
+    .v1:hover .v1-arr {
+      color: rgba(26,26,26,.85);
+      transform: translate(2px, -2px);
+    }
+
+    /* ══════════════════════════════════════
+       V2 · BOTÃO "ABRIR →" NO RODAPÉ
+       Affordance: botão pill escuro embutido
+       no corpo do card. Máximo controle de
+       hierarquia — o botão manda claramente.
+       ══════════════════════════════════════ */
+    .v2-btn {
+      display: inline-flex; align-items: center; gap: 6px;
+      margin-top: 12px;
+      background: rgba(0,0,0,.78); color: var(--accent);
+      font-family: var(--mono); font-size: 11px; font-weight: 700;
+      text-transform: uppercase; letter-spacing: .1em;
+      padding: 6px 14px; border-radius: 20px;
+      transition: background .15s;
+    }
+
+    .v2:hover .v2-btn { background: rgba(0,0,0,.9); }
+
+    /* ══════════════════════════════════════
+       V3 · TÍTULO SUBLINHADO + CHIP "NOVA ABA"
+       Affordance: título tem underline de link
+       + chip informativo abaixo da descrição.
+       Familiar (padrão web) e informativo.
+       ══════════════════════════════════════ */
+    .v3 .pt-title {
+      text-decoration: underline;
+      text-decoration-color: rgba(26,26,26,.3);
+      text-underline-offset: 3px;
+      transition: text-decoration-color .15s;
+    }
+
+    .v3:hover .pt-title {
+      text-decoration-color: rgba(26,26,26,.7);
+    }
+
+    .v3-chip {
+      display: inline-flex; align-items: center; gap: 5px;
+      margin-top: 10px;
+      background: rgba(0,0,0,.1); border-radius: 20px;
+      padding: 3px 10px;
+      font-family: var(--mono); font-size: 9px;
+      color: rgba(26,26,26,.6); text-transform: uppercase; letter-spacing: .1em;
+    }
+
+    /* ══════════════════════════════════════
+       V4 · ÍCONE EXTERNAL LINK NO HEADER
+       Affordance: ícone SVG de "caixinha com
+       seta" universalmente reconhecido como
+       "abre em outra janela".
+       ══════════════════════════════════════ */
+    .v4 .pt-hd { justify-content: space-between; }
+
+    .v4-ico {
+      flex-shrink: 0; margin-left: auto;
+      color: rgba(26,26,26,.45);
+      transition: color .15s;
+    }
+
+    .v4-ico svg { width: 13px; height: 13px; display: block; }
+
+    .v4:hover .v4-ico { color: rgba(26,26,26,.85); }
+
+    /* ══════════════════════════════════════
+       V5 · FOOTER STRIP COM CTA EM MONO
+       Affordance: faixa inferior com texto
+       de ação em Kode Mono. Separa o conteúdo
+       da instrução de interação. Didático.
+       ══════════════════════════════════════ */
+    .v5-ft {
+      background: rgba(0,0,0,.13);
+      padding: 9px 16px;
+      display: flex; align-items: center; justify-content: space-between;
+    }
+
+    .v5-ft-txt {
+      font-family: var(--mono); font-size: 10px;
+      color: rgba(26,26,26,.6); text-transform: uppercase; letter-spacing: .1em;
+    }
+
+    .v5-ft-arr {
+      font-family: var(--mono); font-size: 14px;
+      color: rgba(26,26,26,.45);
+      transition: color .15s, transform .15s;
+    }
+
+    .v5:hover .v5-ft-arr { color: rgba(26,26,26,.85); transform: translateX(3px); }
+    .v5:hover .v5-ft { background: rgba(0,0,0,.18); }
+
+    /* ══════════════════════════════════════
+       V6 · "VER COMPLETO →" INLINE
+       Affordance: texto de ação inline abaixo
+       da descrição, sublinhado como link.
+       Leve, sem elemento extra ocupando espaço.
+       ══════════════════════════════════════ */
+    .v6-cta {
+      display: inline-block; margin-top: 10px;
+      font-size: 12px; font-weight: 700; color: var(--pt-ttl);
+      border-bottom: 1.5px solid rgba(26,26,26,.45);
+      padding-bottom: 1px;
+      transition: border-color .15s;
+    }
+
+    .v6:hover .v6-cta { border-color: rgba(26,26,26,.9); }
+
+    /* ══════════════════════════════════════
+       V7 · HEADER COMO CTA ATIVO  ★ REC
+       Affordance: o próprio header concentra
+       a ação — "Abrir ↗" proeminente no lado
+       direito, em peso e cor que contrastam.
+       O corpo é informação complementar.
+       ══════════════════════════════════════ */
+    .v7 .pt-hd {
+      justify-content: space-between;
+      padding: 11px 14px;
+    }
+
+    .v7-left { display: flex; align-items: center; gap: 7px; }
+
+    .v7-action {
+      display: flex; align-items: center; gap: 5px;
+      font-family: var(--mono); font-size: 10px; font-weight: 700;
+      color: rgba(26,26,26,.8); text-transform: uppercase; letter-spacing: .1em;
+      background: rgba(255,255,255,.28); border-radius: 20px;
+      padding: 3px 10px;
+      transition: background .15s, color .15s;
+    }
+
+    .v7:hover .v7-action {
+      background: rgba(255,255,255,.5);
+      color: rgba(26,26,26,1);
+    }
+
+    .v7 .pt-bd { padding: 12px 16px 16px; }
+
+    .v7 .pt-title { font-size: 14px; }
+    .v7 .pt-desc  { font-size: 12px; }
+
+  </style>
+</head>
+<body>
+
+<nav class="nav">
+  <span class="nav-lbl">Post-it · Affordance</span>
+  <a href="#v1">1 · Seta ↗</a>
+  <a href="#v2">2 · Botão pill</a>
+  <a href="#v3">3 · Título link</a>
+  <a href="#v4">4 · Ícone SVG</a>
+  <a href="#v5">5 · Footer strip</a>
+  <a href="#v6">6 · CTA inline</a>
+  <a href="#v7" class="rec">7 · Header CTA ★</a>
+</nav>
+
+<div class="page">
+
+  <!-- V1 -->
+  <section class="section" id="v1">
+    <div class="dir-meta">
+      <p class="dir-num">Variação 01</p>
+      <h2 class="dir-name">Seta ↗ no header</h2>
+      <p class="dir-desc">Símbolo ↗ grande no canto direito do header. Leitura imediata, zero ambiguidade sobre "abre fora da página". Hover move a seta diagonalmente.</p>
+    </div>
+    <div class="prosa">
+      <p>O agente <em>pode</em> ser cirúrgico, mas só se você <strong>delimitar o alvo</strong>. Um pedido vago dá margem pra ele "melhorar" o que você não pediu.</p>
+      <div class="slot">
+        <a class="pt v1" href="#" target="_blank">
+          <div class="pt-hd">
+            <span class="pt-tag">Extra</span>
+            <span class="pt-sep"></span>
+            <span class="pt-kicker">Folha de consulta</span>
+            <span class="v1-arr">↗</span>
+          </div>
+          <div class="pt-bd">
+            <span class="pt-title">Caça-camadas: guia de referência rápida</span>
+            <p class="pt-desc">Um resumo com padrões para identificar HTML, CSS e JS no dia a dia.</p>
+          </div>
+        </a>
+      </div>
+      <p>Delimitar o alvo (e dizer o que preservar) é o que devolve pra você o controle fino que os pedidos vagos tiram.</p>
+    </div>
+  </section>
+
+  <!-- V2 -->
+  <section class="section" id="v2">
+    <div class="dir-meta">
+      <p class="dir-num">Variação 02</p>
+      <h2 class="dir-name">Botão "Abrir →" no rodapé</h2>
+      <p class="dir-desc">Pill escura com texto em accent dentro do corpo do card. Hierarquia explícita: conteúdo primeiro, ação depois. Funciona bem em mobile sem hover.</p>
+    </div>
+    <div class="prosa">
+      <p>O agente <em>pode</em> ser cirúrgico, mas só se você <strong>delimitar o alvo</strong>. Um pedido vago dá margem pra ele "melhorar" o que você não pediu.</p>
+      <div class="slot">
+        <a class="pt v2" href="#" target="_blank">
+          <div class="pt-hd">
+            <span class="pt-tag">Extra</span>
+            <span class="pt-sep"></span>
+            <span class="pt-kicker">Folha de consulta</span>
+          </div>
+          <div class="pt-bd">
+            <span class="pt-title">Caça-camadas: guia de referência rápida</span>
+            <p class="pt-desc">Um resumo com padrões para identificar HTML, CSS e JS no dia a dia.</p>
+            <span class="v2-btn">Abrir →</span>
+          </div>
+        </a>
+      </div>
+      <p>Delimitar o alvo (e dizer o que preservar) é o que devolve pra você o controle fino que os pedidos vagos tiram.</p>
+    </div>
+  </section>
+
+  <!-- V3 -->
+  <section class="section" id="v3">
+    <div class="dir-meta">
+      <p class="dir-num">Variação 03</p>
+      <h2 class="dir-name">Título sublinhado + chip "nova aba"</h2>
+      <p class="dir-desc">O título tem underline de link — padrão que qualquer usuário reconhece. O chip abaixo da descrição avisa explicitamente que abre em nova aba.</p>
+    </div>
+    <div class="prosa">
+      <p>O agente <em>pode</em> ser cirúrgico, mas só se você <strong>delimitar o alvo</strong>. Um pedido vago dá margem pra ele "melhorar" o que você não pediu.</p>
+      <div class="slot">
+        <a class="pt v3" href="#" target="_blank">
+          <div class="pt-hd">
+            <span class="pt-tag">Extra</span>
+            <span class="pt-sep"></span>
+            <span class="pt-kicker">Folha de consulta</span>
+          </div>
+          <div class="pt-bd">
+            <span class="pt-title">Caça-camadas: guia de referência rápida</span>
+            <p class="pt-desc">Um resumo com padrões para identificar HTML, CSS e JS no dia a dia.</p>
+            <span class="v3-chip">↗ abre em nova aba</span>
+          </div>
+        </a>
+      </div>
+      <p>Delimitar o alvo (e dizer o que preservar) é o que devolve pra você o controle fino que os pedidos vagos tiram.</p>
+    </div>
+  </section>
+
+  <!-- V4 -->
+  <section class="section" id="v4">
+    <div class="dir-meta">
+      <p class="dir-num">Variação 04</p>
+      <h2 class="dir-name">Ícone SVG de external link</h2>
+      <p class="dir-desc">Ícone de "caixinha com seta" no canto direito do header — padrão universal para "abre fora". Compacto, familiar, não compete com o conteúdo.</p>
+    </div>
+    <div class="prosa">
+      <p>O agente <em>pode</em> ser cirúrgico, mas só se você <strong>delimitar o alvo</strong>. Um pedido vago dá margem pra ele "melhorar" o que você não pediu.</p>
+      <div class="slot">
+        <a class="pt v4" href="#" target="_blank">
+          <div class="pt-hd">
+            <span class="pt-tag">Extra</span>
+            <span class="pt-sep"></span>
+            <span class="pt-kicker">Folha de consulta</span>
+            <span class="v4-ico">
+              <svg viewBox="0 0 14 14" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round">
+                <path d="M5.5 2H2v10h10V8.5"/>
+                <polyline points="8 2 12 2 12 6"/>
+                <line x1="12" y1="2" x2="6" y2="8"/>
+              </svg>
+            </span>
+          </div>
+          <div class="pt-bd">
+            <span class="pt-title">Caça-camadas: guia de referência rápida</span>
+            <p class="pt-desc">Um resumo com padrões para identificar HTML, CSS e JS no dia a dia.</p>
+          </div>
+        </a>
+      </div>
+      <p>Delimitar o alvo (e dizer o que preservar) é o que devolve pra você o controle fino que os pedidos vagos tiram.</p>
+    </div>
+  </section>
+
+  <!-- V5 -->
+  <section class="section" id="v5">
+    <div class="dir-meta">
+      <p class="dir-num">Variação 05</p>
+      <h2 class="dir-name">Footer strip com CTA em Kode Mono</h2>
+      <p class="dir-desc">Faixa inferior com texto de ação separado do conteúdo. O strip usa a mesma lógica visual do header — espelha o header e fecha o card. Seta anima no hover.</p>
+    </div>
+    <div class="prosa">
+      <p>O agente <em>pode</em> ser cirúrgico, mas só se você <strong>delimitar o alvo</strong>. Um pedido vago dá margem pra ele "melhorar" o que você não pediu.</p>
+      <div class="slot">
+        <a class="pt v5" href="#" target="_blank">
+          <div class="pt-hd">
+            <span class="pt-tag">Extra</span>
+            <span class="pt-sep"></span>
+            <span class="pt-kicker">Folha de consulta</span>
+          </div>
+          <div class="pt-bd">
+            <span class="pt-title">Caça-camadas: guia de referência rápida</span>
+            <p class="pt-desc">Um resumo com padrões para identificar HTML, CSS e JS no dia a dia.</p>
+          </div>
+          <div class="v5-ft">
+            <span class="v5-ft-txt">Abrir em nova aba</span>
+            <span class="v5-ft-arr">→</span>
+          </div>
+        </a>
+      </div>
+      <p>Delimitar o alvo (e dizer o que preservar) é o que devolve pra você o controle fino que os pedidos vagos tiram.</p>
+    </div>
+  </section>
+
+  <!-- V6 -->
+  <section class="section" id="v6">
+    <div class="dir-meta">
+      <p class="dir-num">Variação 06</p>
+      <h2 class="dir-name">CTA inline sublinhado</h2>
+      <p class="dir-desc">"Ver conteúdo completo →" como texto inline após a descrição. Sem elemento extra ocupando espaço. Leve, integrado, familiar como um link de artigo.</p>
+    </div>
+    <div class="prosa">
+      <p>O agente <em>pode</em> ser cirúrgico, mas só se você <strong>delimitar o alvo</strong>. Um pedido vago dá margem pra ele "melhorar" o que você não pediu.</p>
+      <div class="slot">
+        <a class="pt v6" href="#" target="_blank">
+          <div class="pt-hd">
+            <span class="pt-tag">Extra</span>
+            <span class="pt-sep"></span>
+            <span class="pt-kicker">Folha de consulta</span>
+          </div>
+          <div class="pt-bd">
+            <span class="pt-title">Caça-camadas: guia de referência rápida</span>
+            <p class="pt-desc">Um resumo com padrões para identificar HTML, CSS e JS no dia a dia.</p>
+            <span class="v6-cta">Ver conteúdo completo →</span>
+          </div>
+        </a>
+      </div>
+      <p>Delimitar o alvo (e dizer o que preservar) é o que devolve pra você o controle fino que os pedidos vagos tiram.</p>
+    </div>
+  </section>
+
+  <!-- V7 -->
+  <section class="section" id="v7">
+    <div class="dir-meta">
+      <p class="dir-num">Variação 07 <span class="rec-chip">★ Recomendada</span></p>
+      <h2 class="dir-name">Header como CTA ativo</h2>
+      <p class="dir-desc">A tag "Abrir ↗" fica no header como pill glassmorphism — mesma zona que o olho já foi ler a tag "Extra". A ação está onde a atenção já está. O corpo vira informação complementar.</p>
+    </div>
+    <div class="prosa">
+      <p>O agente <em>pode</em> ser cirúrgico, mas só se você <strong>delimitar o alvo</strong>. Um pedido vago dá margem pra ele "melhorar" o que você não pediu.</p>
+      <div class="slot">
+        <a class="pt v7" href="#" target="_blank">
+          <div class="pt-hd">
+            <div class="v7-left">
+              <span class="pt-tag">Extra</span>
+              <span class="pt-sep"></span>
+              <span class="pt-kicker">Folha de consulta</span>
+            </div>
+            <span class="v7-action">Abrir ↗</span>
+          </div>
+          <div class="pt-bd">
+            <span class="pt-title">Caça-camadas: guia de referência rápida</span>
+            <p class="pt-desc">Um resumo com padrões para identificar HTML, CSS e JS no dia a dia.</p>
+          </div>
+        </a>
+      </div>
+      <p>Delimitar o alvo (e dizer o que preservar) é o que devolve pra você o controle fino que os pedidos vagos tiram.</p>
+    </div>
+  </section>
+
+</div>
+</body>
+</html>

@@ -223,16 +223,17 @@
   <p style="margin-top:14px;color:var(--dim);font-size:13.5px">
     <b style="color:var(--lime)">Status (20/06):</b> trilha de <b>plataforma concluída</b> — paywall,
     empty states, gating no servidor, enxugar p/ lançamento e CI. Em aberto: <b>conteúdo/vídeo</b>
-    (M2 em escrita), <b>LP</b> e o pós-lançamento.
+    (M2 em escrita), <b>LP</b>, auditoria de RLS do Supabase e o pós-lançamento.
   </p>
 
   <h2>O que precisa estar pronto (critérios de lançamento)</h2>
   <div class="crit">
-    <div class="card"><div class="n">01</div><h3>Conteúdo M1 + M2</h3><p>M1 pronto; falta escrever e revisar o M2.</p></div>
-    <div class="card"><div class="n">02</div><h3>Vídeos M1 + M2</h3><p>Definir hospedagem → gravar → subir.</p></div>
-    <div class="card"><div class="n">03</div><h3>Paywall + gating</h3><p>Grátis 1–3, pago 4+; bloqueio também no servidor.</p></div>
-    <div class="card"><div class="n">04</div><h3>Estados de aula</h3><p>Empty state de fechada e de "chegando".</p></div>
-    <div class="card"><div class="n">05</div><h3>Compra → acesso</h3><p>Fluxo Hotmart → login → acesso testado ponta a ponta.</p></div>
+    <div class="card"><div class="n">01</div><h3>Conteúdo M1 + M2</h3><p>M1 pronto; falta escrever e revisar o M2. <span style="color:var(--amber)">#32</span></p></div>
+    <div class="card"><div class="n">02</div><h3>Vídeos M1 + M2</h3><p>Definir hospedagem → gravar → subir. <span style="color:var(--amber)">#33 #34 #35</span></p></div>
+    <div class="card"><div class="n">03</div><h3>Paywall + gating</h3><p>Grátis 1–3, pago 4+; bloqueio também no servidor. <span style="color:var(--lime)">✓ feito #26 #36 #49</span></p></div>
+    <div class="card"><div class="n">04</div><h3>Estados de aula</h3><p>Empty state de fechada e de "chegando". <span style="color:var(--lime)">✓ feito #37 #38</span></p></div>
+    <div class="card"><div class="n">05</div><h3>Auditoria RLS Supabase</h3><p>Garantir que tabelas atuais e futuras têm RLS correto. <span style="color:var(--amber)">#48</span></p></div>
+    <div class="card"><div class="n">06</div><h3>Compra → acesso</h3><p>Fluxo Hotmart → login → acesso testado ponta a ponta.</p></div>
   </div>
 
   <h2>Cronograma (Gantt)</h2>
@@ -262,19 +263,19 @@
     <div class="track-h">📹 Conteúdo &amp; vídeo <span class="who">— você + eu · caminho crítico</span></div>
 
     <div class="grow">
-      <div class="rlabel"><span class="t">Decidir hospedagem de vídeo</span><span class="meta">#25 · <span class="you">você decide</span></span></div>
+      <div class="rlabel"><span class="t">Decidir hospedagem de vídeo</span><span class="meta">#33 · <span class="you">você decide</span></span></div>
       <div class="lane"><div class="bar crit" style="grid-column:1/2"><span class="pri">must</span>Hospedagem</div></div>
     </div>
     <div class="grow">
-      <div class="rlabel"><span class="t">Escrever &amp; revisar aulas do M2</span><span class="meta">#25 · <span class="me">eu</span> rascunho · <span class="you">você</span> revisa</span></div>
+      <div class="rlabel"><span class="t">Escrever &amp; revisar aulas do M2</span><span class="meta">#32 · <span class="me">eu</span> rascunho · <span class="you">você</span> revisa</span></div>
       <div class="lane"><div class="bar crit" style="grid-column:1/3"><span class="pri">must</span>Escrever M2</div></div>
     </div>
     <div class="grow">
-      <div class="rlabel"><span class="t">Gravar vídeos do Módulo 1</span><span class="meta"><span class="you">você</span></span></div>
+      <div class="rlabel"><span class="t">Gravar vídeos do Módulo 1</span><span class="meta">#34 · <span class="you">você</span></span></div>
       <div class="lane"><div class="bar crit" style="grid-column:1/4"><span class="pri">must</span>Gravar M1</div></div>
     </div>
     <div class="grow">
-      <div class="rlabel"><span class="t">Gravar vídeos do Módulo 2</span><span class="meta"><span class="you">você</span> · após escrever M2</span></div>
+      <div class="rlabel"><span class="t">Gravar vídeos do Módulo 2</span><span class="meta">#35 · <span class="you">você</span> · após escrever M2</span></div>
       <div class="lane"><div class="bar crit" style="grid-column:2/4"><span class="pri">must</span>Gravar M2</div></div>
     </div>
     <div class="grow">
@@ -286,15 +287,15 @@
     <div class="track-h">⚙️ Plataforma <span class="who">— eu · entrego antes da gravação terminar</span></div>
 
     <div class="grow">
-      <div class="rlabel"><span class="t">Paywall no meio da aula paga</span><span class="meta">#26 · <span class="me">eu</span></span></div>
+      <div class="rlabel"><span class="t">Paywall no meio da aula paga</span><span class="meta">#36 · <span class="me">eu</span></span></div>
       <div class="lane"><div class="bar plat done" style="grid-column:1/2"><span class="pri">feito</span>✓ Paywall</div></div>
     </div>
     <div class="grow">
-      <div class="rlabel"><span class="t">Empty states: fechada &amp; chegando</span><span class="meta">#26 · <span class="me">eu</span></span></div>
+      <div class="rlabel"><span class="t">Empty states: fechada &amp; chegando</span><span class="meta">#37 #38 · <span class="me">eu</span></span></div>
       <div class="lane"><div class="bar plat done" style="grid-column:1/2"><span class="pri">feito</span>✓ Empty states</div></div>
     </div>
     <div class="grow">
-      <div class="rlabel"><span class="t">Gating de conteúdo no servidor</span><span class="meta">#49 · <span class="me">eu</span> · segurança</span></div>
+      <div class="rlabel"><span class="t">Gating de conteúdo no servidor</span><span class="meta">#49 · <span class="me">eu</span></span></div>
       <div class="lane"><div class="bar plat done" style="grid-column:1/2"><span class="pri">feito</span>✓ Gating servidor</div></div>
     </div>
     <div class="grow">
@@ -305,12 +306,16 @@
       <div class="rlabel"><span class="t">CI: build + lint + type-check em PR</span><span class="meta">#47 · <span class="me">eu</span></span></div>
       <div class="lane"><div class="bar plat done" style="grid-column:1/2"><span class="pri">feito</span>✓ CI</div></div>
     </div>
+    <div class="grow">
+      <div class="rlabel"><span class="t">Auditoria de RLS do Supabase</span><span class="meta">#48 · <span class="me">eu</span></span></div>
+      <div class="lane"><div class="bar plat" style="grid-column:1/2"><span class="pri">must</span>RLS Supabase</div></div>
+    </div>
 
     <!-- TRILHA LP -->
     <div class="track-h">🛬 Landing page <span class="who">— eu · antes de mandar tráfego pago</span></div>
 
     <div class="grow">
-      <div class="rlabel"><span class="t">Copy/posicionamento + módulos + remover seção</span><span class="meta">#24 · <span class="me">eu</span></span></div>
+      <div class="rlabel"><span class="t">Copy/posicionamento + módulos + remover seção</span><span class="meta">#29 #30 #31 · <span class="me">eu</span></span></div>
       <div class="lane"><div class="bar lp" style="grid-column:1/3"><span class="pri">should</span>Reposicionar LP</div></div>
     </div>
 
@@ -330,15 +335,27 @@
     <div class="track-h">🌱 Pós-lançamento <span class="who">— fast-follow, não bloqueia a venda</span></div>
 
     <div class="grow">
-      <div class="rlabel"><span class="t">Backend + Início/Encontros reais</span><span class="meta">#9 · #27 · <span class="me">eu</span></span></div>
+      <div class="rlabel"><span class="t">Segurança: webhook, headers, rate limit, smoke tests</span><span class="meta">#50 #51 #52 #54</span></div>
+      <div class="lane"><div class="bar post" style="grid-column:5/6"><span class="pri">should</span>Endurecer segurança</div></div>
+    </div>
+    <div class="grow">
+      <div class="rlabel"><span class="t">Backend + Início/Encontros reais</span><span class="meta">#9 #27 #39 #40 #41 #42 · <span class="me">eu</span></span></div>
       <div class="lane"><div class="bar post" style="grid-column:5/6"><span class="pri">should</span>Comunidade real</div></div>
     </div>
     <div class="grow">
-      <div class="rlabel"><span class="t">Avaliação, reflexões, feedback, banners, segurança+</span><span class="meta">#16 #17 #20 #23 #50–54</span></div>
-      <div class="lane"><div class="bar post" style="grid-column:5/6"><span class="pri">could</span>Melhorias</div></div>
+      <div class="rlabel"><span class="t">Experiência da aula: progresso, avaliação, feedback, banner, prompt UI</span><span class="meta">#15 #16 #17 #20 #55 #56</span></div>
+      <div class="lane"><div class="bar post" style="grid-column:5/6"><span class="pri">should</span>Experiência aula</div></div>
     </div>
     <div class="grow">
-      <div class="rlabel"><span class="t">Assistente de IA do curso</span><span class="meta">#28 · <span class="me">eu</span></span></div>
+      <div class="rlabel"><span class="t">Destaques tipo Kindle, reflexões persistidas, voz do aluno</span><span class="meta">#57 #23 #18 #19</span></div>
+      <div class="lane"><div class="bar post" style="grid-column:5/6"><span class="pri">could</span>Engajamento</div></div>
+    </div>
+    <div class="grow">
+      <div class="rlabel"><span class="t">Tema claro, navegação, sidebar melhorias</span><span class="meta">#21 #22 #43</span></div>
+      <div class="lane"><div class="bar post" style="grid-column:5/6"><span class="pri">could</span>Visual/nav</div></div>
+    </div>
+    <div class="grow">
+      <div class="rlabel"><span class="t">Assistente de IA do curso</span><span class="meta">#28 #44 · <span class="me">eu</span></span></div>
       <div class="lane"><div class="bar post" style="grid-column:5/6"><span class="pri">could</span>Assistente IA</div></div>
     </div>
   </div>
@@ -349,35 +366,90 @@
       <h3>⛓️ Caminho crítico (o que trava a data)</h3>
       <p style="color:var(--dim);font-size:13.5px;margin:0 0 10px">Tudo que é código eu entrego na Sem 1–2. A data de lançamento é ditada por esta cadeia:</p>
       <div class="chain">
-        Hospedagem&nbsp;→ Gravar&nbsp;M1&nbsp;+&nbsp;(escrever&nbsp;M2&nbsp;→&nbsp;gravar&nbsp;M2)<br>
-        → Subir&nbsp;vídeos → Testar&nbsp;compra→acesso → 🚀&nbsp;Abrir&nbsp;venda
+        Hospedagem (#33) → Gravar M1 (#34) + (escrever M2 (#32) → gravar M2 (#35))<br>
+        → Subir vídeos → Testar compra→acesso → 🚀 Abrir venda
       </div>
       <p style="color:var(--mute);font-size:12.5px;margin:12px 0 0">Ou seja: <b style="color:var(--text)">gravação é a sua trilha-mãe</b> — comece por ela assim que a hospedagem estiver decidida.</p>
     </div>
     <div class="box">
       <h3>❓ Decisões necessárias (suas)</h3>
       <ol>
-        <li><b>Hospedagem de vídeo:</b> recomendo <b>Vimeo</b> (simples/privado) ou <b>Bunny Stream</b> (mais barato em escala).</li>
-        <li><b>Material do M2:</b> você me passa roteiro/material e eu rascunho o MDX?</li>
+        <li><b>Hospedagem de vídeo:</b> recomendo <b>Vimeo</b> (simples/privado) ou <b>Bunny Stream</b> (mais barato em escala). → <span class="pill">#33</span></li>
+        <li><b>Material do M2:</b> você me passa roteiro/material e eu rascunho o MDX? → <span class="pill">#32</span></li>
         <li><b>Início/Encontros no lançamento:</b> esconder e landar em <b>/aulas</b> (recomendado) vs. /inicio mínimo e honesto.</li>
         <li><b>M2:</b> quantas aulas e quais grátis/pagas (sugiro M2 inteiro pago).</li>
       </ol>
     </div>
   </div>
 
-  <h2>Plataforma — concluído ✓</h2>
+  <h2>Plataforma — o que está pronto ✓</h2>
   <div class="box">
     <ul>
-      <li>✅ <b>#26 Paywall + empty states</b> e <b>#49 gating no servidor</b> — coração do modelo free/pago, com bloqueio no servidor.</li>
-      <li>✅ <b>Enxugar p/ lançar</b> — login → /aulas e Início/Encontros (mock) escondidos via flag <code>COMUNIDADE_ATIVA</code> até a #9.</li>
-      <li>✅ <b>#47 CI</b> — lint + build em todo PR (primeira execução verde).</li>
-      <li>⏭️ <b>#24 LP</b> — reposicionar a copy (multimídia) — <b>próximo</b>, em paralelo à gravação.</li>
+      <li>✅ <b>#36 Paywall</b> no meio da aula paga + <b>#37 #38 empty states</b> (fechada / chegando)</li>
+      <li>✅ <b>#49 Gating no servidor</b> — bloqueio de conteúdo pago fora do cliente (SSR/middleware)</li>
+      <li>✅ <b>Enxugar p/ lançar</b> — login → /aulas e Início/Encontros (mock) escondidos via <code>COMUNIDADE_ATIVA</code></li>
+      <li>✅ <b>#47 CI</b> — lint + type-check + build em todo PR (primeira execução verde)</li>
+      <li>⏳ <b>#48 Auditoria de RLS</b> — checar todas as tabelas Supabase antes de abrir a venda</li>
+      <li>⏭️ <b>#29–31 LP</b> — reposicionar copy (multimídia) — <b>próximo</b>, em paralelo à gravação</li>
     </ul>
+  </div>
+
+  <h2>Pós-lançamento — backlog priorizado</h2>
+
+  <h3 style="font-size:13px;font-family:var(--mono);text-transform:uppercase;letter-spacing:.08em;color:var(--amber);margin:24px 0 12px">should · importante, dá p/ lançar sem</h3>
+  <div class="box" style="margin-bottom:16px">
+    <table style="width:100%;border-collapse:collapse;font-size:13.5px">
+      <thead>
+        <tr style="border-bottom:1px solid var(--line)">
+          <th style="text-align:left;padding:6px 10px 10px 0;color:var(--mute);font-weight:500;font-size:12px;font-family:var(--mono);text-transform:uppercase;letter-spacing:.06em">Issue</th>
+          <th style="text-align:left;padding:6px 10px 10px;color:var(--mute);font-weight:500;font-size:12px;font-family:var(--mono);text-transform:uppercase;letter-spacing:.06em">O que é</th>
+          <th style="text-align:left;padding:6px 0 10px;color:var(--mute);font-weight:500;font-size:12px;font-family:var(--mono);text-transform:uppercase;letter-spacing:.06em">Área</th>
+        </tr>
+      </thead>
+      <tbody>
+        <tr style="border-top:1px solid var(--line)"><td style="padding:9px 10px 9px 0;white-space:nowrap"><span class="pill">#50</span></td><td style="padding:9px 10px">Endurecer webhook Hotmart (constant-time + idempotência)</td><td style="padding:9px 0;color:var(--mute)">segurança</td></tr>
+        <tr style="border-top:1px solid var(--line)"><td style="padding:9px 10px 9px 0;white-space:nowrap"><span class="pill">#51</span></td><td style="padding:9px 10px">Headers de segurança (CSP, X-Frame-Options, etc.)</td><td style="padding:9px 0;color:var(--mute)">segurança</td></tr>
+        <tr style="border-top:1px solid var(--line)"><td style="padding:9px 10px 9px 0;white-space:nowrap"><span class="pill">#52</span></td><td style="padding:9px 10px">Rate limit no endpoint de magic-link</td><td style="padding:9px 0;color:var(--mute)">segurança</td></tr>
+        <tr style="border-top:1px solid var(--line)"><td style="padding:9px 10px 9px 0;white-space:nowrap"><span class="pill">#54</span></td><td style="padding:9px 10px">Smoke tests (Playwright) dos fluxos críticos</td><td style="padding:9px 0;color:var(--mute)">infra</td></tr>
+        <tr style="border-top:1px solid var(--line)"><td style="padding:9px 10px 9px 0;white-space:nowrap"><span class="pill">#39–42</span></td><td style="padding:9px 10px">Início: próximo encontro, encontros, avisos gerais, calendário (dados reais)</td><td style="padding:9px 0;color:var(--mute)">comunidade</td></tr>
+        <tr style="border-top:1px solid var(--line)"><td style="padding:9px 10px 9px 0;white-space:nowrap"><span class="pill">#15</span></td><td style="padding:9px 10px">Progresso visual no scroll + auto-conclusão da aula</td><td style="padding:9px 0;color:var(--mute)">plataforma</td></tr>
+        <tr style="border-top:1px solid var(--line)"><td style="padding:9px 10px 9px 0;white-space:nowrap"><span class="pill">#16</span></td><td style="padding:9px 10px">Novo footer da aula + avaliação por aula</td><td style="padding:9px 0;color:var(--mute)">plataforma</td></tr>
+        <tr style="border-top:1px solid var(--line)"><td style="padding:9px 10px 9px 0;white-space:nowrap"><span class="pill">#17</span></td><td style="padding:9px 10px">Contato/Feedback no header (modal)</td><td style="padding:9px 0;color:var(--mute)">plataforma</td></tr>
+        <tr style="border-top:1px solid var(--line)"><td style="padding:9px 10px 9px 0;white-space:nowrap"><span class="pill">#20</span></td><td style="padding:9px 10px">Sistema de banner contextual reutilizável</td><td style="padding:9px 0;color:var(--mute)">plataforma</td></tr>
+        <tr style="border-top:1px solid var(--line)"><td style="padding:9px 10px 9px 0;white-space:nowrap"><span class="pill">#55</span></td><td style="padding:9px 10px">Layout de prompt nas aulas: UI estilo terminal com botão de copiar</td><td style="padding:9px 0;color:var(--mute)">plataforma</td></tr>
+        <tr style="border-top:1px solid var(--line)"><td style="padding:9px 10px 9px 0;white-space:nowrap"><span class="pill">#56</span></td><td style="padding:9px 10px">CSS de seleção de texto: cor primária no fundo, dark no texto</td><td style="padding:9px 0;color:var(--mute)">design</td></tr>
+        <tr style="border-top:1px solid var(--line)"><td style="padding:9px 10px 9px 0;white-space:nowrap"><span class="pill">#29–31</span></td><td style="padding:9px 10px">LP: nova copy, atualizar módulos/aulas, remover seção antiga</td><td style="padding:9px 0;color:var(--mute)">conteúdo</td></tr>
+      </tbody>
+    </table>
+  </div>
+
+  <h3 style="font-size:13px;font-family:var(--mono);text-transform:uppercase;letter-spacing:.08em;color:var(--blue);margin:24px 0 12px">could · bom ter, quando sobrar tempo</h3>
+  <div class="box">
+    <table style="width:100%;border-collapse:collapse;font-size:13.5px">
+      <thead>
+        <tr style="border-bottom:1px solid var(--line)">
+          <th style="text-align:left;padding:6px 10px 10px 0;color:var(--mute);font-weight:500;font-size:12px;font-family:var(--mono);text-transform:uppercase;letter-spacing:.06em">Issue</th>
+          <th style="text-align:left;padding:6px 10px 10px;color:var(--mute);font-weight:500;font-size:12px;font-family:var(--mono);text-transform:uppercase;letter-spacing:.06em">O que é</th>
+          <th style="text-align:left;padding:6px 0 10px;color:var(--mute);font-weight:500;font-size:12px;font-family:var(--mono);text-transform:uppercase;letter-spacing:.06em">Área</th>
+        </tr>
+      </thead>
+      <tbody>
+        <tr style="border-top:1px solid var(--line)"><td style="padding:9px 10px 9px 0;white-space:nowrap"><span class="pill">#57</span></td><td style="padding:9px 10px">Salvar destaques na aula: seleção de texto tipo Kindle</td><td style="padding:9px 0;color:var(--mute)">plataforma</td></tr>
+        <tr style="border-top:1px solid var(--line)"><td style="padding:9px 10px 9px 0;white-space:nowrap"><span class="pill">#23</span></td><td style="padding:9px 10px">Persistir reflexões do aluno (Supabase) + garantir id único</td><td style="padding:9px 0;color:var(--mute)">plataforma</td></tr>
+        <tr style="border-top:1px solid var(--line)"><td style="padding:9px 10px 9px 0;white-space:nowrap"><span class="pill">#18 #19</span></td><td style="padding:9px 10px">Pedir conteúdo: página de votação + busca de relacionadas</td><td style="padding:9px 0;color:var(--mute)">comunidade</td></tr>
+        <tr style="border-top:1px solid var(--line)"><td style="padding:9px 10px 9px 0;white-space:nowrap"><span class="pill">#43</span></td><td style="padding:9px 10px">Início: trocar play pelo quadrado com número na "aula que parei"</td><td style="padding:9px 0;color:var(--mute)">comunidade</td></tr>
+        <tr style="border-top:1px solid var(--line)"><td style="padding:9px 10px 9px 0;white-space:nowrap"><span class="pill">#21</span></td><td style="padding:9px 10px">White mode + chaveador de tema</td><td style="padding:9px 0;color:var(--mute)">design</td></tr>
+        <tr style="border-top:1px solid var(--line)"><td style="padding:9px 10px 9px 0;white-space:nowrap"><span class="pill">#22</span></td><td style="padding:9px 10px">Contagem de aulas na sidebar colapsada</td><td style="padding:9px 0;color:var(--mute)">plataforma</td></tr>
+        <tr style="border-top:1px solid var(--line)"><td style="padding:9px 10px 9px 0;white-space:nowrap"><span class="pill">#53</span></td><td style="padding:9px 10px">Dependabot + npm audit + secret scanning</td><td style="padding:9px 0;color:var(--mute)">infra</td></tr>
+        <tr style="border-top:1px solid var(--line)"><td style="padding:9px 10px 9px 0;white-space:nowrap"><span class="pill">#44 #28</span></td><td style="padding:9px 10px">Assistente/chat treinado no conteúdo do curso</td><td style="padding:9px 0;color:var(--mute)">IA</td></tr>
+      </tbody>
+    </table>
   </div>
 
   <p class="foot">
     Timeline em semanas relativas (não datas fixas) — o calendário real depende do ritmo de gravação.
     Números <span class="pill">#NN</span> referenciam as issues no GitHub. Prioridade: <b>must</b> = essencial p/ lançar · <b>should</b> = importante · <b>could</b> = depois.
+    Issues abertas: <b>57 total</b> (6 must, 20 should, 12 could + épicos).
   </p>
 
 </div>

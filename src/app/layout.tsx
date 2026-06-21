@@ -70,6 +70,10 @@ export default function RootLayout({
           href="https://fonts.googleapis.com/css2?family=Geist:wght@400;500;600;700;800;900&family=JetBrains+Mono:wght@400;500;700&family=Kode+Mono:wght@400;500;600;700&display=swap"
           rel="stylesheet"
         />
+        {/* Font Awesome Pro 7 (self-host, só solid + brands). Ver docs/DESIGN.md. */}
+        <link rel="stylesheet" href="/fontawesome/css/fontawesome.min.css" />
+        <link rel="stylesheet" href="/fontawesome/css/solid.min.css" />
+        <link rel="stylesheet" href="/fontawesome/css/brands.min.css" />
       </head>
       <body>
         <ServiceWorkerCleanup />

@@ -1,0 +1,538 @@
+<!DOCTYPE html>
+<html lang="pt-BR">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Widget de Prompt — 7 Direções</title>
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=Geist:wght@300;400;500;600;700&family=Kode+Mono:wght@400;500;700&display=swap" rel="stylesheet">
+  <style>
+    :root {
+      --bg:      #1a1a1a;
+      --bg2:     #111;
+      --bg3:     #242424;
+      --accent:  #d4f542;
+      --text:    #f0f0f0;
+      --dim:     #777;
+      --border:  rgba(255,255,255,0.07);
+      --sans:    'Geist', system-ui, sans-serif;
+      --mono:    'Kode Mono', monospace;
+    }
+    *, *::before, *::after { box-sizing: border-box; margin: 0; padding: 0; }
+    body { background: var(--bg); color: var(--text); font-family: var(--sans); font-size: 15px; line-height: 1.6; }
+
+    /* ── NAV ── */
+    .nav {
+      position: sticky; top: 0; z-index: 100;
+      background: rgba(17,17,17,.94); backdrop-filter: blur(16px);
+      border-bottom: 1px solid var(--border);
+      padding: 10px 24px; display: flex; align-items: center; gap: 6px; overflow-x: auto;
+    }
+    .nav-lbl { font-family: var(--mono); font-size: 10px; color: #444; text-transform: uppercase; letter-spacing: .12em; white-space: nowrap; margin-right: 8px; flex-shrink: 0; }
+    .nav a { font-size: 12px; color: var(--dim); text-decoration: none; padding: 4px 11px; border-radius: 20px; border: 1px solid transparent; white-space: nowrap; transition: color .15s, border-color .15s; }
+    .nav a:hover { color: var(--text); border-color: var(--border); }
+    .nav a.rec { color: var(--accent); border-color: rgba(212,245,66,.3); }
+
+    /* ── PAGE ── */
+    .page { max-width: 660px; margin: 0 auto; padding: 52px 24px 80px; }
+    .section + .section { margin-top: 72px; padding-top: 72px; border-top: 1px solid var(--border); }
+    .dir-meta { margin-bottom: 26px; }
+    .dir-num  { font-family: var(--mono); font-size: 10px; color: rgba(212,245,66,.45); text-transform: uppercase; letter-spacing: .15em; margin-bottom: 4px; }
+    .dir-name { font-size: 18px; font-weight: 700; margin-bottom: 3px; }
+    .dir-desc { font-size: 13px; color: var(--dim); }
+    .rec-chip { display: inline-block; font-family: var(--mono); font-size: 9px; background: var(--accent); color: #111; padding: 2px 8px; border-radius: 20px; margin-left: 8px; text-transform: uppercase; letter-spacing: .08em; vertical-align: middle; font-weight: 700; }
+
+    /* ── PROSA ── */
+    .prosa { font-size: 17px; line-height: 1.75; }
+    .prosa p { margin-bottom: 1.3em; }
+    .prosa strong { font-weight: 600; }
+    .prosa em { color: var(--dim); font-style: italic; }
+    .slot { margin: 1.8em 0; }
+
+    /* ══════════════════════════════════════════
+       D1 · CODE BLOCK
+       Bloco de código estilo GitHub/Notion.
+       Header com label + botão copiar.
+       Mono, escuro, familiar para devs.
+       ══════════════════════════════════════════ */
+    .wp-code {
+      background: var(--bg2); border: 1px solid rgba(255,255,255,.07);
+      border-radius: 8px; overflow: hidden;
+    }
+    .wp-code-bar {
+      background: #1c1c1c; border-bottom: 1px solid rgba(255,255,255,.06);
+      padding: 8px 14px; display: flex; align-items: center; justify-content: space-between;
+    }
+    .wp-code-label { font-family: var(--mono); font-size: 10px; color: rgba(212,245,66,.5); text-transform: uppercase; letter-spacing: .15em; }
+    .wp-code-body { padding: 16px 18px; }
+    .wp-code-text { font-family: var(--mono); font-size: 13px; line-height: 1.65; color: #e8e8e8; white-space: pre-wrap; word-break: break-word; }
+    .wp-copy-btn {
+      display: inline-flex; align-items: center; gap: 6px;
+      font-family: var(--mono); font-size: 10px; font-weight: 700;
+      text-transform: uppercase; letter-spacing: .1em;
+      color: var(--dim); background: transparent; border: 1px solid rgba(255,255,255,.1);
+      border-radius: 6px; padding: 4px 10px; cursor: pointer;
+      transition: color .15s, border-color .15s, background .15s;
+    }
+    .wp-copy-btn:hover { color: var(--text); border-color: rgba(255,255,255,.25); }
+    .wp-copy-btn.copied { color: var(--accent); border-color: rgba(212,245,66,.4); background: rgba(212,245,66,.06); }
+    .wp-copy-btn .label-default { display: block; }
+    .wp-copy-btn .label-copied  { display: none; }
+    .wp-copy-btn.copied .label-default { display: none; }
+    .wp-copy-btn.copied .label-copied  { display: block; }
+
+    /* ══════════════════════════════════════════
+       D2 · TERMINAL  ★ REC
+       Janela de terminal simulada. O prompt
+       aparece como comando já digitado.
+       "Cole aqui" contextualiza onde colar.
+       ══════════════════════════════════════════ */
+    .wp-term {
+      background: #0d0d0d; border: 1px solid rgba(212,245,66,.15);
+      border-radius: 8px; overflow: hidden;
+      transition: border-color .2s;
+    }
+    .wp-term:hover { border-color: rgba(212,245,66,.3); }
+    .wp-term-bar {
+      background: #1a1a1a; border-bottom: 1px solid rgba(255,255,255,.06);
+      padding: 8px 12px; display: flex; align-items: center; gap: 6px;
+    }
+    .wp-term-dot { width: 9px; height: 9px; border-radius: 50%; background: #2a2a2a; }
+    .wp-term-title { margin-left: 6px; font-family: var(--mono); font-size: 11px; color: rgba(255,255,255,.25); }
+    .wp-term-bar .wp-copy-btn { margin-left: auto; }
+    .wp-term-body { padding: 16px 18px 20px; cursor: pointer; }
+    .wp-term-line { display: flex; gap: 10px; align-items: flex-start; }
+    .wp-term-ps { font-family: var(--mono); font-size: 13px; color: rgba(212,245,66,.6); flex-shrink: 0; margin-top: 1px; user-select: none; }
+    .wp-term-cmd { font-family: var(--mono); font-size: 13px; color: #e8e8e8; line-height: 1.65; white-space: pre-wrap; word-break: break-word; }
+    .wp-term-hint { font-family: var(--mono); font-size: 10px; color: rgba(255,255,255,.2); margin-top: 10px; padding-top: 10px; border-top: 1px solid rgba(255,255,255,.05); }
+
+    /* ══════════════════════════════════════════
+       D3 · CHAT BUBBLE
+       Balão de mensagem enviada ao agente.
+       Mais conversacional — "como se você
+       estivesse mandando essa msg ao Claude".
+       ══════════════════════════════════════════ */
+    .wp-chat { display: flex; flex-direction: column; align-items: flex-end; gap: 6px; }
+    .wp-chat-label { font-family: var(--mono); font-size: 10px; color: var(--dim); text-transform: uppercase; letter-spacing: .1em; display: flex; align-items: center; gap: 6px; }
+    .wp-chat-label::before { content: ''; display: inline-block; width: 6px; height: 6px; border-radius: 50%; background: rgba(212,245,66,.5); }
+    .wp-chat-bubble {
+      background: #222; border: 1px solid rgba(255,255,255,.08);
+      border-radius: 16px 16px 4px 16px;
+      padding: 14px 18px; max-width: 92%; position: relative;
+    }
+    .wp-chat-text { font-family: var(--sans); font-size: 14px; line-height: 1.6; color: #e0e0e0; }
+    .wp-chat-footer { display: flex; align-items: center; justify-content: space-between; margin-top: 10px; padding-top: 8px; border-top: 1px solid rgba(255,255,255,.06); }
+    .wp-chat-dest { font-family: var(--mono); font-size: 10px; color: rgba(212,245,66,.5); text-transform: uppercase; letter-spacing: .1em; }
+    .wp-chat .wp-copy-btn { font-size: 10px; padding: 3px 10px; }
+
+    /* ══════════════════════════════════════════
+       D4 · INLINE PILL
+       Compactíssimo. O prompt aparece como
+       span estilizado inline na prosa.
+       Click copia. Mínima interrupção.
+       ══════════════════════════════════════════ */
+    .wp-inline-wrap { display: flex; flex-direction: column; gap: 8px; }
+    .wp-inline-hint { font-family: var(--mono); font-size: 10px; color: var(--dim); text-transform: uppercase; letter-spacing: .1em; }
+    .wp-inline {
+      display: block; font-family: var(--mono); font-size: 13px; line-height: 1.6;
+      color: #e8e8e8; background: var(--bg2); border: 1px solid rgba(255,255,255,.08);
+      border-radius: 6px; padding: 12px 14px; cursor: pointer; white-space: pre-wrap;
+      word-break: break-word; position: relative;
+      transition: border-color .15s, background .15s;
+      user-select: none;
+    }
+    .wp-inline:hover { border-color: rgba(212,245,66,.25); background: #151515; }
+    .wp-inline::after {
+      content: 'clique para copiar';
+      position: absolute; bottom: 8px; right: 10px;
+      font-size: 9px; text-transform: uppercase; letter-spacing: .1em;
+      color: rgba(255,255,255,.18); font-family: var(--mono);
+      transition: color .15s;
+    }
+    .wp-inline:hover::after { color: rgba(212,245,66,.35); }
+    .wp-inline.copied { border-color: rgba(212,245,66,.4); background: rgba(212,245,66,.04); }
+    .wp-inline.copied::after { content: '✓ copiado'; color: var(--accent); }
+
+    /* ══════════════════════════════════════════
+       D5 · CARD INSTRUTIVO
+       Mais scaffolding. Label "onde colar",
+       área de texto grande, botão primário.
+       Segura pela mão — bom para iniciantes.
+       ══════════════════════════════════════════ */
+    .wp-card {
+      background: var(--bg3); border: 1px solid rgba(255,255,255,.07);
+      border-radius: 10px; overflow: hidden;
+    }
+    .wp-card-head {
+      padding: 12px 18px; border-bottom: 1px solid rgba(255,255,255,.06);
+      display: flex; align-items: center; gap: 10px;
+    }
+    .wp-card-step {
+      width: 20px; height: 20px; border-radius: 50%;
+      background: rgba(212,245,66,.12); border: 1px solid rgba(212,245,66,.3);
+      font-family: var(--mono); font-size: 10px; font-weight: 700; color: var(--accent);
+      display: flex; align-items: center; justify-content: center; flex-shrink: 0;
+    }
+    .wp-card-where { font-size: 13px; font-weight: 600; color: var(--text); }
+    .wp-card-where span { color: rgba(212,245,66,.8); }
+    .wp-card-body { padding: 16px 18px; }
+    .wp-card-text {
+      font-family: var(--sans); font-size: 14px; line-height: 1.65;
+      color: #d8d8d8; background: var(--bg2); border: 1px solid rgba(255,255,255,.06);
+      border-radius: 6px; padding: 14px 16px; margin-bottom: 14px;
+    }
+    .wp-card-btn {
+      width: 100%; padding: 11px; border-radius: 8px;
+      background: var(--accent); color: #111; border: none; cursor: pointer;
+      font-family: var(--mono); font-size: 12px; font-weight: 700;
+      text-transform: uppercase; letter-spacing: .1em;
+      transition: background .15s, transform .1s;
+      display: flex; align-items: center; justify-content: center; gap: 8px;
+    }
+    .wp-card-btn:hover { background: #c8e83a; }
+    .wp-card-btn:active { transform: scale(.98); }
+    .wp-card-btn.copied { background: rgba(212,245,66,.15); color: var(--accent); }
+    .wp-card-btn .label-default { display: flex; align-items: center; gap: 8px; }
+    .wp-card-btn .label-copied  { display: none; }
+    .wp-card-btn.copied .label-default { display: none; }
+    .wp-card-btn.copied .label-copied  { display: flex; align-items: center; gap: 8px; }
+
+    /* ══════════════════════════════════════════
+       D6 · CALLOUT / CITAÇÃO
+       Borda esquerda grossa accent.
+       Texto em sans-serif — prompt lido como
+       prosa, não como código. Botão discreto.
+       ══════════════════════════════════════════ */
+    .wp-callout {
+      border-left: 3px solid var(--accent);
+      background: rgba(212,245,66,.04);
+      border-radius: 0 8px 8px 0;
+      padding: 16px 18px 14px;
+      position: relative;
+    }
+    .wp-callout-label { font-family: var(--mono); font-size: 10px; color: rgba(212,245,66,.6); text-transform: uppercase; letter-spacing: .15em; margin-bottom: 8px; display: block; }
+    .wp-callout-text { font-size: 15px; line-height: 1.7; color: #ddd; font-style: italic; margin-bottom: 12px; }
+    .wp-callout-text strong { color: var(--text); font-style: normal; }
+    .wp-callout-foot { display: flex; align-items: center; justify-content: space-between; }
+    .wp-callout-dest { font-family: var(--mono); font-size: 10px; color: rgba(255,255,255,.2); }
+    .wp-callout .wp-copy-btn { padding: 3px 10px; font-size: 10px; }
+
+    /* ══════════════════════════════════════════
+       D7 · TEXTAREA SELECIONÁVEL
+       Campo readonly clicável. Click seleciona
+       tudo — affordance de "campo" cria
+       expectativa de interação imediata.
+       ══════════════════════════════════════════ */
+    .wp-field { display: flex; flex-direction: column; gap: 8px; }
+    .wp-field-label {
+      font-family: var(--mono); font-size: 10px; color: var(--dim);
+      text-transform: uppercase; letter-spacing: .12em;
+      display: flex; align-items: center; justify-content: space-between;
+    }
+    .wp-field-tag { color: rgba(212,245,66,.6); }
+    .wp-field-area {
+      width: 100%; font-family: var(--mono); font-size: 13px; line-height: 1.65;
+      color: #e8e8e8; background: var(--bg2);
+      border: 1px solid rgba(255,255,255,.1); border-radius: 8px;
+      padding: 14px 16px; resize: none; outline: none; cursor: pointer;
+      transition: border-color .15s, box-shadow .15s;
+      white-space: pre-wrap; min-height: 80px;
+    }
+    .wp-field-area:focus { border-color: rgba(212,245,66,.4); box-shadow: 0 0 0 3px rgba(212,245,66,.08); }
+    .wp-field-area.copied { border-color: rgba(212,245,66,.4); background: rgba(212,245,66,.04); }
+    .wp-field-foot { display: flex; align-items: center; justify-content: space-between; }
+    .wp-field-hint { font-family: var(--mono); font-size: 10px; color: rgba(255,255,255,.2); }
+    .wp-field .wp-copy-btn { padding: 4px 12px; }
+
+  </style>
+</head>
+<body>
+
+<nav class="nav">
+  <span class="nav-lbl">Widget · Prompt</span>
+  <a href="#d1">1 · Code block</a>
+  <a href="#d2" class="rec">2 · Terminal ★</a>
+  <a href="#d3">3 · Chat bubble</a>
+  <a href="#d4">4 · Inline pill</a>
+  <a href="#d5">5 · Card instrutivo</a>
+  <a href="#d6">6 · Callout</a>
+  <a href="#d7">7 · Textarea</a>
+</nav>
+
+<div class="page">
+
+  <!-- ── D1: CODE BLOCK ── -->
+  <section class="section" id="d1">
+    <div class="dir-meta">
+      <p class="dir-num">Direção 01</p>
+      <h2 class="dir-name">Code Block</h2>
+      <p class="dir-desc">Bloco de código estilo GitHub/Notion. Header com label de tipo + botão copiar. Mono, denso, familiar para quem já usa editores. Botão vira "Copiado ✓" por 2s.</p>
+    </div>
+    <div class="prosa">
+      <p>Na Aula 06 você colocou uma tela Next.js pra rodar. Agora o agente precisa de um pedido bem formulado pra criar a lista de tarefas. Use o prompt abaixo:</p>
+      <div class="slot">
+        <div class="wp-code">
+          <div class="wp-code-bar">
+            <span class="wp-code-label">Prompt · Claude Code</span>
+            <button class="wp-copy-btn" onclick="copyEl(this, 'txt-d1')">
+              <span class="label-default">Copiar</span>
+              <span class="label-copied">✓ Copiado</span>
+            </button>
+          </div>
+          <div class="wp-code-body">
+            <pre class="wp-code-text" id="txt-d1">Crie uma lista de tarefas simples neste app Next.js.
+A lista deve ter: um campo de texto, um botão Adicionar e os
+itens aparecem abaixo. Cada item tem um botão pra excluir.
+Não instale nenhuma nova dependência, só use o que já tem.</pre>
+          </div>
+        </div>
+      </div>
+      <p>Depois de copiar, abra o Claude Code no VS Code, clique na caixa de chat e cole com <strong>Ctrl+V</strong> (ou Cmd+V no Mac).</p>
+    </div>
+  </section>
+
+  <!-- ── D2: TERMINAL ── -->
+  <section class="section" id="d2">
+    <div class="dir-meta">
+      <p class="dir-num">Direção 02 <span class="rec-chip">★ Recomendada</span></p>
+      <h2 class="dir-name">Terminal</h2>
+      <p class="dir-desc">Janela de terminal simulada. O prompt aparece como comando já "digitado". Coerência conceitual: o widget parece o ambiente onde o aluno vai colar. Click no corpo inteiro copia. Botão na barra reforça.</p>
+    </div>
+    <div class="prosa">
+      <p>Na Aula 06 você colocou uma tela Next.js pra rodar. Agora o agente precisa de um pedido bem formulado pra criar a lista de tarefas. Use o prompt abaixo:</p>
+      <div class="slot">
+        <div class="wp-term" id="term-d2">
+          <div class="wp-term-bar">
+            <span class="wp-term-dot"></span>
+            <span class="wp-term-dot"></span>
+            <span class="wp-term-dot"></span>
+            <span class="wp-term-title">Claude Code</span>
+            <button class="wp-copy-btn" onclick="copyEl(this, 'txt-d2')">
+              <span class="label-default">Copiar</span>
+              <span class="label-copied">✓ Copiado</span>
+            </button>
+          </div>
+          <div class="wp-term-body" onclick="copyBody(this, 'txt-d2')">
+            <div class="wp-term-line">
+              <span class="wp-term-ps">›</span>
+              <span class="wp-term-cmd" id="txt-d2">Crie uma lista de tarefas simples neste app Next.js.
+A lista deve ter: um campo de texto, um botão Adicionar e os
+itens aparecem abaixo. Cada item tem um botão pra excluir.
+Não instale nenhuma nova dependência, só use o que já tem.</span>
+            </div>
+            <p class="wp-term-hint">clique aqui para copiar · cole no chat do Claude Code</p>
+          </div>
+        </div>
+      </div>
+      <p>Depois de copiar, abra o Claude Code no VS Code, clique na caixa de chat e cole com <strong>Ctrl+V</strong> (ou Cmd+V no Mac).</p>
+    </div>
+  </section>
+
+  <!-- ── D3: CHAT BUBBLE ── -->
+  <section class="section" id="d3">
+    <div class="dir-meta">
+      <p class="dir-num">Direção 03</p>
+      <h2 class="dir-name">Chat Bubble</h2>
+      <p class="dir-desc">Balão de mensagem enviada ao agente. Visual conversacional — "é como se você estivesse mandando essa msg pro Claude". Rodapé indica destino + botão copiar. Mais humano, menos técnico.</p>
+    </div>
+    <div class="prosa">
+      <p>Na Aula 06 você colocou uma tela Next.js pra rodar. Agora o agente precisa de um pedido bem formulado pra criar a lista de tarefas. Use o prompt abaixo:</p>
+      <div class="slot">
+        <div class="wp-chat">
+          <span class="wp-chat-label">Envie para o Claude Code</span>
+          <div class="wp-chat-bubble">
+            <p class="wp-chat-text" id="txt-d3">Crie uma lista de tarefas simples neste app Next.js. A lista deve ter: um campo de texto, um botão Adicionar e os itens aparecem abaixo. Cada item tem um botão pra excluir. Não instale nenhuma nova dependência, só use o que já tem.</p>
+            <div class="wp-chat-footer">
+              <span class="wp-chat-dest">→ Claude Code · chat</span>
+              <button class="wp-copy-btn" onclick="copyEl(this, 'txt-d3')">
+                <span class="label-default">Copiar</span>
+                <span class="label-copied">✓ Copiado</span>
+              </button>
+            </div>
+          </div>
+        </div>
+      </div>
+      <p>Depois de copiar, abra o Claude Code no VS Code, clique na caixa de chat e cole com <strong>Ctrl+V</strong> (ou Cmd+V no Mac).</p>
+    </div>
+  </section>
+
+  <!-- ── D4: INLINE PILL ── -->
+  <section class="section" id="d4">
+    <div class="dir-meta">
+      <p class="dir-num">Direção 04</p>
+      <h2 class="dir-name">Inline — clique para copiar</h2>
+      <p class="dir-desc">Zero interrupção no fluxo de leitura. O prompt aparece como bloco clicável com hint "clique para copiar" no canto. Após cópia, borda fica accent e hint vira "✓ copiado". Para alunos que já sabem o que fazer.</p>
+    </div>
+    <div class="prosa">
+      <p>Na Aula 06 você colocou uma tela Next.js pra rodar. Copie o prompt abaixo e cole no Claude Code:</p>
+      <div class="slot">
+        <div class="wp-inline-wrap">
+          <span class="wp-inline-hint">Prompt · clique para copiar</span>
+          <span class="wp-inline" id="txt-d4" onclick="copyInline(this)">Crie uma lista de tarefas simples neste app Next.js. A lista deve ter: um campo de texto, um botão Adicionar e os itens aparecem abaixo. Cada item tem um botão pra excluir. Não instale nenhuma nova dependência, só use o que já tem.</span>
+        </div>
+      </div>
+      <p>Depois de copiar, abra o Claude Code no VS Code, clique na caixa de chat e cole com <strong>Ctrl+V</strong> (ou Cmd+V no Mac).</p>
+    </div>
+  </section>
+
+  <!-- ── D5: CARD INSTRUTIVO ── -->
+  <section class="section" id="d5">
+    <div class="dir-meta">
+      <p class="dir-num">Direção 05</p>
+      <h2 class="dir-name">Card instrutivo</h2>
+      <p class="dir-desc">Mais scaffolding: header com "Cole no Claude Code", área de texto grande e botão primário em accent. Ótimo para os primeiros módulos quando o aluno ainda não tem o fluxo na memória muscular.</p>
+    </div>
+    <div class="prosa">
+      <p>Na Aula 06 você colocou uma tela Next.js pra rodar. Agora o agente precisa de um pedido bem formulado pra criar a lista de tarefas.</p>
+      <div class="slot">
+        <div class="wp-card">
+          <div class="wp-card-head">
+            <span class="wp-card-step">1</span>
+            <span class="wp-card-where">Cole no <span>Claude Code</span> → caixa de chat</span>
+          </div>
+          <div class="wp-card-body">
+            <div class="wp-card-text" id="txt-d5">Crie uma lista de tarefas simples neste app Next.js. A lista deve ter: um campo de texto, um botão Adicionar e os itens aparecem abaixo. Cada item tem um botão pra excluir. Não instale nenhuma nova dependência, só use o que já tem.</div>
+            <button class="wp-card-btn" onclick="copyCard(this, 'txt-d5')">
+              <span class="label-default">
+                <svg width="14" height="14" viewBox="0 0 14 14" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round"><rect x="5" y="5" width="8" height="8" rx="1.5"/><path d="M3 9H2a1 1 0 0 1-1-1V2a1 1 0 0 1 1-1h6a1 1 0 0 1 1 1v1"/></svg>
+                Copiar prompt
+              </span>
+              <span class="label-copied">✓ Prompt copiado — agora cole no Claude Code</span>
+            </button>
+          </div>
+        </div>
+      </div>
+      <p>Depois de copiar, abra o Claude Code no VS Code, clique na caixa de chat e cole com <strong>Ctrl+V</strong> (ou Cmd+V no Mac).</p>
+    </div>
+  </section>
+
+  <!-- ── D6: CALLOUT ── -->
+  <section class="section" id="d6">
+    <div class="dir-meta">
+      <p class="dir-num">Direção 06</p>
+      <h2 class="dir-name">Callout</h2>
+      <p class="dir-desc">Borda esquerda accent, fundo sutil. Texto em sans-serif — o prompt lido como prosa, não código. Semanticamente diferente do Callout de avisos (que usa ícone). Menos intimidante para não-técnicos.</p>
+    </div>
+    <div class="prosa">
+      <p>Na Aula 06 você colocou uma tela Next.js pra rodar. Agora o agente precisa de um pedido bem formulado pra criar a lista de tarefas. Use o prompt abaixo:</p>
+      <div class="slot">
+        <div class="wp-callout">
+          <span class="wp-callout-label">Prompt · Cole no Claude Code</span>
+          <p class="wp-callout-text" id="txt-d6">Crie uma lista de tarefas simples neste app Next.js. A lista deve ter: <strong>um campo de texto</strong>, <strong>um botão Adicionar</strong> e os itens aparecem abaixo. Cada item tem um botão pra excluir. Não instale nenhuma nova dependência.</p>
+          <div class="wp-callout-foot">
+            <span class="wp-callout-dest">Cole no chat do Claude Code</span>
+            <button class="wp-copy-btn" onclick="copyEl(this, 'txt-d6-raw')">
+              <span class="label-default">Copiar</span>
+              <span class="label-copied">✓ Copiado</span>
+            </button>
+          </div>
+          <span id="txt-d6-raw" style="display:none">Crie uma lista de tarefas simples neste app Next.js. A lista deve ter: um campo de texto, um botão Adicionar e os itens aparecem abaixo. Cada item tem um botão pra excluir. Não instale nenhuma nova dependência.</span>
+        </div>
+      </div>
+      <p>Depois de copiar, abra o Claude Code no VS Code, clique na caixa de chat e cole com <strong>Ctrl+V</strong> (ou Cmd+V no Mac).</p>
+    </div>
+  </section>
+
+  <!-- ── D7: TEXTAREA ── -->
+  <section class="section" id="d7">
+    <div class="dir-meta">
+      <p class="dir-num">Direção 07</p>
+      <h2 class="dir-name">Textarea selecionável</h2>
+      <p class="dir-desc">Campo readonly estilizado. Click seleciona todo o texto — affordance de "campo de formulário" cria expectativa imediata de interação. Fallback natural: aluno pode copiar manualmente se o clipboard falhar.</p>
+    </div>
+    <div class="prosa">
+      <p>Na Aula 06 você colocou uma tela Next.js pra rodar. Agora o agente precisa de um pedido bem formulado pra criar a lista de tarefas. Use o prompt abaixo:</p>
+      <div class="slot">
+        <div class="wp-field">
+          <div class="wp-field-label">
+            <span>Prompt para o agente</span>
+            <span class="wp-field-tag">Claude Code · chat</span>
+          </div>
+          <textarea
+            class="wp-field-area"
+            id="txt-d7"
+            readonly
+            rows="4"
+            onclick="selectAll(this)"
+          >Crie uma lista de tarefas simples neste app Next.js. A lista deve ter: um campo de texto, um botão Adicionar e os itens aparecem abaixo. Cada item tem um botão pra excluir. Não instale nenhuma nova dependência, só use o que já tem.</textarea>
+          <div class="wp-field-foot">
+            <span class="wp-field-hint">clique no campo para selecionar tudo</span>
+            <button class="wp-copy-btn" onclick="copyEl(this, 'txt-d7')">
+              <span class="label-default">Copiar</span>
+              <span class="label-copied">✓ Copiado</span>
+            </button>
+          </div>
+        </div>
+      </div>
+      <p>Depois de copiar, abra o Claude Code no VS Code, clique na caixa de chat e cole com <strong>Ctrl+V</strong> (ou Cmd+V no Mac).</p>
+    </div>
+  </section>
+
+</div>
+
+<script>
+  const PROMPT = "Crie uma lista de tarefas simples neste app Next.js. A lista deve ter: um campo de texto, um botão Adicionar e os itens aparecem abaixo. Cada item tem um botão pra excluir. Não instale nenhuma nova dependência, só use o que já tem.";
+
+  function copyToClipboard(text, onDone) {
+    if (navigator.clipboard?.writeText) {
+      navigator.clipboard.writeText(text).then(onDone).catch(() => {
+        fallbackCopy(text); onDone();
+      });
+    } else { fallbackCopy(text); onDone(); }
+  }
+
+  function fallbackCopy(text) {
+    const t = document.createElement('textarea');
+    t.value = text; t.style.position = 'fixed'; t.style.opacity = '0';
+    document.body.appendChild(t); t.select();
+    document.execCommand('copy'); document.body.removeChild(t);
+  }
+
+  function setCopied(el, dur = 2200) {
+    el.classList.add('copied');
+    setTimeout(() => el.classList.remove('copied'), dur);
+  }
+
+  // D1, D2 (btn), D3, D6, D7 — copiar pelo texto do elemento ou hidden span
+  function copyEl(btn, srcId) {
+    const src = document.getElementById(srcId);
+    const text = src.value !== undefined ? src.value : (src.innerText || src.textContent);
+    copyToClipboard(text.trim(), () => setCopied(btn));
+  }
+
+  // D2 — click no corpo do terminal
+  function copyBody(body, srcId) {
+    const src = document.getElementById(srcId);
+    const text = src.innerText || src.textContent;
+    copyToClipboard(text.trim(), () => {
+      setCopied(body.closest('.wp-term'));
+      const hint = body.querySelector('.wp-term-hint');
+      const orig = hint.textContent;
+      hint.textContent = '✓ prompt copiado — cole no Claude Code';
+      hint.style.color = 'rgba(212,245,66,.5)';
+      setTimeout(() => { hint.textContent = orig; hint.style.color = ''; }, 2200);
+    });
+  }
+
+  // D4 — inline pill
+  function copyInline(el) {
+    const text = el.innerText || el.textContent;
+    copyToClipboard(text.trim(), () => setCopied(el));
+  }
+
+  // D5 — card com botão primário
+  function copyCard(btn, srcId) {
+    const src = document.getElementById(srcId);
+    const text = src.innerText || src.textContent;
+    copyToClipboard(text.trim(), () => setCopied(btn));
+  }
+
+  // D7 — selecionar tudo na textarea
+  function selectAll(el) {
+    el.select();
+    copyToClipboard(el.value.trim(), () => setCopied(el));
+  }
+</script>
+</body>
+</html>
