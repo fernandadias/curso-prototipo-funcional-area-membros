@@ -1,4 +1,18 @@
+import { cookies } from "next/headers";
 import { createClient } from "./supabase/server";
+
+// Override de pré-visualização — SÓ em desenvolvimento. Permite ver a área como
+// aluno ou visitante sem login real, controlado pelo DevPreviewToggle (cookie).
+// Em produção, retorna null antes de qualquer leitura (nunca afeta o app real).
+async function devPreview(): Promise<"aluno" | "visitante" | null> {
+  if (process.env.NODE_ENV === "production") return null;
+  try {
+    const v = (await cookies()).get("pf-dev-preview")?.value;
+    return v === "aluno" || v === "visitante" ? v : null;
+  } catch {
+    return null;
+  }
+}
 
 // Usuário logado (ou null). Usa getUser() — valida o token no servidor.
 export async function getCurrentUser() {
@@ -18,6 +32,9 @@ export async function getCurrentUser() {
 // header e a sidebar nunca discordam (o header não refaz a checagem no cliente).
 export type AlunoInfo = { nome: string; papel: string };
 export async function getAlunoInfo(): Promise<AlunoInfo | null> {
+  const dev = await devPreview();
+  if (dev === "aluno") return { nome: "Aluna (dev)", papel: "Estudante" };
+  if (dev === "visitante") return null;
   try {
     const supabase = await createClient();
     const {
@@ -50,6 +67,8 @@ export async function getAlunoInfo(): Promise<AlunoInfo | null> {
 // Checa a tabela course_access pelo e-mail (preenchida pelo webhook da
 // Hotmart). RLS permite ao usuário ler a própria linha.
 export async function userHasAccess(): Promise<boolean> {
+  const dev = await devPreview();
+  if (dev) return dev === "aluno";
   try {
     const supabase = await createClient();
     const {
