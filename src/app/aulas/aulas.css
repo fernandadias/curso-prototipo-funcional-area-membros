@@ -2453,154 +2453,6 @@ ul.check-lista {
   font-weight: 700;
 }
 
-/* ============================================================
-   Cards creme (estilo dos cards da LP) para QUIZ e WIDGETS.
-   Redefine os tokens localmente -> o interior se adapta sozinho.
-   ============================================================ */
-.quiz,
-.widget {
-  --surface: #fbf8f0;
-  --surface-2: #f3ecdd;
-  --text: #1c1c1c;
-  --text-dim: #4a443c;
-  --text-mute: #635d54;
-  --border: #e2d8c6;
-  --border-light: #e2d8c6;
-
-  background: #f0e7da;
-  border: 1px solid #e6ddcd;
-  color: #1c1c1c;
-  position: relative;
-  overflow: hidden;
-  isolation: isolate;
-}
-/* textura hachurada igual aos cards da LP */
-.quiz::before,
-.widget::before {
-  content: "";
-  position: absolute;
-  inset: 0;
-  z-index: 0;
-  background-image: url("/tracos.png");
-  background-size: cover;
-  background-position: center;
-  background-repeat: no-repeat;
-  mix-blend-mode: multiply;
-  opacity: 0.5;
-  pointer-events: none;
-}
-.quiz > *,
-.widget > * {
-  position: relative;
-  z-index: 1;
-}
-
-/* --- quiz no card creme --- */
-.quiz .quiz-opcao {
-  background: #fffdf8;
-  border-color: #e2d8c6;
-  color: #1c1c1c;
-}
-.quiz .quiz-opcao:hover:not(:disabled) {
-  border-color: #1c1c1c;
-}
-.quiz .quiz-opcao.correta {
-  background: rgba(150, 175, 30, 0.28);
-  border-color: #8a9c22;
-  color: #1c1c1c;
-}
-.quiz .quiz-opcao.errada {
-  background: rgba(192, 82, 75, 0.12);
-  border-color: #c0524b;
-  color: #1c1c1c;
-}
-.quiz .quiz-fb {
-  color: #4a443c;
-}
-.quiz .quiz-fb.ok {
-  background: rgba(150, 175, 30, 0.18);
-}
-.quiz .quiz-fb.no {
-  background: rgba(192, 82, 75, 0.12);
-}
-.quiz .quiz-fb strong {
-  color: #1c1c1c;
-}
-.quiz .quiz-visual {
-  background: #fffdf8;
-  border-color: #e2d8c6;
-}
-
-/* --- disseca-botao --- */
-.widget .dz-stage {
-  background: #fffdf8;
-}
-.widget .dz-nota strong {
-  color: #56660d;
-}
-.widget .dz-tag {
-  background: #fff;
-  border: 1px solid;
-}
-.widget .dz-html {
-  color: #a9651f;
-  border-color: rgba(169, 101, 31, 0.45);
-}
-.widget .dz-css {
-  color: #2c6e8f;
-  border-color: rgba(44, 110, 143, 0.45);
-}
-.widget .dz-js {
-  color: #7d6310;
-  border-color: rgba(125, 99, 16, 0.45);
-}
-
-/* --- checklist --- */
-.widget .check-progresso.full {
-  color: #56660d;
-}
-
-/* --- before-after (makeover) --- */
-.widget .mk-label-forte {
-  color: #56660d;
-}
-.widget .mk-btn {
-  color: #56660d;
-  border-color: #56660d;
-}
-.widget .mk-btn:hover {
-  background: rgba(86, 102, 13, 0.08);
-}
-.widget .mk-bubble-forte {
-  background: rgba(150, 175, 30, 0.16);
-  border-color: rgba(150, 175, 30, 0.4);
-}
-.widget .mk-bubble-fraco {
-  background: rgba(224, 133, 133, 0.14);
-  border-color: rgba(192, 82, 75, 0.35);
-}
-
-/* --- code-layer-explorer: caixa de código clara --- */
-.widget .cle-code {
-  background: #fbf8f0;
-  border-color: #e2d8c6;
-}
-
-/* REGRA: nunca a cor primária (lima) sobre fundo claro. Nos cards creme,
-   o que era preenchimento lima vira invertido: fundo escuro + texto lima. */
-.quiz .qv-btn,
-.widget .dz-like.styled,
-.widget .lfs-node.active,
-.widget .cle-btn-all.active {
-  background: #1c1c1c;
-  color: var(--accent);
-  border-color: #1c1c1c;
-}
-.widget .dz-like.styled.on {
-  background: #2a2a2a;
-  color: var(--accent);
-}
-
 /* ---------- paywall / nav rodapé ---------- */
 .aula-nav {
   display: flex;
@@ -3613,4 +3465,96 @@ ul.check-lista {
     opacity: 1;
     transform: translateX(-50%) translateY(0);
   }
+}
+
+/* ============================================================
+   REDESIGN (ver docs/DESIGN.md)
+   - Cards interativos: fundo escuro + BORDA TRACEJADA
+   - Componentes-base: list-indicator, radio
+   - Sem emoji; ícones via Font Awesome (<Icon>)
+   ============================================================ */
+
+/* todo bloco interativo do conteúdo tem borda tracejada */
+.aulas-root .quiz,
+.aulas-root .widget {
+  border-style: dashed;
+}
+
+/* indicador de lista (badge numerado) — reusado em quiz e camadas */
+.list-indicator {
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  min-width: 30px;
+  height: 30px;
+  padding: 0 7px;
+  border-radius: 7px;
+  background: var(--bg);
+  border: 1px solid transparent;
+  font-family: "Kode Mono", monospace;
+  font-size: 11.5px;
+  font-weight: 600;
+  color: var(--text-mute);
+  flex-shrink: 0;
+}
+
+/* ---------- Quiz (redesign: indicador + radio + estados) ---------- */
+.quiz-opcao {
+  display: flex;
+  align-items: center;
+  gap: 12px;
+}
+.quiz-opcao-txt {
+  flex: 1;
+  min-width: 0;
+  text-align: left;
+}
+.quiz-radio {
+  flex-shrink: 0;
+  width: 20px;
+  height: 20px;
+  border-radius: 50%;
+  border: 2px solid var(--border-light);
+  position: relative;
+}
+.quiz-opcao.is-checked .quiz-radio {
+  border-color: #1c1c1c;
+}
+.quiz-opcao.is-checked .quiz-radio::after {
+  content: "";
+  position: absolute;
+  inset: 3px;
+  border-radius: 50%;
+  background: #1c1c1c;
+}
+/* estados respondidos: preenchimento sólido + texto escuro */
+.aulas-root .quiz-opcao.correta {
+  background: var(--accent);
+  border-color: var(--accent);
+  color: #1c1c1c;
+}
+.aulas-root .quiz-opcao.errada {
+  background: #e08585;
+  border-color: #e08585;
+  color: #1c1c1c;
+  opacity: 1;
+}
+.quiz-opcao.correta .list-indicator,
+.quiz-opcao.errada .list-indicator {
+  color: #1c1c1c;
+}
+/* feedback com ícone FA */
+.quiz-fb {
+  display: flex;
+  align-items: flex-start;
+  gap: 9px;
+}
+.quiz-fb .fa-solid {
+  margin-top: 2px;
+}
+.quiz-fb.ok .fa-solid {
+  color: var(--accent);
+}
+.quiz-fb.no .fa-solid {
+  color: #e08585;
 }

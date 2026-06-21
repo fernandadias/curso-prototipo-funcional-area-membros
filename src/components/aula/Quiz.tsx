@@ -2,6 +2,8 @@
 
 import { useState, type ReactNode } from "react";
 import { playSuccess, playError } from "@/lib/sfx";
+import { ListIndicator } from "./ListIndicator";
+import { Icon } from "@/components/ui/Icon";
 
 // Quiz de múltipla escolha com feedback imediato. Conforme o
 // CONTRATO-CONTEUDO.md, as opções vêm por PROP (dados), não por filhos —
@@ -49,22 +51,28 @@ export function Quiz({
             if (i === indiceCorreto) estado = "correta";
             else if (i === escolhida) estado = "errada";
           }
+          const marcada = escolhida === i;
           return (
             <button
               key={i}
               type="button"
-              className={`quiz-opcao ${estado}`}
+              className={`quiz-opcao ${estado} ${marcada ? "is-checked" : ""}`}
               disabled={respondida}
               onClick={() => responder(i)}
             >
-              {texto}
+              <ListIndicator>{String(i + 1).padStart(2, "0")}</ListIndicator>
+              <span className="quiz-opcao-txt">{texto}</span>
+              <span className="quiz-radio" aria-hidden="true" />
             </button>
           );
         })}
       </div>
       {respondida && (
         <div className={`quiz-fb ${acertou ? "ok" : "no"}`}>
-          <strong>{acertou ? "Isso!" : "Quase."}</strong> {feedback}
+          <Icon name={acertou ? "check" : "xmark"} />
+          <span>
+            <strong>{acertou ? "Isso!" : "Quase."}</strong> {feedback}
+          </span>
         </div>
       )}
     </div>
