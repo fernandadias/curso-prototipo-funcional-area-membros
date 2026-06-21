@@ -1,0 +1,124 @@
+---
+titulo: "Proteja o contexto"
+descricao: "Por que o agente piora com o tempo, e o que fazer antes que isso aconteça."
+numero: 9
+free: false
+status: disponivel
+---
+
+A gente vem construindo o racional de como lidar da melhor forma com o agente de IA.
+Mas tem um problema que afeta *todas* as sessões, independente de quão bem você opera:
+conforme a conversa cresce, o agente fica pior. Não é bug, não é falta de habilidade
+sua. É física do modelo. Mas dá pra evitar 🙏
+
+## A janela de contexto
+
+Todo agente de IA tem uma **janela de contexto**: o espaço de memória ativa onde ele
+guarda tudo — o histórico da conversa, os arquivos que leu, os erros que apareceram,
+as suas instruções. Pense como uma mesa de trabalho: enquanto cabe tudo, ele trabalha
+bem. Quando a mesa enche, ele começa a "perder" coisas.
+
+O problema tem nome: **context rot**. É a piora da qualidade das respostas conforme
+o contexto cresce — e ela começa *muito antes* do limite máximo. Um modelo com 200 mil
+tokens de janela pode degradar significativamente a partir de 50 mil. Você nem chegou
+perto do teto e o agente já não fala coisa com coisa.
+
+<Callout tipo="fonte">
+  **Fonte:**
+  [Morph LLM: Context Rot](https://www.morphllm.com/context-rot). A pesquisa testou
+  18 modelos de fronteira e documentou os três mecanismos de degradação: lost-in-the-middle,
+  attention dilution e distractor interference. Vale a leitura completa se você quiser
+  entender a física por trás.
+</Callout>
+
+A minha percepção (e a de colegas com quem conversei) é que **manter em no máximo 60%**
+da janela é um limite bom pra ter como referência. Não existem pesquisas com valores
+exatos, mas a experiência prática converge pra esse número.
+
+## Como evitar a piora do agente
+
+<ol className="steps">
+  <li>**Não deixe passar de 60% da janela.** Antes de chegar lá, encerre a conversa e abra uma nova. O indicador de contexto fica visível no Claude Code: observe ele.</li>
+  <li>**Uma tarefa, uma conversa.** Cada objetivo diferente começa do zero. Acumular tarefas numa sessão só é a forma mais rápida de encher o contexto.</li>
+  <li>**Se não der pra começar do zero,** use a compactação do Claude (`/compact`) pra resumir o histórico antes de continuar. Não é ideal — contexto limpo é sempre melhor —, mas é melhor do que deixar o agente divagar pelo contexto cheio.</li>
+</ol>
+
+## Escolha o modelo e o esforço certos
+
+Dentro do Claude Code você escolhe qual **modelo** vai pensar pra você. Cada modelo
+atual da Anthropic tem um nome: Haiku, Sonnet e Opus. Outros agentes seguem lógica
+parecida com nomes diferentes.
+
+Além do modelo, você controla o **esforço**: o quanto o modelo "pensa" antes de
+responder. Esforço alto melhora a qualidade em problemas complexos, mas usa mais
+tokens por resposta — o que enche o contexto mais rápido.
+
+<div className="duas-colunas">
+  <div className="col-card">
+    <p className="col-card-tit">Modelo</p>
+    <p>**Haiku**: o mais leve e barato. Bom pra perguntas rápidas e tarefas simples de consulta.</p>
+    <p>**Sonnet**: padrão do curso. Custo-benefício ótimo pra construir, iterar e corrigir.</p>
+    <p>**Opus**: reserve pra quando o Sonnet travar num bug difícil ou numa decisão de arquitetura. Mais caro e mais lento, mas pensa melhor em problemas complexos.</p>
+  </div>
+  <div className="col-card">
+    <p className="col-card-tit">Esforço</p>
+    <p>**Baixo**: tarefas mecânicas (renomear, formatar, copiar texto).</p>
+    <p>**Alto**: bugs que o agente não resolveu na primeira tentativa, decisões que afetam toda a estrutura do projeto.</p>
+    <p>Esforço alto usa mais tokens: o contexto enche mais rápido.</p>
+  </div>
+</div>
+
+<Callout tipo="atencao">
+  **O modelo mais poderoso nem sempre é o melhor.** Pra maior parte do código que
+  você vai construir aqui no curso, o Sonnet é incrivelmente suficiente. O Opus entra
+  em casos pontuais, lá nos últimos módulos (mas vou te avisar). Use o Sonnet por
+  padrão e suba só quando precisar.
+
+  E uma coisa que vale guardar: toda hora lançam novos modelos. É legal testar e
+  comparar os resultados de tempos em tempos. Escolher modelo é uma habilidade
+  contínua, não uma decisão feita uma vez.
+</Callout>
+
+## Bora juntos: janela de contexto, modelos e esforço
+
+<Video src="tgbNymZ7vqY" titulo="O que uso no dia a dia para não deixar o modelo lotar a janela de contexto." />
+
+## Checagem rápida
+
+<Quiz
+  pergunta={`O que é context rot?`}
+  opcoes={["O agente parando de funcionar quando o limite de tokens é atingido", "A degradação gradual da qualidade das respostas conforme o contexto cresce, bem antes do limite", "Um erro de instalação do Claude Code"]}
+  correta={1}
+  feedback={`Context rot começa cedo — muito antes de atingir o limite. Por isso o hábito é prevenir, não esperar parar.`}
+/>
+
+<Quiz
+  pergunta={`Qual a melhor estratégia quando você vai começar uma tarefa diferente?`}
+  opcoes={["Abrir uma conversa nova, com contexto limpo", "Continuar a mesma conversa pra aproveitar o histórico", "Usar /compact antes de qualquer coisa"]}
+  correta={0}
+  feedback={`Contexto limpo é sempre a melhor opção. /compact é o plano B, não o padrão.`}
+/>
+
+<Quiz
+  pergunta={`Quando faz sentido trocar o Sonnet pelo Opus?`}
+  opcoes={["Em toda sessão, porque o Opus é sempre melhor", "Quando a tarefa for visual, porque o Opus entende design", "Quando o Sonnet travar num bug difícil ou numa decisão complexa"]}
+  correta={2}
+  feedback={`Opus é para os casos difíceis. No dia a dia de construção, o Sonnet dá conta e poupa contexto.`}
+/>
+
+<Callout tipo="dica">
+  **Lembre-se: ninguém tá sozinho aqui.** Ficou com dúvida sobre como identificar
+  que o contexto está ficando pesado, ou sobre quando usar `/compact` vs. abrir uma
+  nova conversa? Manda aqui nos comentários da aula.
+</Callout>
+
+<div className="aula-fecho">
+
+**O que você ganhou aqui:** o modelo mental de context rot, três hábitos de proteção
+(limite de 60%, uma tarefa por conversa e /compact como válvula de escape) e a lógica
+de quando subir de modelo ou de esforço.
+
+**Próxima aula:** Ver no seu celular. Seu protótipo na mão, onde ele vai ser testado
+de verdade.
+
+</div>

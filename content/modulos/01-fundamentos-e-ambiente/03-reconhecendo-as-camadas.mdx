@@ -1,0 +1,112 @@
+---
+titulo: "Reconhecendo as camadas"
+descricao: "Aquela lista de tarefas que você viu na aula passada é feita de código. Bora achar as três camadas nela."
+numero: 3
+free: true
+status: disponivel
+---
+
+Na aula anterior você aprendeu que todo protótipo funcional é feito de três camadas:
+estrutura, estilo e comportamento. Agora vamos achar essas mesmas camadas no código
+real do projeto que você vai construir. Não pra escrever, pra *reconhecer*. Essa
+leitura é o fim da caixa-preta.
+
+## Bora juntos: reconhecendo as camadas no código real
+
+<Video src="tgbNymZ7vqY" titulo="Abrindo o código do projeto e identificando as 3 camadas." />
+
+## Explorador: acenda cada camada
+
+<Widget nome="code-layer-explorer" />
+
+Repare: as classes dentro de `className="…"` são o **estilo** (Tailwind). As tags
+`<div>`, `<input>`, `<button>` são a **estrutura** (JSX). E o bloco com
+`addEventListener` é o **comportamento** que faz o botão funcionar. As mesmas três
+camadas da aula anterior, agora no código real.
+
+<Callout tipo="atencao">
+  **Você não precisa escrever esse código nem dominar 100%.** Precisa *reconhecê-lo*.
+  É essa leitura que vai te deixar pedir pra IA com precisão e entender o que ela mudou.
+</Callout>
+
+## As 3 pistas pra caçar cada camada
+
+Você não vai ler o código linha por linha. Vai **escanear procurando pistas**. Cada
+camada tem uma "cara":
+
+<div className="camadas">
+  <div className="camada camada-html">
+    **🔶 Estrutura: procure por etiquetas com nome de coisa**<br />
+    Os **substantivos** entre `< >`: `<button>`, `<input>`, `<img>`. Ou, no React,
+    `<Card>`, `<Button>` com iniciais em maiúscula.
+  </div>
+  <div className="camada camada-css">
+    **🔷 Estilo: procure por palavras sobre aparência**<br />
+    Cor, espaço, tamanho e forma. No Next.js do curso (que usa **Tailwind**), são
+    apelidos dentro de `className="…"`: `bg-green-500`, `rounded-lg`, `gap-4`,
+    `text-white`.
+  </div>
+  <div className="camada camada-js">
+    **🔸 Comportamento: procure por "quando acontecer X, faça Y"**<br />
+    Os **verbos**: palavras começando com `on…` (`onClick`, `onChange`), a setinha
+    `=>` e a palavra `function`.
+  </div>
+</div>
+
+## Sua vez
+
+Volte no explorador acima e tente encontrar, sem usar os botões: um elemento de
+**estrutura**, uma classe de **estilo** e um trecho de **comportamento**. Quando você
+montar o ambiente nas próximas aulas, vai abrir o código real do seu projeto e
+reconhecer tudo isso ali dentro.
+
+<Extra
+  slug="caca-camadas"
+  titulo="Caça-camadas: guia de referência rápida"
+  descricao="Um resumo com alguns padrões para te ajudar a identificar o que é HTML, CSS e JS no dia a dia."
+/>
+
+## Checagem rápida
+
+<Quiz
+  pergunta={`Num componente React, a linha className="bg-green-500 rounded text-white" pertence a qual camada?`}
+  opcoes={["Estilo (Tailwind/CSS)", "Estrutura (JSX/HTML)", "Comportamento (JS)"]}
+  correta={0}
+  feedback={`className com apelidos Tailwind é pura aparência — é a camada de estilo.`}
+/>
+
+<Quiz
+  pergunta={`E o trecho onClick={handleAdd} num botão: pertence a qual camada?`}
+  opcoes={["Estrutura (JSX/HTML)", "Estilo (Tailwind/CSS)", "Comportamento (JS)"]}
+  correta={2}
+  feedback={`on… é o sinal do comportamento: "quando este evento acontecer, faça isso".`}
+/>
+
+<Quiz
+  pergunta={`Você quer pedir à IA pra mudar o texto do botão de "Adicionar" pra "Criar tarefa". Que camada ela vai tocar?`}
+  opcoes={["Comportamento (JS)", "Estrutura (JSX/HTML)", "Estilo (Tailwind/CSS)"]}
+  correta={1}
+  feedback={`O texto dentro de um elemento é estrutura (JSX/HTML) — é o conteúdo, não a aparência nem o comportamento.`}
+/>
+
+<Callout tipo="fonte">
+  **Pra quem quiser se aprofundar:** leitura (10 min):
+  [MDN, Basic HTML syntax](https://developer.mozilla.org/en-US/docs/Learn_web_development/Core/Structuring_content/Basic_HTML_syntax)
+  *(inglês)*. Não pra decorar, só pra ganhar familiaridade com o formato das tags
+  de estrutura que você viu acima.
+</Callout>
+
+<Callout tipo="dica">
+  **Lembre-se: ninguém tá sozinho aqui.** Ficou travada em alguma das três
+  camadas? Manda aqui nos comentários. (Mas é pra tentar um cadinho primeiro!)
+</Callout>
+
+<div className="aula-fecho">
+
+**O que você ganhou aqui:** a capacidade de olhar código gerado por IA e reconhecer
+as três camadas. O fim da caixa-preta.
+
+**Próxima aula:** Escolha seu agente. O copiloto que vai construir os protótipos
+junto com você.
+
+</div>

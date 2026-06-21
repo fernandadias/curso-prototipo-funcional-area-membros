@@ -1,0 +1,122 @@
+---
+titulo: "Como controlar: delimitar e ler o diff"
+descricao: "Diga o que não tocar e fiscalize o que o agente mudou."
+numero: 8
+free: false
+status: disponivel
+---
+
+Você já sabe pedir em passos e dar referência. Agora os dois hábitos que completam
+o controle: dizer ao agente o que está fora do alvo e ler o que ele mudou antes de
+seguir em frente.
+
+## Hábito 3 · Seja cirúrgico: diga o que NÃO mexer
+
+O agente *pode* ser cirúrgico, mas só se você **delimitar o alvo**. Um pedido vago
+dá margem pra ele "melhorar" o que você não pediu. Digamos que, na sua lista de
+tarefas, você queira mexer só no botão:
+
+<Widget
+  nome="before-after-reveal"
+  rotulo="Ver a versão cirúrgica →"
+  fraco={`"Melhora o visual da tela de tarefas."`}
+  labelFraco="✗ Largo demais"
+  forte={`Deixe o botão Adicionar verde e com cantos arredondados. **Não altere** a lista nem o campo de texto, só o botão.`}
+  labelForte="✓ Cirúrgico"
+  porque="Delimitar o alvo (e dizer o que preservar) é o que devolve pra você o controle fino que os pedidos vagos tiram."
+/>
+
+<div className="handson">
+  🛠️ <strong>Sua vez:</strong> tente uma mudança cirúrgica na sua lista. Escolha um
+  elemento (botão, campo, item da lista) e peça uma mudança específica, adicionando
+  ao final: "não altere o restante da tela".
+</div>
+
+## Bora juntos: delimitando o alvo
+
+<Video src="tgbNymZ7vqY" titulo="Exercitando o hábito 3 — ser cirúrgico." />
+
+## Hábito 4 · Leia o diff e corrija o rumo
+
+Em algum momento vai acontecer: você pede uma coisa e o agente faz *demais*. Ele
+mudou o botão (como você pediu), mas também reorganizou a lista e ajustou o campo.
+É aqui que a leitura do diff salva você.
+
+O diff é o "antes e depois" que o Claude Code mostra antes de aplicar qualquer
+mudança: linhas em vermelho são o que saiu, linhas em verde são o que entrou. Você
+não precisa entender o código, precisa **varrer visualmente** e perguntar: "ele tocou
+só no que eu pedi?"
+
+Se a resposta for não, você corrige numa frase, sem recomeçar do zero:
+
+<Widget
+  nome="before-after-reveal"
+  rotulo="Ver como corrigir →"
+  fraco={`"Deixe o botão verde." → agente mudou o botão, reorganizou a lista e adicionou uma animação que você não pediu.`}
+  labelFraco="✗ O agente foi longe demais"
+  forte={`Desfaça as mudanças na lista e na animação. Mantenha só a cor verde no botão.`}
+  labelForte="✓ Correção cirúrgica"
+  porque="Corrigir numa frase é sempre mais rápido do que recomeçar. E mais barato."
+/>
+
+## Bora juntos: lendo o diff
+
+<Video src="tgbNymZ7vqY" titulo="Exercitando o hábito 4 — ler o diff." />
+
+## Os quatro hábitos completos
+
+<div className="caixa-checklist">
+  <p className="caixa-checklist-tit">🧭 Checklist do bom pedido</p>
+  <ul>
+    <li>**Um passo por vez**, não o app inteiro de uma vez.</li>
+    <li>**Onde** mexer (arquivo/componente) e **qual** o estado final.</li>
+    <li>**Evidência**: cole o erro inteiro / mostre um print.</li>
+    <li>**Delimite**: diga explicitamente o que *não* tocar.</li>
+    <li>**Leia o diff** e corrija o rumo numa frase, sem recomeçar.</li>
+  </ul>
+</div>
+
+## Checagem rápida
+
+<Quiz
+  pergunta={`O agente mudou o botão (como você pediu) mas também mexeu na lista. O que fazer?`}
+  opcoes={["Aceitar tudo: se ele fez, deve estar certo", "Corrigir numa frase: desfaça a mudança na lista, mantenha o botão", "Recomeçar o projeto do zero"]}
+  correta={1}
+  feedback={`Corrigir numa frase é sempre mais rápido e barato do que recomeçar.`}
+/>
+
+<Quiz
+  pergunta={`Pra que serve ler o diff antes de aceitar as mudanças do agente?`}
+  opcoes={["Pra decorar o código que ele escreveu", "Pra conferir se o app vai rodar no celular", "Pra fiscalizar se ele tocou só no que você pediu"]}
+  correta={2}
+  feedback={`O diff é sua fiscalização: você varre o antes e depois e confirma que ele foi cirúrgico.`}
+/>
+
+<Quiz
+  pergunta={`Você quer mudar só a cor do campo de texto. O pedido mais cirúrgico é:`}
+  opcoes={[`Em app/page.tsx, mude a borda do campo de texto pra azul. Não altere mais nada.`, `Melhora o visual do formulário todo.`, `Refaz a tela toda com um design mais moderno.`]}
+  correta={0}
+  feedback={`ONDE + estado final + delimitação. Esse é o pedido cirúrgico.`}
+/>
+
+<Callout tipo="fonte">
+  **Pra quem quiser se aprofundar:**
+  [Claude Code Docs · Best practices](https://code.claude.com/docs/en/best-practices)
+  *(inglês)*. Guia oficial da Anthropic sobre como dirigir o agente com precisão.
+</Callout>
+
+<Callout tipo="dica">
+  **Lembre-se: ninguém tá sozinho aqui.** Pediu algo, o agente fez demais e você
+  não sabe como corrigir? Manda o diff nos comentários que a gente resolve junto.
+</Callout>
+
+<div className="aula-fecho">
+
+**O que você ganhou aqui:** uma lista de tarefas funcional construída por você e os
+quatro hábitos completos: passos curtos, contexto e referência, delimitação do alvo
+e leitura do diff.
+
+**Próxima aula:** Proteja o contexto. Por que o agente piora com o tempo e os
+hábitos pra evitar isso antes que aconteça.
+
+</div>
