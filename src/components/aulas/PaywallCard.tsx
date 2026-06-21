@@ -30,7 +30,7 @@ export function PaywallCard({ variant = "corte" }: { variant?: "corte" | "fechad
       </div>
 
       <div className="price-card featured">
-        <span className="price-badge">
+        <span className="eyebrow eyebrow-split">
           <span className="chip">Vagas abertas</span>
           <span className="chip-text">condição especial durante as gravações</span>
         </span>
@@ -55,9 +55,12 @@ export function PaywallCard({ variant = "corte" }: { variant?: "corte" | "fechad
             <Icon name="lock" /> Compra segura
           </span>
         </div>
-        <p className="paywall-already">
-          Já comprou? <Link href="/entrar">Entrar</Link>
-        </p>
+        <div className="paywall-already">
+          <span>Já comprou?</span>
+          <Link href="/entrar" className="btn btn-secondary">
+            Entrar
+          </Link>
+        </div>
       </div>
     </section>
   );
