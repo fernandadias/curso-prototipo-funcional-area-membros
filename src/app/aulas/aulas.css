@@ -3747,3 +3747,28 @@ ul.check-lista {
 .handson .fa-solid {
   color: #8ed18a;
 }
+
+/* ---------- Extra: header tan + corpo escuro (redesign) ---------- */
+.extra-card {
+  background: #0f0f0f;
+}
+.extra-card-hd {
+  background: var(--text-dim);
+}
+.extra-card-tag {
+  color: #1a1a1a;
+}
+.extra-card-cta {
+  color: #1a1a1a;
+  border-color: rgba(26, 26, 26, 0.5);
+}
+.extra-card:hover .extra-card-cta {
+  background: rgba(26, 26, 26, 0.08);
+  border-color: #1a1a1a;
+}
+.extra-card-titulo {
+  color: var(--text);
+}
+.extra-card-desc {
+  color: var(--text-dim);
+}
