@@ -2753,9 +2753,6 @@ ul.check-lista {
 }
 .aula-nav-tit {
   font-weight: 500;
-  overflow: hidden;
-  text-overflow: ellipsis;
-  white-space: nowrap;
 }
 .aula-nav-link:hover .aula-nav-tit {
   color: var(--accent);
@@ -3539,9 +3536,20 @@ ul.check-lista {
   color: #1c1c1c;
   opacity: 1;
 }
-.quiz-opcao.correta .list-indicator,
+/* a opção certa, quando revelada após um erro: só o stroke (não o fill cheio) */
+.aulas-root .quiz-opcao.correta.revelada {
+  background: transparent;
+  border-color: var(--accent);
+  color: var(--text);
+}
+/* o número (indicador) acompanha a cor da opção, sobre o fundo escuro do badge */
+.quiz-opcao.correta .list-indicator {
+  color: var(--accent);
+  border-color: var(--accent);
+}
 .quiz-opcao.errada .list-indicator {
-  color: #1c1c1c;
+  color: #e08585;
+  border-color: #e08585;
 }
 /* feedback com ícone FA */
 .quiz-fb {
@@ -3556,6 +3564,10 @@ ul.check-lista {
   color: var(--accent);
 }
 .quiz-fb.no .fa-solid {
+  color: #e08585;
+}
+/* destaque do feedback na cor correspondente ao estado */
+.quiz-fb.no strong {
   color: #e08585;
 }
 
@@ -3633,17 +3645,18 @@ ul.check-lista {
   counter-reset: camada;
 }
 .aulas-root .camada {
-  display: flex;
-  gap: 12px;
-  align-items: flex-start;
+  position: relative;
   counter-increment: camada;
   border-left: none;
   border-radius: 8px;
+  padding-left: 58px; /* abre espaço pro badge posicionado */
 }
 .aulas-root .camada::before {
   content: counter(camada, decimal-leading-zero);
-  flex-shrink: 0;
-  min-width: 30px;
+  position: absolute;
+  left: 16px;
+  top: 12px;
+  width: 30px;
   height: 30px;
   display: inline-flex;
   align-items: center;

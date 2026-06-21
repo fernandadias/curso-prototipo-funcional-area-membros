@@ -52,11 +52,13 @@ export function Quiz({
             else if (i === escolhida) estado = "errada";
           }
           const marcada = escolhida === i;
+          // a opção certa, revelada porque o aluno errou (não foi a escolhida)
+          const revelada = estado === "correta" && !acertou;
           return (
             <button
               key={i}
               type="button"
-              className={`quiz-opcao ${estado} ${marcada ? "is-checked" : ""}`}
+              className={`quiz-opcao ${estado} ${revelada ? "revelada" : ""} ${marcada ? "is-checked" : ""}`}
               disabled={respondida}
               onClick={() => responder(i)}
             >
