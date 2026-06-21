@@ -1,6 +1,8 @@
+import { Icon } from "@/components/ui/Icon";
+
 // Embed de vídeo conforme o contrato: <Video src="..." legenda="..." />
 // Suporta URL de embed (Tella, YouTube, etc.). Quando src="PLACEHOLDER",
-// mostra um espaço reservado. A legenda aparece abaixo, com a tag ▶ VÍDEO.
+// mostra um espaço reservado. A legenda aparece abaixo, com a tag de vídeo.
 export function Video({
   src,
   legenda,
@@ -33,7 +35,9 @@ export function Video({
       </div>
       {cap && (
         <figcaption className="video-cap">
-          <span className="video-tag">▶ Vídeo</span>
+          <span className="video-tag">
+            <Icon name="play" smaller /> Vídeo
+          </span>
           <span className="video-legenda">{cap}</span>
         </figcaption>
       )}

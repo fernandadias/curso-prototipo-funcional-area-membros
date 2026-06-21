@@ -3605,3 +3605,25 @@ ul.check-lista {
   align-items: center;
   justify-content: center;
 }
+
+/* ---------- Sidebar: separadores de módulo a 100% da largura ---------- */
+.sbm {
+  margin-left: -16px;
+  margin-right: -16px;
+  padding-left: 16px;
+  padding-right: 16px;
+}
+
+/* ---------- "Marcar como concluída": anel do estado pendente ---------- */
+.mark-done-ring {
+  display: inline-block;
+  width: 15px;
+  height: 15px;
+  border-radius: 50%;
+  border: 2px solid currentColor;
+}
+
+/* ícone do modal de perfil (fakedoor) na cor de destaque */
+.ah-modal-emoji {
+  color: var(--accent);
+}

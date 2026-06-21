@@ -5,6 +5,7 @@ import { usePathname, useRouter } from "next/navigation";
 import { useEffect, useRef, useState } from "react";
 import { createClient } from "@/lib/supabase/client";
 import { CHECKOUT_URL, COMUNIDADE_ATIVA } from "@/lib/config";
+import { Icon } from "@/components/ui/Icon";
 
 type Aluno = { nome: string; papel: string };
 
@@ -104,7 +105,7 @@ export function AulasHeader({ aluno = null }: { aluno?: Aluno | null }) {
                   <span className="ah-profile-papel">{aluno.papel}</span>
                 </span>
                 <span className="ah-chevron" aria-hidden="true">
-                  ▾
+                  <Icon name="caret-down" />
                 </span>
               </button>
               {menuAberto && (
@@ -143,7 +144,7 @@ export function AulasHeader({ aluno = null }: { aluno?: Aluno | null }) {
               ×
             </button>
             <span className="ah-modal-emoji" aria-hidden="true">
-              💚
+              <Icon name="heart" />
             </span>
             <h3>Obrigada pelo interesse!</h3>
             <p>

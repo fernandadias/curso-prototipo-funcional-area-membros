@@ -5,6 +5,7 @@ import { usePathname } from "next/navigation";
 import { useEffect, useMemo, useState } from "react";
 import type { ModuleMeta } from "@/lib/content";
 import { lessonKey, useProgress } from "./useProgress";
+import { Icon } from "@/components/ui/Icon";
 
 const STATUS = {
   disponivel: { label: "Em andamento", cls: "andamento" },
@@ -99,7 +100,7 @@ export function Sidebar({
           aria-label={colapsada ? "Expandir menu" : "Recolher menu"}
           title={colapsada ? "Expandir" : "Recolher"}
         >
-          {colapsada ? "›" : "‹"}
+          <Icon name={colapsada ? "angles-right" : "angles-left"} />
         </button>
       </div>
 
@@ -162,7 +163,7 @@ export function Sidebar({
                     </span>
                     {temConteudo && (
                       <span className="sbm-toggle" aria-hidden="true">
-                        {fechado ? "▾" : "▴"}
+                        <Icon name={fechado ? "caret-down" : "caret-up"} />
                       </span>
                     )}
                   </button>
@@ -188,7 +189,7 @@ export function Sidebar({
                         if (a.status === "chegando") tag = "Chegando";
                         else if (!a.free && !temAcesso) tag = "Para alunos";
 
-                        const marker = visto && temAcesso ? "✓" : num;
+                        const marker = visto && temAcesso ? <Icon name="check" /> : num;
 
                         const inner = (
                           <>

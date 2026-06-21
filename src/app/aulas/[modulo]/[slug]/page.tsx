@@ -7,6 +7,7 @@ import { PaywallCard } from "@/components/aulas/PaywallCard";
 import { ComingSoonCard } from "@/components/aulas/ComingSoonCard";
 import { MarkLessonToggle } from "@/components/aulas/MarkLessonToggle";
 import { Comments } from "@/components/aulas/Comments";
+import { Icon } from "@/components/ui/Icon";
 import { userHasAccess } from "@/lib/access";
 
 const PAYWALL_RE = /<Paywall\s*\/?>/;
@@ -84,7 +85,7 @@ export default async function AulaPage({
       {/* breadcrumb */}
       <div className="bc">
         <Link href="/aulas" className="bc-back">
-          ← Voltar
+          <Icon name="arrow-left" smaller /> Voltar
         </Link>
         <nav className="bc-trail" aria-label="Trilha">
           <Link href="/aulas">Todas as aulas</Link>
@@ -112,17 +113,21 @@ export default async function AulaPage({
           <div className="aula-arrows">
             {prev ? (
               <Link href={hrefDe(prev)} aria-label={`Anterior: ${prev.titulo}`} className="arrow">
-                ←
+                <Icon name="arrow-left" />
               </Link>
             ) : (
-              <span className="arrow disabled">←</span>
+              <span className="arrow disabled">
+                <Icon name="arrow-left" />
+              </span>
             )}
             {next ? (
               <Link href={hrefDe(next)} aria-label={`Próxima: ${next.titulo}`} className="arrow">
-                →
+                <Icon name="arrow-right" />
               </Link>
             ) : (
-              <span className="arrow disabled">→</span>
+              <span className="arrow disabled">
+                <Icon name="arrow-right" />
+              </span>
             )}
           </div>
         </div>
@@ -145,7 +150,7 @@ export default async function AulaPage({
       <nav className="aula-nav">
         {prev ? (
           <Link href={hrefDe(prev)} className="aula-nav-link">
-            <span className="arrow" aria-hidden="true">←</span>
+            <span className="arrow" aria-hidden="true"><Icon name="arrow-left" /></span>
             <span className="aula-nav-txt">
               <span className="aula-nav-dir">Anterior</span>
               <span className="aula-nav-tit">{prev.titulo}</span>
@@ -160,7 +165,7 @@ export default async function AulaPage({
               <span className="aula-nav-dir">Próxima</span>
               <span className="aula-nav-tit">{next.titulo}</span>
             </span>
-            <span className="arrow" aria-hidden="true">→</span>
+            <span className="arrow" aria-hidden="true"><Icon name="arrow-right" /></span>
           </Link>
         )}
       </nav>

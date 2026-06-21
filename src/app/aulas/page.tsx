@@ -1,6 +1,7 @@
 import Link from "next/link";
 import { getModules } from "@/lib/content";
 import { userHasAccess } from "@/lib/access";
+import { Icon } from "@/components/ui/Icon";
 
 export const metadata = { title: "Aulas" };
 
@@ -12,7 +13,7 @@ export default async function AulasPage() {
     <div className="aulas-container aulas-wide">
       <div className="aulas-top">
         <span className="aulas-mono">Aulas</span>
-        <Link href="/">← Página inicial</Link>
+        <Link href="/"><Icon name="arrow-left" smaller /> Página inicial</Link>
       </div>
 
       <h1 style={{ fontSize: 34, fontWeight: 900, margin: "0 0 32px" }}>
@@ -75,7 +76,7 @@ export default async function AulasPage() {
                               className="tag-lock"
                               aria-label="Conteúdo para alunos"
                             >
-                              🔒
+                              <Icon name="lock" title="Conteúdo para alunos" />
                             </span>
                           ))}
                       </span>
