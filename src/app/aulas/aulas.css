@@ -3521,3 +3521,96 @@ ul.check-lista {
   margin: 0;
   line-height: 1.5;
 }
+
+/* ── PROMPT WIDGET ── */
+.prompt-card {
+  background: #0f0f0f;
+  border: 1px solid rgba(255, 255, 255, 0.07);
+  border-radius: 8px;
+  overflow: hidden;
+  margin: 1.6em 0;
+}
+.prompt-hd {
+  background: #1c1c1c;
+  border-bottom: 1px solid rgba(255, 255, 255, 0.06);
+  padding: 8px 14px;
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+}
+.prompt-label {
+  font-family: "Kode Mono", monospace;
+  font-size: 10px;
+  color: rgba(212, 245, 66, 0.5);
+  text-transform: uppercase;
+  letter-spacing: 0.15em;
+}
+.prompt-btn {
+  display: inline-flex;
+  align-items: center;
+  gap: 6px;
+  font-family: "Kode Mono", monospace;
+  font-size: 10px;
+  font-weight: 700;
+  text-transform: uppercase;
+  letter-spacing: 0.1em;
+  color: #777;
+  background: transparent;
+  border: 1px solid rgba(255, 255, 255, 0.1);
+  border-radius: 6px;
+  padding: 4px 10px;
+  cursor: pointer;
+  transition: color 0.15s, border-color 0.15s, background 0.15s;
+}
+.prompt-btn:hover {
+  color: #f0f0f0;
+  border-color: rgba(255, 255, 255, 0.25);
+}
+.prompt-btn.copied {
+  color: var(--accent);
+  border-color: rgba(212, 245, 66, 0.4);
+  background: rgba(212, 245, 66, 0.06);
+}
+.prompt-body {
+  padding: 16px 18px;
+}
+.prompt-text {
+  font-family: "JetBrains Mono", monospace;
+  font-size: 13px;
+  line-height: 1.7;
+  color: #e0e0e0;
+  white-space: pre-wrap;
+  word-break: break-word;
+  margin: 0;
+}
+.prompt-toast {
+  position: fixed;
+  bottom: 24px;
+  left: 50%;
+  transform: translateX(-50%);
+  background: var(--accent);
+  color: #111;
+  font-family: "Kode Mono", monospace;
+  font-size: 11px;
+  font-weight: 700;
+  padding: 10px 18px;
+  border-radius: 8px;
+  display: flex;
+  align-items: center;
+  gap: 8px;
+  z-index: 9999;
+  box-shadow: 0 4px 20px rgba(0, 0, 0, 0.5);
+  white-space: nowrap;
+  animation: prompt-toast-in 0.2s ease;
+  pointer-events: none;
+}
+@keyframes prompt-toast-in {
+  from {
+    opacity: 0;
+    transform: translateX(-50%) translateY(8px);
+  }
+  to {
+    opacity: 1;
+    transform: translateX(-50%) translateY(0);
+  }
+}

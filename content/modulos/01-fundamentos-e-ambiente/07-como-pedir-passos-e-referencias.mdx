@@ -41,6 +41,11 @@ conferindo cada um. Veja a diferença pra construir a sua lista de tarefas:
 
 <div className="handson">🛠️ <strong>Sua vez:</strong> mande esses quatro pedidos, um a um, no seu projeto. Depois de cada um, recarregue o `localhost:3000` e veja a mudança. No fim, você tem uma lista de tarefas funcional, e já vamos usar ela pra treinar os outros hábitos.</div>
 
+<Prompt texto="Na página inicial, substitua o conteúdo por um título 'Minhas tarefas' e um campo de texto com um botão Adicionar." />
+<Prompt texto="Agora, ao clicar em Adicionar, mostre o texto digitado numa lista abaixo do campo." />
+<Prompt texto="Quando eu adicionar uma tarefa, limpe o campo de texto." />
+<Prompt texto="Coloque um X em cada item da lista pra removê-lo." />
+
 ## Bora juntos: multi-shot prompting
 
 <Video src="PLACEHOLDER" legenda="Exercitando o hábito 1" />
@@ -74,7 +79,9 @@ na prática:
   </div>
 </div>
 
-<div className="handson">🛠️ <strong>Sua vez:</strong> refine a sua lista praticando **ONDE + ESTADO FINAL** num pedido só. Mande: *"Em `app/page.tsx`, deixe cada tarefa numa linha, com o texto à esquerda e o X à direita, separadas por uma linha fina."* Compare mentalmente com o que viria de um "deixa a lista bonita". Sente a diferença de controle? (Se algum passo der erro, é a deixa pra praticar a **evidência**: copie a mensagem vermelha inteira e cole no chat.)</div>
+<div className="handson">🛠️ <strong>Sua vez:</strong> refine a sua lista praticando **ONDE + ESTADO FINAL** num pedido só. Compare mentalmente com o que viria de um "deixa a lista bonita". Sente a diferença de controle? (Se algum passo der erro, é a deixa pra praticar a **evidência**: copie a mensagem vermelha inteira e cole no chat.)</div>
+
+<Prompt texto="Em app/page.tsx, deixe cada tarefa numa linha, com o texto à esquerda e o X à direita, separadas por uma linha fina." />
 
 Detalhe importante: a "memória" do agente (o contexto) **enche e satura**. Quando
 lota, a qualidade cai. Em projetos maiores dá pra fixar instruções num arquivo
@@ -104,7 +111,9 @@ na sua lista de tarefas, você queira mexer só no botão:
   botao="Ver a versão cirúrgica →"
 />
 
-<div className="handson">🛠️ <strong>Sua vez:</strong> pratique a **delimitação** na sua lista. Mande: *"Deixe o botão Adicionar verde e com cantos arredondados. Não altere a lista nem o campo de texto, só o botão."* Mande e <u>não confira o resultado ainda</u>: guarde pro próximo hábito.</div>
+<div className="handson">🛠️ <strong>Sua vez:</strong> pratique a **delimitação** na sua lista. Mande e <u>não confira o resultado ainda</u>: guarde pro próximo hábito.</div>
+
+<Prompt texto="Deixe o botão Adicionar verde e com cantos arredondados. Não altere a lista nem o campo de texto, só o botão." />
 
 ## Bora juntos: delimitando o alvo
 
